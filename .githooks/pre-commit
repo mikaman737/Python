@@ -1,0 +1,25 @@
+#!/bin/sh
+# origin에 이 브랜치의 새 커밋이 있는데 아직 pull하지 않았다면 커밋을 막는다.
+# 활성화: git config core.hooksPath .githooks (클론 후 1회만 실행)
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+git fetch origin "$branch" --quiet 2>/dev/null
+
+if ! git rev-parse --verify "origin/$branch" >/dev/null 2>&1; then
+    exit 0
+fi
+
+local_head=$(git rev-parse HEAD)
+remote_head=$(git rev-parse "origin/$branch")
+base=$(git merge-base HEAD "origin/$branch")
+
+if [ "$remote_head" != "$base" ]; then
+    echo ""
+    echo "origin/$branch에 아직 받지 않은 새 커밋이 있습니다."
+    echo "커밋 전에 먼저 pull 하세요: git pull origin $branch"
+    echo ""
+    exit 1
+fi
+
+exit 0
