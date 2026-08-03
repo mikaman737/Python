@@ -79,3 +79,5 @@ SELECT
         (SELECT COUNT(*) FROM visit_ready v JOIN move_ready m ON v.TRAVEL_ID = m.TRAVEL_ID) * 100.0
         / (SELECT COUNT(*) FROM tn_travel), 1
     ) AS pct_gap_calc_ready;
+
+
