@@ -120,3 +120,4 @@ SELECT
 FROM tn_traveller_master tm
 GROUP BY tm.GENDER, tm.TRAVEL_MOTIVE_1
 ORDER BY tm.GENDER, cnt DESC;
+
