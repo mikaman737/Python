@@ -11,6 +11,7 @@ select * from tn_travel AS 여행;
 select * from tn_traveller_master AS 여행자_마스터;
 select * from tn_visit_area_info AS 방문지_정보;
 select * from tc_column_dictionary AS 컬럼_사전;
+select * from tn_move_his AS 이동_이력;
 
 select count(*) from tc_codea tca;
 select count(*) from tc_codeb tcb;
@@ -41,3 +42,4 @@ select * from tc_column_dictionary where table_nm = 'tn_tour_photo';
 select * from tc_column_dictionary where table_nm = 'tc_codea';
 select * from tc_column_dictionary where table_nm = 'tc_codeb';
 select * from tc_column_dictionary where table_nm = 'tc_column_dictionary';
+
