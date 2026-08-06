@@ -26,6 +26,8 @@ SELECT TRAVEL_STATUS_DESTINATION, COUNT(TRAVELER_ID)
     FROM tn_traveller_master
     GROUP BY TRAVEL_STATUS_DESTINATION
 
+
+
 /* 
 여행 목적지에 따른 여행현황_동반현황
 -- 모든 지역 공통 -> 2인 여행(가족 외)의 비율이 가장 높음
@@ -128,6 +130,8 @@ SELECT COUNT(TRAVEL_ID)
     전체 2880건 중, 사전 소비가 있는 여행 619건
     총 행수 716건
 */
+
+
 SELECT COUNT(DISTINCT TRAVEL_ID)
     FROM tn_adv_consume_his AS tach;
 
@@ -203,7 +207,6 @@ FROM tn_move_his AS tmh;
 -- 
 SELECT *
 FROM tn_visit_area_info AS tvai;
-
 
 
 

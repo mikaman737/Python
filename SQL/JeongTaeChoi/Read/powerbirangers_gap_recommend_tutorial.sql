@@ -326,3 +326,4 @@ LIMIT 5;
 -- 전체 규모의 최종 매칭은 python/gap_recommend_match.py를 실행하세요.
 -- 그 결과가 SQL/JeongTaeChoi/Result Query/gap_recommend_result.csv 에 저장됩니다.
 
+
