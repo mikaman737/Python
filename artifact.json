@@ -1,0 +1,88 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "generatedAt": "2026-08-05T00:00:00+09:00",
+    "charts": [
+      {
+        "id": "spend_mix_chart",
+        "title": "소비 항목별 지출액",
+        "subtitle": "제공된 2023년 수도권 training 데이터의 소비 이력 합계",
+        "type": "bar",
+        "intent": "comparison",
+        "question": "어떤 소비 항목이 총지출에서 가장 큰 비중을 차지하는가?",
+        "dataset": "spend_mix",
+        "source": {
+          "id": "spend_source",
+          "label": "fact_spend.csv 소비 이력 집계",
+          "path": "python_dashboard/output/fact_spend.csv",
+          "query": {
+            "engine": "duckdb",
+            "language": "sql",
+            "sql": "SELECT SPEND_CATEGORY AS category, SUM(PAYMENT_AMT_WON) AS amount_won, SUM(PAYMENT_AMT_WON) / SUM(SUM(PAYMENT_AMT_WON)) OVER () AS share FROM read_csv_auto('python_dashboard/output/fact_spend.csv') GROUP BY 1 ORDER BY amount_won DESC",
+            "description": "소비 이력 CSV를 소비 항목별로 합산한 재현 가능한 집계",
+            "tables_used": ["python_dashboard/output/fact_spend.csv"],
+            "filters": ["제공된 2023년 수도권 training 데이터 전체"]
+          }
+        },
+        "encodings": {
+          "x": { "field": "category", "type": "nominal", "label": "소비 항목" },
+          "y": { "field": "amount_won", "type": "quantitative", "format": "currency", "label": "지출액(원)" },
+          "tooltip": [
+            { "field": "category", "type": "text" },
+            { "field": "amount_won", "type": "quantitative", "format": "currency" },
+            { "field": "share", "type": "quantitative", "format": "percent" }
+          ]
+        }
+      }
+    ],
+    "title": "2023 수도권 여행로그: 단기 여행의 사전 전환 기회",
+    "blocks": [
+      {
+        "id": "title",
+        "type": "markdown",
+        "body": "# 2023 수도권 여행로그: 단기 여행의 사전 전환 기회"
+      },
+      {
+        "id": "summary",
+        "type": "markdown",
+        "body": "## Executive Summary\n\n- **2~3일 여행이 92.8%**이며, 활동 소비가 총지출의 **61.7%**를 차지한다.\n- 사전 소비가 발생한 여행은 **20.9%**에 그친다. 단기 여행에서 현장 활동 지출을 사전 상품으로 연결할 전환 기회가 있다.\n- 권고안: 교통·핵심 활동·지역 혜택을 묶은 ‘예산 고정형 수도권 마이크로 트립 패스’를 A/B 테스트한다."
+      },
+      {
+        "id": "evidence",
+        "type": "markdown",
+        "body": "## 데이터 근거\n\n- 여행 2,880건, 방문지 기록 24,154건\n- 여행당 평균 방문지 수 **8.387곳**(중앙값 7곳)\n- 총지출 681,958,908원, 여행당 평균 236,791원·중앙값 145,250원\n- 활동 소비 420,692,408원(61.7%), 숙박 18.9%, 이동 13.4%, 사전 소비 6.0%\n\n0원 결제는 총 177행(활동 78, 숙박 59, 사전 25, 이동 15)이다."
+      },
+      {
+        "id": "spend_mix_block",
+        "type": "chart",
+        "chartId": "spend_mix_chart"
+      },
+      {
+        "id": "market",
+        "type": "markdown",
+        "body": "## 시장 문제와 액션\n\n2025년 보도는 국내 휴가 예산 상승과 숙박 할인 정책을 동시에 보여준다. 해외여행 경험률도 최고 수준으로 상승해, 국내 상품은 할인만이 아니라 가격·동선·경험을 한 번에 비교 가능하게 해야 한다.\n\n1. 2일/3일 일정에 맞춰 교통+활동 1~2개+지역 혜택을 번들화한다.\n2. 일반 추천 대비 예산 고정 패스를 A/B 테스트한다.\n3. 사전 구매율, 활동 제휴 attach rate, 증분 순매출, 취소율을 함께 판단한다.\n\n시장 근거: https://koreajoongangdaily.joins.com/news/2025-06-30/business/economy/Korean-workers-turn-to-local-getaways-as-travel-costs-rise/2341895\n\nhttps://koreajoongangdaily.joins.com/news/2025-05-21/culture/foodTravel/Korean-govt-launching-discounts-on-hotels-to-encourage-domestic-travel/2312226"
+      },
+      {
+        "id": "caveats",
+        "type": "markdown",
+        "body": "## Caveats and assumptions\n\n이 파일은 2023년 수도권 training 데이터의 집계 결과다. 방문지 체류시간은 전 행 0, 만족도·추천 의향은 전 행 결측이므로 경험 품질이나 인과효과를 주장할 수 없다. 코드값과 누락 범위는 HWP 명세서로 최종 확인이 필요하다."
+      }
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-05T00:00:00+09:00",
+    "status": "ready",
+    "datasets": {
+      "spend_mix": [
+        { "category": "활동 소비", "amount_won": 420692408, "share": 0.6169 },
+        { "category": "숙박 소비", "amount_won": 128784315, "share": 0.1888 },
+        { "category": "이동 소비", "amount_won": 91485299, "share": 0.1342 },
+        { "category": "사전 소비", "amount_won": 40996886, "share": 0.0601 }
+      ]
+    }
+  },
+  "sources": []
+}
