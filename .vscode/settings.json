@@ -1,0 +1,20 @@
+{
+    "sqltools.autoConnectTo": "powerbirangers",
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "powerbirangers-powerbirangers123.l.aivencloud.com",
+            "port": 10130,
+            "driver": "MySQL",
+            "name": "powerbirangers",
+            "username": "avnadmin",
+            "database": "powerbirangers",
+            "askForPassword": true
+        }
+    ]
+}
