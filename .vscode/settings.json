@@ -1,5 +1,4 @@
 {
-    "sqltools.autoConnectTo": "powerbirangers",
     "sqltools.connections": [
         {
             "mysqlOptions": {
