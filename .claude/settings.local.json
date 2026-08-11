@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Notion__notion-fetch"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notion-log-stop.sh\"",
+            "shell": "bash",
+            "async": true,
+            "statusMessage": "세션 내용을 Notion에 기록하는 중..."
+          }
+        ]
+      }
+    ]
+  }
+}
