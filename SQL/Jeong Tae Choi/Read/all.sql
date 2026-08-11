@@ -16,7 +16,6 @@ select * from tc_column_dictionary AS 컬럼_사전;
 select * from tn_move_his AS 이동_이력;
 select * from tc_sgg AS 시군구_코드;
 
-
 select count(*) from tc_codea tca;
 select count(*) from tc_codeb tcb;
 SELECT count(*) from tn_activity_consume_his tach;
