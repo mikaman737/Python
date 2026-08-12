@@ -46,6 +46,7 @@ select * from tc_column_dictionary where table_nm = 'tc_codea';
 select * from tc_column_dictionary where table_nm = 'tc_codeb';
 select * from tc_column_dictionary where table_nm = 'tc_column_dictionary';
 
-
-
+-- 한 여행에서 소비내역을 다 더한 값을 알 수 있도록
+-- 컴패니언스 + 1
+-- travel_id, 소비내역 다 더한값, 컴패니언 +1
 
