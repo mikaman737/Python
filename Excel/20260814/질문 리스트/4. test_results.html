@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test Results — Gender & Marital Status vs Satisfaction</title>
+<style>
+  :root{
+    color-scheme: light;
+    --surface-1:#fcfcfb; --plane:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+    --critical:#d03b3b; --good:#0ca30c; --warning:#fab219;
+    --null:#898781;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --surface-1:#1a1a19; --plane:#0d0d0d;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --surface-1:#1a1a19; --plane:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--text-primary);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-0.02em}
+  .sub{color:var(--text-secondary);margin:0 0 4px}
+  .meta{color:var(--muted);font-size:13px;margin:0}
+  h2{font-size:20px;margin:44px 0 6px;letter-spacing:-0.01em}
+  h3{font-size:15px;margin:24px 0 8px;color:var(--text-secondary);font-weight:600}
+  p{margin:10px 0} .lede{color:var(--text-secondary)}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:22px;margin:18px 0}
+  .hero{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:26px 28px;margin:22px 0}
+  .hero .big{font-size:44px;font-weight:600;letter-spacing:-0.03em;line-height:1.05}
+  .hero .cap{color:var(--text-secondary);margin-top:6px;font-size:15px}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(146px,1fr));gap:12px;margin:18px 0}
+  .tile{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+  .tile .lab{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .tile .val{font-size:24px;font-weight:600;margin-top:4px;letter-spacing:-0.02em}
+  .tile .note{font-size:12px;color:var(--text-secondary);margin-top:2px}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:14px 0}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--grid)}
+  th{color:var(--text-secondary);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr.sig td{background:color-mix(in srgb, var(--s1) 7%, transparent)}
+  .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .badge.yes{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+  .badge.no{background:color-mix(in srgb,var(--null) 16%,transparent);color:var(--text-secondary)}
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--text-secondary);margin:8px 0 4px}
+  .callout{border-left:3px solid var(--s2);background:var(--surface-1);border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0}
+  .callout.key{border-left-color:var(--s1)}
+  .callout.warn{border-left-color:var(--critical)}
+  figure{margin:0}
+  figcaption{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .chart-title{font-size:14px;font-weight:600;margin-bottom:2px}
+  .chart-sub{font-size:12.5px;color:var(--muted);margin-bottom:12px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:820px){.grid3{grid-template-columns:1fr}}
+  svg{display:block;max-width:100%;overflow:visible}
+  .tt{position:fixed;pointer-events:none;opacity:0;transition:opacity .12s;background:var(--surface-1);
+    border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12.5px;
+    box-shadow:0 4px 16px rgba(0,0,0,.14);z-index:50;color:var(--text-primary)}
+  .toggle{position:fixed;top:14px;right:14px;background:var(--surface-1);color:var(--text-secondary);
+    border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer;z-index:60;font-family:inherit}
+  ul{margin:10px 0;padding-left:20px} li{margin:7px 0}
+  details{margin:14px 0} summary{cursor:pointer;font-size:13.5px;color:var(--text-secondary);padding:6px 0}
+  .steps{list-style:none;padding:0;margin:14px 0}
+  .steps li{display:flex;gap:12px;align-items:flex-start;margin:12px 0}
+  .steps .n{flex:0 0 24px;height:24px;border-radius:50%;background:var(--s1);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;margin-top:1px}
+</style>
+</head>
+<body data-palette="#2a78d6,#eb6834,#1baf7a">
+<button class="toggle" id="themeBtn">Dark / light</button>
+<div class="wrap">
+
+<h1>Test results</h1>
+<p class="sub">Satisfaction, revisit intention and recommendation compared across gender and marital status, with and without lodging</p>
+<p class="meta">18 tests · Welch's t-test, Mann–Whitney U robustness check, Benjamini–Hochberg FDR correction · n = 2,878 travellers · Source: 숙박여부_분리_데이터셋.xlsx</p>
+
+<div class="hero">
+  <div class="big">3 of 18</div>
+  <div class="cap">tests reached significance — <strong>all three in the same cell</strong>: gender, among travellers with a lodging record. Marital status showed no significant difference anywhere. Gender showed none in the full sample or the no-lodging group.</div>
+</div>
+
+<h2>1. All 18 tests</h2>
+<p class="lede">Mean difference with 95% confidence interval. An interval crossing zero means no detectable difference.</p>
+
+<div class="card">
+  <figure>
+    <div class="chart-title">Forest plot — mean difference between groups</div>
+    <div class="chart-sub">Gender = male − female · Marital = single − married · points right of zero mean the first group scored higher</div>
+    <div id="c-forest"></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:var(--s1)"></span>Gender</span>
+      <span><span class="swatch" style="background:var(--s2)"></span>Marital status</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--s1);margin-right:6px;vertical-align:middle"></span>Significant (p &lt; .05)</span>
+      <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid var(--null);margin-right:6px;vertical-align:middle"></span>Not significant</span>
+    </div>
+    <figcaption>Only the three "With lodging · Gender" rows clear zero. Every other interval straddles it.</figcaption>
+  </figure>
+</div>
+
+<details open>
+  <summary>Full numeric results</summary>
+  <table>
+    <thead><tr>
+      <th>Sample</th><th>Factor</th><th>Outcome</th>
+      <th class="num">n₁ / n₂</th><th class="num">Diff</th><th class="num">95% CI</th>
+      <th class="num">t</th><th class="num">p</th><th class="num">p (FDR)</th><th class="num">U-test p</th><th class="num">d</th><th>Result</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</details>
+
+<h2>2. The one finding: gender among lodging travellers</h2>
+
+<div class="tiles">
+  <div class="tile"><div class="lab">Satisfaction</div><div class="val">+0.094</div><div class="note">p = 0.010 · d = 0.19</div></div>
+  <div class="tile"><div class="lab">Revisit intention</div><div class="val">+0.101</div><div class="note">p = 0.022 · d = 0.17</div></div>
+  <div class="tile"><div class="lab">Recommendation</div><div class="val">+0.100</div><div class="note">p = 0.011 · d = 0.19</div></div>
+  <div class="tile"><div class="lab">Direction</div><div class="val">Male ↑</div><div class="note">men rate higher on all three</div></div>
+</div>
+
+<p>Among the 751 travellers who paid for lodging, men rated all three measures roughly <strong>0.10 points higher</strong> than women on a 5-point scale. The three outcomes move together, which is expected given they correlate at ρ = 0.78–0.90.</p>
+
+<div class="card">
+  <div class="chart-title">Interaction: gender × lodging</div>
+  <div class="chart-sub">Group means with 95% CI · lines cross where the gender gap reverses</div>
+  <div class="grid3" id="c-inter"></div>
+  <div class="legend" style="margin-top:14px">
+    <span><span class="swatch" style="background:var(--s1)"></span>Male</span>
+    <span><span class="swatch" style="background:var(--s2)"></span>Female</span>
+  </div>
+  <figcaption>The gender gap is not merely weaker without lodging — it slightly reverses. That crossing pattern is what a genuine interaction looks like.</figcaption>
+</div>
+
+<h2>3. Why I believe this finding</h2>
+<p class="lede">"Significant in one subgroup, not the other" is the single most common way a false positive gets published. It survived four checks.</p>
+
+<ul class="steps">
+  <li><span class="n">1</span><div><strong>Formal interaction test.</strong> Comparing two p-values across split samples is invalid — the correct test asks whether the gender effect <em>differs</em> by lodging. Two-way ANOVA: satisfaction F = 6.87, <strong>p = 0.0088</strong>; recommendation F = 6.66, <strong>p = 0.0099</strong>. Revisit intention is marginal at p = 0.0529.</div></li>
+  <li><span class="n">2</span><div><strong>Multiple-comparison correction.</strong> Survives Benjamini–Hochberg FDR applied across all 18 tests, not just within its own family — the strictest version. Adjusted p = 0.0095 / 0.0118 / 0.0248.</div></li>
+  <li><span class="n">3</span><div><strong>Non-parametric agreement.</strong> Mann–Whitney U reaches the same verdict on all three (p = 0.029 / 0.033 / 0.028), so it isn't an artefact of the normality assumption.</div></li>
+  <li><span class="n">4</span><div><strong>Covariate adjustment.</strong> Controlling for age, household income, education, companions, lodging payment and lodging type, the gender coefficient barely moves: +0.093, +0.099, +0.099, all still p &lt; 0.05. Men and women in this subgroup were also statistically comparable on every covariate tested (all p &gt; 0.15), so it isn't a composition effect.</div></li>
+</ul>
+
+<div class="callout warn">
+  <strong>But hold the effect size in view.</strong> Cohen's <em>d</em> is 0.17–0.19 — "small" by convention. In the adjusted models, gender explains under <strong>0.5% of the variance</strong> (adjusted R² ≈ 0.004–0.005), and the interaction term accounts for about <strong>0.2%</strong>. This is a real but very small difference. It is honest to report it as statistically detectable and practically minor; it would be misleading to describe lodging travellers as showing a meaningful gender divide in satisfaction.
+</div>
+
+<h2>4. What showed nothing</h2>
+
+<table>
+  <thead><tr><th>Comparison</th><th class="num">Tests</th><th class="num">p-value range</th><th class="num">Max |d|</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Marital status</strong> (single vs married) — all samples</td><td class="num">9</td><td class="num">0.148 – 0.769</td><td class="num">0.082</td><td><span class="badge no">No difference</span></td></tr>
+    <tr><td><strong>Gender</strong> — full sample</td><td class="num">3</td><td class="num">0.302 – 0.731</td><td class="num">0.039</td><td><span class="badge no">No difference</span></td></tr>
+    <tr><td><strong>Gender</strong> — without lodging</td><td class="num">3</td><td class="num">0.303 – 0.922</td><td class="num">0.046</td><td><span class="badge no">No difference</span></td></tr>
+  </tbody>
+</table>
+
+<p>These nulls are informative rather than inconclusive. At n = 2,878 the study can detect <em>d</em> ≈ 0.10 with about 80% power, and the observed effects sit well below that. For marital status the largest gap across all nine tests was 0.05 points on a 5-point scale — small enough to treat as no relationship, not as a failure to find one.</p>
+
+<div class="callout key">
+  <strong>Note the cancellation.</strong> Gender is significant among lodging travellers and null overall. The two subgroups push in opposite directions and average each other out. Had you tested only the pooled sample, you would have concluded "no gender effect" and missed it entirely — an instance of Simpson's-paradox-style masking.
+</div>
+
+<h2>5. Limitations</h2>
+<ul>
+  <li><strong>This is a subgroup finding, and it was not pre-registered.</strong> It emerged from splitting the data. The interaction test and FDR correction support it, but the honest status is <em>a hypothesis worth confirming on new data</em>, not a settled result.</li>
+  <li><strong>Ceiling effect.</strong> Mean 4.30 of 5, with 40.6% of travellers at 4.5 or above. The compressed upper range attenuates any difference the instrument could show.</li>
+  <li><strong>"With lodging" is defined by a payment record.</strong> 31 trips have a lodging visit-area but no payment, and are classified as no-lodging. A different definition could shift the subgroup boundary and therefore the result.</li>
+  <li><strong>Aggregation.</strong> Each row is a per-traveller mean across visit areas, so within-trip variation is averaged away before testing.</li>
+</ul>
+
+<div class="callout">
+  <strong>An alternative reading.</strong> The result is framed as "men who stay overnight are more satisfied," but lodging is not randomly assigned. Travellers who book paid accommodation differ from day-trippers in trip length, distance and budget, and those differences may not be identical for men and women in ways the six covariates here do not capture. The same data equally supports "a certain kind of trip that men take more often produces higher ratings" — the design cannot separate the two.
+</div>
+
+<details>
+  <summary>Method notes</summary>
+  <ul>
+    <li>Welch's t-test throughout (does not assume equal variances); Levene's test was non-significant in every comparison, so Student's t would give near-identical results.</li>
+    <li>Cohen's <em>d</em> computed with the pooled standard deviation.</li>
+    <li>Marital status restricted to single (code 1) vs married (code 2); widowed, divorced and other (47 cases, 1.6%) excluded as too small to test.</li>
+    <li>Outcomes are per-traveller means over visit areas with VISIT_AREA_TYPE_CD 1–13; home, friend's home, office and lodging excluded.</li>
+    <li>Two travellers dropped — no qualifying visit areas, so no score could be computed.</li>
+    <li>Interaction tested via Type II ANOVA on <code>outcome ~ gender × lodging</code>.</li>
+  </ul>
+</details>
+
+</div>
+<div class="tt" id="tt"></div>
+<script>
+const R = {
+ tests: [
+  {sample:"All travellers",factor:"Gender",outcome:"Satisfaction",n1:1213,n2:1665,m1:4.304,m2:4.297,diff:0.0069,ci_lo:-0.0323,ci_hi:0.046,t:0.344,p:0.7312,p_fdr:1.0,u_p:0.7412,d:0.013},
+  {sample:"All travellers",factor:"Gender",outcome:"Revisit intention",n1:1213,n2:1665,m1:4.128,m2:4.104,diff:0.0243,ci_lo:-0.0219,ci_hi:0.0706,t:1.032,p:0.3022,p_fdr:0.9066,u_p:0.3792,d:0.0388},
+  {sample:"All travellers",factor:"Gender",outcome:"Recommendation",n1:1213,n2:1665,m1:4.207,m2:4.199,diff:0.0077,ci_lo:-0.0341,ci_hi:0.0496,t:0.363,p:0.7169,p_fdr:1.0,u_p:0.984,d:0.0136},
+  {sample:"All travellers",factor:"Marital status",outcome:"Satisfaction",n1:1719,n2:1112,m1:4.288,m2:4.315,diff:-0.0273,ci_lo:-0.067,ci_hi:0.0124,t:-1.35,p:0.1772,p_fdr:0.7973,u_p:0.2476,d:-0.0517},
+  {sample:"All travellers",factor:"Marital status",outcome:"Revisit intention",n1:1719,n2:1112,m1:4.099,m2:4.134,diff:-0.0348,ci_lo:-0.082,ci_hi:0.0123,t:-1.448,p:0.1478,p_fdr:0.7973,u_p:0.3002,d:-0.0554},
+  {sample:"All travellers",factor:"Marital status",outcome:"Recommendation",n1:1719,n2:1112,m1:4.19,m2:4.219,diff:-0.0288,ci_lo:-0.0714,ci_hi:0.0138,t:-1.326,p:0.185,p_fdr:0.7973,u_p:0.3268,d:-0.0508},
+  {sample:"With lodging",factor:"Gender",outcome:"Satisfaction",n1:335,n2:416,m1:4.356,m2:4.262,diff:0.0938,ci_lo:0.023,ci_hi:0.1647,t:2.6,p:0.0095,p_fdr:0.0095,u_p:0.0291,d:0.1885},
+  {sample:"With lodging",factor:"Gender",outcome:"Revisit intention",n1:335,n2:416,m1:4.159,m2:4.058,diff:0.1011,ci_lo:0.0146,ci_hi:0.1877,t:2.294,p:0.0221,p_fdr:0.0248,u_p:0.0334,d:0.1673},
+  {sample:"With lodging",factor:"Gender",outcome:"Recommendation",n1:335,n2:416,m1:4.242,m2:4.141,diff:0.1003,ci_lo:0.0229,ci_hi:0.1777,t:2.545,p:0.0111,p_fdr:0.0118,u_p:0.0275,d:0.1852},
+  {sample:"With lodging",factor:"Marital status",outcome:"Satisfaction",n1:439,n2:298,m1:4.292,m2:4.321,diff:-0.0287,ci_lo:-0.1011,ci_hi:0.0437,t:-0.779,p:0.436,p_fdr:1.0,u_p:0.7181,d:-0.0574},
+  {sample:"With lodging",factor:"Marital status",outcome:"Revisit intention",n1:439,n2:298,m1:4.082,m2:4.132,diff:-0.0495,ci_lo:-0.1379,ci_hi:0.0388,t:-1.102,p:0.271,p_fdr:0.8955,u_p:0.4532,d:-0.0817},
+  {sample:"With lodging",factor:"Marital status",outcome:"Recommendation",n1:439,n2:298,m1:4.181,m2:4.193,diff:-0.0119,ci_lo:-0.0919,ci_hi:0.068,t:-0.293,p:0.7694,p_fdr:1.0,u_p:0.8863,d:-0.0219},
+  {sample:"Without lodging",factor:"Gender",outcome:"Satisfaction",n1:878,n2:1249,m1:4.284,m2:4.309,diff:-0.0246,ci_lo:-0.0715,ci_hi:0.0223,t:-1.03,p:0.3033,p_fdr:0.9066,u_p:0.375,d:-0.0457},
+  {sample:"Without lodging",factor:"Gender",outcome:"Revisit intention",n1:878,n2:1249,m1:4.116,m2:4.119,diff:-0.0027,ci_lo:-0.0575,ci_hi:0.052,t:-0.098,p:0.922,p_fdr:1.0,u_p:0.836,d:-0.0043},
+  {sample:"Without lodging",factor:"Gender",outcome:"Recommendation",n1:878,n2:1249,m1:4.193,m2:4.218,diff:-0.0248,ci_lo:-0.0745,ci_hi:0.0249,t:-0.979,p:0.3276,p_fdr:0.9066,u_p:0.2222,d:-0.0431},
+  {sample:"Without lodging",factor:"Marital status",outcome:"Satisfaction",n1:1280,n2:814,m1:4.286,m2:4.313,diff:-0.0267,ci_lo:-0.074,ci_hi:0.0206,t:-1.106,p:0.2687,p_fdr:0.8955,u_p:0.2476,d:-0.0496},
+  {sample:"Without lodging",factor:"Marital status",outcome:"Revisit intention",n1:1280,n2:814,m1:4.105,m2:4.135,diff:-0.0298,ci_lo:-0.0856,ci_hi:0.026,t:-1.049,p:0.2945,p_fdr:0.9066,u_p:0.4508,d:-0.0469},
+  {sample:"Without lodging",factor:"Marital status",outcome:"Recommendation",n1:1280,n2:814,m1:4.193,m2:4.228,diff:-0.0352,ci_lo:-0.0855,ci_hi:0.0151,t:-1.371,p:0.1705,p_fdr:0.7973,u_p:0.2746,d:-0.0612}
+ ],
+ inter: {
+  "Satisfaction":[{lodge:"With lodging",sex:"Male",mean:4.3556,lo:4.3057,hi:4.4055,n:335},{lodge:"With lodging",sex:"Female",mean:4.2618,lo:4.2114,hi:4.3122,n:416},{lodge:"Without lodging",sex:"Male",mean:4.2842,lo:4.2476,hi:4.3208,n:878},{lodge:"Without lodging",sex:"Female",mean:4.3088,lo:4.2795,hi:4.3381,n:1249}],
+  "Revisit intention":[{lodge:"With lodging",sex:"Male",mean:4.159,lo:4.0962,hi:4.2218,n:335},{lodge:"With lodging",sex:"Female",mean:4.0579,lo:3.9981,hi:4.1177,n:416},{lodge:"Without lodging",sex:"Male",mean:4.1163,lo:4.0744,hi:4.1582,n:878},{lodge:"Without lodging",sex:"Female",mean:4.119,lo:4.0838,hi:4.1543,n:1249}],
+  "Recommendation":[{lodge:"With lodging",sex:"Male",mean:4.2416,lo:4.186,hi:4.2972,n:335},{lodge:"With lodging",sex:"Female",mean:4.1413,lo:4.0872,hi:4.1953,n:416},{lodge:"Without lodging",sex:"Male",mean:4.1935,lo:4.1554,hi:4.2316,n:878},{lodge:"Without lodging",sex:"Female",mean:4.2183,lo:4.1864,hi:4.2502,n:1249}]
+ },
+ interP: {"Satisfaction":0.0088,"Revisit intention":0.0529,"Recommendation":0.0099}
+};
+
+const tt=document.getElementById('tt');
+function showTT(e,h){tt.innerHTML=h;tt.style.opacity=1;const r=tt.getBoundingClientRect();
+  let x=e.clientX+14,y=e.clientY-10;
+  if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;
+  if(y+r.height>innerHeight-8)y=innerHeight-r.height-8;
+  tt.style.left=x+'px';tt.style.top=Math.max(8,y)+'px';}
+function hideTT(){tt.style.opacity=0;}
+const NS='http://www.w3.org/2000/svg';
+function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;}
+function txt(x,y,s,a){const t=el('text',Object.assign({x,y},a));t.textContent=s;return t;}
+const FC={'Gender':'var(--s1)','Marital status':'var(--s2)'};
+
+/* ---- forest plot ---- */
+(function(){
+  const rows=R.tests, W=980, rowH=27, P={t:44,r:24,b:34,l:352};
+  const H=P.t+rows.length*rowH+P.b, iw=W-P.l-P.r;
+  const lo=-0.20, hi=0.22, sc=v=>P.l+((v-lo)/(hi-lo))*iw;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Forest plot of all 18 tests'});
+  for(let v=-0.20;v<=0.221;v+=0.05){
+    const x=sc(v), zero=Math.abs(v)<1e-9;
+    svg.appendChild(el('line',{x1:x,x2:x,y1:P.t-8,y2:P.t+rows.length*rowH,
+      stroke:zero?'var(--axis)':'var(--grid)','stroke-width':zero?1.5:1}));
+    svg.appendChild(txt(x,P.t-16,(zero?0:v).toFixed(2),{fill:zero?'var(--text-secondary)':'var(--muted)','font-size':11,'text-anchor':'middle','font-variant-numeric':'tabular-nums'}));
+  }
+  svg.appendChild(txt(P.l+iw/2,H-8,'Mean difference (points on a 5-point scale)',{fill:'var(--text-secondary)','font-size':12,'text-anchor':'middle'}));
+  let lastSample=null;
+  rows.forEach((d,i)=>{
+    const y=P.t+i*rowH+rowH/2, sig=d.p<0.05, c=FC[d.factor];
+    if(d.sample!==lastSample){
+      svg.appendChild(el('line',{x1:14,x2:W-P.r,y1:P.t+i*rowH-1,y2:P.t+i*rowH-1,stroke:'var(--grid)','stroke-width':1}));
+      svg.appendChild(txt(14,y+4,d.sample,{fill:'var(--text-primary)','font-size':12,'font-weight':600}));
+      lastSample=d.sample;
+    }
+    svg.appendChild(txt(150,y+4,d.factor,{fill:'var(--text-secondary)','font-size':11.5}));
+    svg.appendChild(txt(252,y+4,d.outcome,{fill:'var(--muted)','font-size':11.5}));
+    const g=el('g',{}); g.style.cursor='pointer';
+    g.appendChild(el('line',{x1:sc(d.ci_lo),x2:sc(d.ci_hi),y1:y,y2:y,stroke:sig?c:'var(--null)','stroke-width':2,'stroke-linecap':'round'}));
+    [d.ci_lo,d.ci_hi].forEach(v=>g.appendChild(el('line',{x1:sc(v),x2:sc(v),y1:y-4,y2:y+4,stroke:sig?c:'var(--null)','stroke-width':2})));
+    g.appendChild(el('circle',{cx:sc(d.diff),cy:y,r:5,fill:sig?c:'var(--surface-1)',stroke:sig?'var(--surface-1)':'var(--null)','stroke-width':2}));
+    g.addEventListener('mousemove',e=>showTT(e,
+      `<b>${d.sample} · ${d.factor}</b><br>${d.outcome}<br>${d.g1||''}${d.g1?' vs ':''}${d.g2||''}<br>
+       diff ${d.diff>0?'+':''}${d.diff.toFixed(4)} · 95% CI [${d.ci_lo.toFixed(3)}, ${d.ci_hi.toFixed(3)}]<br>
+       t = ${d.t} · p = ${d.p.toFixed(4)} · d = ${d.d.toFixed(3)}`));
+    g.addEventListener('mouseleave',hideTT);
+    svg.appendChild(g);
+    if(sig) svg.appendChild(txt(sc(d.ci_hi)+9,y+4,'p = '+d.p.toFixed(3),{fill:c,'font-size':11,'font-weight':600,'font-variant-numeric':'tabular-nums'}));
+  });
+  document.getElementById('c-forest').appendChild(svg);
+})();
+
+/* ---- table ---- */
+(function(){
+  const tb=document.getElementById('tbody'); let last=null;
+  R.tests.forEach(d=>{
+    const tr=document.createElement('tr'); if(d.p<0.05) tr.className='sig';
+    tr.innerHTML=`<td>${d.sample!==last?d.sample:''}</td>
+      <td><span class="swatch" style="background:${FC[d.factor]}"></span>${d.factor}</td>
+      <td>${d.outcome}</td>
+      <td class="num">${d.n1.toLocaleString()} / ${d.n2.toLocaleString()}</td>
+      <td class="num">${d.diff>0?'+':''}${d.diff.toFixed(4)}</td>
+      <td class="num">[${d.ci_lo.toFixed(3)}, ${d.ci_hi.toFixed(3)}]</td>
+      <td class="num">${d.t.toFixed(3)}</td>
+      <td class="num">${d.p.toFixed(4)}</td>
+      <td class="num">${d.p_fdr.toFixed(4)}</td>
+      <td class="num">${d.u_p.toFixed(4)}</td>
+      <td class="num">${d.d.toFixed(3)}</td>
+      <td>${d.p<0.05?'<span class="badge yes">Significant</span>':'<span class="badge no">n.s.</span>'}</td>`;
+    last=d.sample; tb.appendChild(tr);
+  });
+})();
+
+/* ---- interaction small multiples ---- */
+(function(){
+  const host=document.getElementById('c-inter');
+  Object.keys(R.inter).forEach(name=>{
+    const rows=R.inter[name];
+    const W=320,H=250,P={t:16,r:20,b:52,l:46};
+    const iw=W-P.l-P.r, ih=H-P.t-P.b;
+    const lo=4.0, hi=4.45, sc=v=>P.t+ih-((v-lo)/(hi-lo))*ih;
+    const xs={'With lodging':P.l+iw*0.24,'Without lodging':P.l+iw*0.76};
+    const d=document.createElement('div');
+    const cap=document.createElement('div'); cap.className='chart-title';
+    cap.style.fontSize='13px'; cap.textContent=name;
+    const sub=document.createElement('div'); sub.className='chart-sub'; sub.style.marginBottom='6px';
+    const ip=R.interP[name];
+    sub.innerHTML=`interaction p = ${ip.toFixed(4)}${ip<0.05?' <span style="color:var(--good);font-weight:600">significant</span>':' <span style="color:var(--muted)">marginal</span>'}`;
+    d.appendChild(cap); d.appendChild(sub);
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+    for(let v=4.0;v<=4.451;v+=0.1){
+      svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:sc(v),y2:sc(v),stroke:'var(--grid)','stroke-width':1}));
+      svg.appendChild(txt(P.l-8,sc(v)+4,v.toFixed(1),{fill:'var(--muted)','font-size':10.5,'text-anchor':'end','font-variant-numeric':'tabular-nums'}));
+    }
+    ['Male','Female'].forEach(sx=>{
+      const c=sx==='Male'?'var(--s1)':'var(--s2)';
+      const pts=rows.filter(r=>r.sex===sx);
+      const a=pts.find(r=>r.lodge==='With lodging'), b=pts.find(r=>r.lodge==='Without lodging');
+      svg.appendChild(el('line',{x1:xs['With lodging'],y1:sc(a.mean),x2:xs['Without lodging'],y2:sc(b.mean),
+        stroke:c,'stroke-width':2,'stroke-linecap':'round'}));
+      pts.forEach(r=>{
+        const x=xs[r.lodge];
+        svg.appendChild(el('line',{x1:x,x2:x,y1:sc(r.hi),y2:sc(r.lo),stroke:c,'stroke-width':1.5,opacity:.55}));
+        const dot=el('circle',{cx:x,cy:sc(r.mean),r:5,fill:c,stroke:'var(--surface-1)','stroke-width':2});
+        dot.style.cursor='pointer';
+        dot.addEventListener('mousemove',e=>showTT(e,`<b>${r.sex} · ${r.lodge}</b><br>${name}<br>mean ${r.mean.toFixed(3)}<br>95% CI [${r.lo.toFixed(3)}, ${r.hi.toFixed(3)}]<br>n = ${r.n.toLocaleString()}`));
+        dot.addEventListener('mouseleave',hideTT);
+        svg.appendChild(dot);
+      });
+    });
+    svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:P.t+ih,y2:P.t+ih,stroke:'var(--axis)','stroke-width':1}));
+    svg.appendChild(txt(xs['With lodging'],P.t+ih+18,'With',{fill:'var(--text-secondary)','font-size':11,'text-anchor':'middle'}));
+    svg.appendChild(txt(xs['With lodging'],P.t+ih+31,'lodging',{fill:'var(--text-secondary)','font-size':11,'text-anchor':'middle'}));
+    svg.appendChild(txt(xs['Without lodging'],P.t+ih+18,'Without',{fill:'var(--text-secondary)','font-size':11,'text-anchor':'middle'}));
+    svg.appendChild(txt(xs['Without lodging'],P.t+ih+31,'lodging',{fill:'var(--text-secondary)','font-size':11,'text-anchor':'middle'}));
+    d.appendChild(svg); host.appendChild(d);
+  });
+})();
+
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const dark=cur?cur==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+});
+</script>
+</body>
+</html>

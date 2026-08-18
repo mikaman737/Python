@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<!-- saved from url=(0253)https://aee097bf-733b-4cf4-bcd7-54cb6087f89e.frame.claudeusercontent.com/_f/1786631327-fc2b/?__frame_t=FgoRy382R_L77RTZ_IwrGTh9.3e5c02ea-d0b3-4294-befd-de64383a478d.b45e97a8-4ea6-42f5-b0a6-b1e41ebbfe0d.1786684682&__frame_v=manifest.c760995c2b5961e2.json -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!-- frame-runtime --><!--<base href="/_f/1786631327-fc2b/">--><base href="."><script>window.__FRAME_PREAMBLE={"capabilities":{"artifact":"artifact.BWD0CGLd.js","assets":"assets.hcOK0ALv.js","comments":"comments.aMuwftAG.js","db":"db.C8ehi_0m.js","downloads":"downloads.BXsoAvg9.js","mcp":"mcp.D3B2EyQu.js","permissions":"permissions.DdITF2Mk.js","room":"room.BgXZkiYR.js","sample":"sample.DpdXn9di.js","self":"artifact.BWD0CGLd.js","user":"user.o5zdRedj.js"},"transforms":"_transforms.BI3gXbbT.js","comments":"_comments.Cp2LbYKb.js","translate":"_translate.BOzFH2D9.js"}</script><script>(function(){"use strict";var ce=["light","dark","system"],ue=/^[A-Za-z0-9_-]{1,64}$/,V=/^[a-zA-Z_:][a-zA-Z0-9_:.-]{0,127}$/,fe=new Set(["class","hidden","value","checked"]);function de(e){const t=e.toLowerCase();return t.startsWith("data-")||t.startsWith("aria-")||fe.has(t)}var pe="http://www.w3.org/1999/xhtml",me="http://www.w3.org/2000/svg",ge=new Set(["script","style","iframe","noscript","noframes","noembed","xmp","plaintext","template","title","textarea","object","embed"]),ve=new Set(["script","style"]);function _e(e){const t=e.localName.toLowerCase();return e.namespaceURI===pe?!ge.has(t):e.namespaceURI===me?!ve.has(t):!1}function he(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_patch;if(t===null||typeof t!="object")return!1;const{seq:n,elements:a}=t;if(typeof n!="number"||!Number.isSafeInteger(n)||!Array.isArray(a)||a.length===0||a.length>64)return!1;for(const i of a){if(i===null||typeof i!="object")return!1;const r=i;if(typeof r.target!="string"||!ue.test(r.target)||r.text!==void 0&&typeof r.text!="string")return!1;if(r.attrsSet!==void 0){if(r.attrsSet===null||typeof r.attrsSet!="object")return!1;for(const[l,c]of Object.entries(r.attrsSet))if(!V.test(l)||typeof c!="string")return!1}if(r.attrsRemoved!==void 0){if(!Array.isArray(r.attrsRemoved))return!1;for(const l of r.attrsRemoved)if(typeof l!="string"||!V.test(l))return!1}}return!0}function ye(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_init;return t!==null&&typeof t=="object"}function be(e){return e!==null&&typeof e=="object"&&e.__frame_size_poke===!0}function Ee(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_theme;if(t===null||typeof t!="object")return!1;const n=t.theme;return typeof n=="string"&&ce.includes(n)}function we(e){try{typeof reportError=="function"?reportError(e):setTimeout(()=>{throw e},0)}catch{}}var X=["#62744c","#b04e72","#5b7596","#a3651f","#7a6ba8","#3f7a75"],J=e=>{let t=0;for(let n=0;n<e.length;n++)t=t*31+e.charCodeAt(n)>>>0;return X[t%X.length]??"#788c5d"},Z="#c7c9d1",Q=e=>"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 2'%3E%3Ccircle cx='1' cy='1' r='1' fill='"+encodeURIComponent(e)+"'/%3E%3C/svg%3E",Ae=Object.freeze({id:null,name:"",avatarUrl:Q(Z),color:Z,email:null,isOwner:!1,canEdit:!1}),Se=(...e)=>{const t=e[0],n=typeof t=="string"?[t]:Array.isArray(t)?t.filter(i=>typeof i=="string"):[],a=Object.create(null);for(const i of n)a[i]={id:i,name:"",avatarUrl:Q(J(i)),color:J(i),email:null,isMe:!1};return a},ee=Object.freeze(Object.assign(Object.create(null),{user:Object.freeze(Object.assign(Object.create(null),{id:null,isOwner:!1,canEdit:!1,me:Ae,profiles:Se,name:"",avatarUrl:null,search:Object.freeze([]),email:null}))})),je={sample:"sample"};function te(){const e=new Uint8Array(20);try{crypto.getRandomValues(e)}catch{for(let n=0;n<e.length;n++)e[n]=Math.floor(Math.random()*256)}let t="";for(const n of e)t+=(n%36).toString(36);return t}function Re(e,t){const n=r=>{const l={path:r},c=r.split("/");return{id:c[c.length-1],path:r,get:()=>t("get",[l]),set:d=>t("set",[l,d]),update:d=>t("update",[l,d]),delete:()=>t("delete",[l]),acquire:d=>t("acquire",[l,d]),onSnapshot:(d,E)=>t("subscribe",[l,d,E]),collection:d=>i(r+"/"+String(d))}},a=r=>({where:(l,c,d)=>a({...r,where:[...r.where??[],{f:String(l),op:String(c),v:d}]}),orderBy:(l,c)=>a({...r,orderBy:{f:String(l),dir:c===void 0?"asc":String(c)}}),limit:l=>a({...r,limit:Number(l)}),get:()=>t("query",[r]),onSnapshot:(l,c)=>t("subscribe",[r,l,c])}),i=r=>({...a({collection:r}),path:r,doc:l=>n(r+"/"+(l===void 0?te():String(l))),add:l=>{const c=n(r+"/"+te());return Promise.resolve(c.set(l)).then(()=>c)}});e.doc=r=>n(String(r)),e.collection=r=>i(String(r))}var Oe=Object.freeze([]);function Pe(e,t){let n=null,a=null;const i=()=>e.__settled;e.peers=()=>Oe,e.connected=()=>!1,e.emit=()=>i()?.()??Promise.resolve(),e.presence=r=>{const l=i();if(l)return l();let c=null;if(r!==null&&typeof r=="object")try{Array.isArray(r)||(c={...r})}catch{}return c===null?Promise.reject({code:"invalid_argument",message:"presence takes an object"}):(n===null&&(n=Object.create(null),a=Promise.resolve(t("presence",[n]))),Object.assign(n,c),a)}}var D="__frame_scroll",Te=150,Me=310,Le=160,ke=3e4;function Ce(){let e=0,t=!1,n=!1,a=!1,i=0,r=null;const l=u=>{try{sessionStorage.setItem(D,JSON.stringify({y:u}))}catch{}},c=()=>{if(clearTimeout(e),r===null)return;const u=r;r=null,l(u)},d=()=>{if(t){t=!1;return}n=!0,r=scrollY,clearTimeout(e),e=setTimeout(c,Te)};try{addEventListener("scroll",d,{passive:!0}),addEventListener("pagehide",c)}catch{}const E=()=>{let u;try{u=sessionStorage.getItem(D)}catch{return null}if(u===null)return null;let g;try{g=JSON.parse(u)}catch{g=null}const f=g?.y;if(!(typeof f=="number"&&Number.isFinite(f)&&f>=0)){try{sessionStorage.removeItem(D)}catch{}return null}return f};let T=!1;const h=u=>{try{const g=scrollY;scrollTo({top:u,left:0,behavior:"instant"}),i=u,a=!0,clearTimeout(e),r=null,l(u);const f=scrollY;f!==g&&(t=!0),f!==u&&!T&&(T=!0,addEventListener("load",()=>{try{if(scrollY===f){const p=E();h(p!==null?p:i)}}catch{}},{once:!0}))}catch{}},R=()=>{try{return!!location.hash}catch{return!0}};let A=!1;const O=()=>{try{if(A||innerWidth>Me||innerHeight>Le)return;A=!0;const u=Date.now(),g=()=>{try{removeEventListener("resize",g)}catch{}if(Date.now()-u>ke||n||R())return;const f=E();h(f!==null?f:i)};addEventListener("resize",g)}catch{}};let M=!1,o=!1;return{restore(){if(M||(M=!0,R()))return;const u=E();u!==null&&(h(u),O())},promoted(){if(o||(o=!0,R()))return;const u=E();u!==null?(h(u),O()):a&&h(i)}}}var He="modulepreload",Ye=function(e){return"/"+e},We={},Ne=function(t,n,a){let i=Promise.resolve();function r(l){const c=new Event("vite:preloadError",{cancelable:!0});if(c.payload=l,window.dispatchEvent(c),!c.defaultPrevented)throw l}return i.then(l=>{for(const c of l||[])c.status==="rejected"&&r(c.reason);return t().catch(r)})};(function(){const e=Object.defineProperty,t=globalThis,n=["RTCPeerConnection","webkitRTCPeerConnection","RTCDataChannel","RTCIceCandidate","RTCSessionDescription","RTCRtpSender","RTCRtpReceiver"];let a=0;for(let i=0;i<n.length;i++){const r=n[i];try{e(t,r,{value:void 0,writable:!1,configurable:!1})}catch{try{delete t[r]}catch{}try{e(t,r,{value:void 0,writable:!1,configurable:!0})}catch{}}typeof t[r]=="function"&&a++}if(a&&window!==top)try{parent.postMessage({__frame_rtc_lockdown_failed:a},"*")}catch{}})();var Ue=1e4,qe=Object.freeze([...window.__FRAME_PREAMBLE?.origins??["https://claude.ai","https://preview.claude.ai"]]);function re(e){for(const t of qe)if(t.endsWith(":*"))try{const n=new URL(e);if(`${n.protocol}//${n.hostname}:*`===t)return!0}catch{}else if(e===t)return!0;return!1}var k=Object.freeze({...window.__FRAME_PREAMBLE?.capabilities}),x=window.__FRAME_PREAMBLE?.transforms,$=window.__FRAME_PREAMBLE?.comments,z=window.__FRAME_PREAMBLE?.translate,q=/^[\w.-]+\.js$/,Ie=/^[a-z][a-z0-9_-]{0,63}$/,I=e=>Ne(()=>import("/_runtime/"+e),void 0);function Be(e,t){return{contract:e.contract,changes:new Set(e.changes??[]),flags:new Set(e.flags??[]),capabilities:e.capabilities??{},capBudgets:e.capBudgets??{},transforms:new Map,shellOrigin:t,mount:Y,pipe:()=>({wrap:(n,a)=>(...i)=>{try{return a(...i)}catch(r){return Promise.reject(r)}}})}}var ne=null,C=null;function F(e,t,n){try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!1,enumerable:!0})}catch{try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!0,enumerable:!0})}catch{}}}var H=!1;function De(e,t){const n=[];for(const a of e.elements){const i=document.querySelector(`[data-id="${a.target}"]`);if(!i){parent.postMessage({__frame_patch_miss:{seq:e.seq}},t);return}if([...Object.keys(a.attrsSet??{}),...a.attrsRemoved??[]].some(r=>!de(r))){parent.postMessage({__frame_patch_miss:{seq:e.seq}},t);return}if(a.text!==void 0&&!_e(i)){parent.postMessage({__frame_patch_miss:{seq:e.seq}},t);return}for(const[r,l]of Object.entries(a.attrsSet??{}))if(!oe(i,r)){try{i.setAttribute(r,l)}catch{}se(i,r,l)}for(const r of a.attrsRemoved??[])oe(i,r)||(i.removeAttribute(r),se(i,r,null));typeof a.text=="string"&&(i.textContent=a.text),n.push(a.target)}try{document.dispatchEvent(new CustomEvent("claude:edit",{detail:{seq:e.seq,targets:n}}))}catch{}}function se(e,t,n){if(!(e instanceof HTMLInputElement))return;const a=t.toLowerCase();a==="checked"?e.checked=n!==null:a==="value"&&e.type!=="file"&&(e.value=n??"")}function oe(e,t){const n=t.toLowerCase(),a=e;return n==="data-id"||(n==="value"||n==="checked")&&(a.__artifactSecret===!0||/^(password|hidden|file)$/.test(a.type??"")||/(^|\s)(cc-|one-time-code|current-password|new-password)/i.test(`${e.getAttribute("autocomplete")??""} ${a.autocomplete??""}`))}function ae(e){const t=document.documentElement;e==="light"||e==="dark"?(t.dataset.theme=e,t.style.colorScheme=e,H=!0):H&&(delete t.dataset.theme,t.style.colorScheme="",H=!1)}var ie=256,N=Object.assign(Object.create(null),{mcp:Object.assign(Object.create(null),{watchTool:{handlerArg:3}}),db:Object.assign(Object.create(null),{subscribe:{handlerArg:1,errArg:2}}),room:Object.assign(Object.create(null),{on:{handlerArg:1,errArg:2},onPeers:{handlerArg:0,errArg:1},onConnection:{handlerArg:0,errArg:1}})}),xe=Object.assign(Object.create(null),{db:(e,t)=>Re(e,t),room:(e,t,n)=>Pe(e,n)}),j=new Map;function Y(e,t){const n=j.get(e);if(!n)return;const a=Object.assign(Object.create(null),t);Object.assign(n.impl,a),n.r(n.ns),n.impl.__settled=()=>Promise.reject({code:"capability_removed",message:`${e}: method not in this runtime`});const i=n.queue;n.queue=[];for(const r of i){const l=a[r.method];if(l)if(N[e]?.[r.method])try{r.resolve(l(...r.args))}catch{U(r,N[e][r.method],{code:"transform_error",message:`${e}.${r.method} rejected its arguments`})}else l(...r.args).then(r.resolve,r.reject);else{const c={code:"capability_removed",message:`${e}.${r.method} is not in this runtime`},d=N[e]?.[r.method];if(d){U(r,d,c);continue}r.reject(c)}}}function $e(e,t){const n=j.get(e);if(!n)return;n.impl.__settled=()=>Promise.reject(t),n.r(null);const a=n.queue;n.queue=[];for(const i of a){const r=N[e]?.[i.method];if(r){U(i,r,t);continue}i.reject(t)}}function le(e,t){if(typeof e=="function")try{return e(...t)}catch{return Object.create(null)}return Array.isArray(e)?[...e]:e!==null&&typeof e=="object"?{...e}:e}function B(e,t){const n=ee[e];if(!n){$e(e,t);return}j.get(e)?.r(null),Y(e,Object.fromEntries(Object.entries(n).map(([a,i])=>[a,(...r)=>Promise.resolve(le(i,r))])))}function U(e,t,n){if(e.syncState?.dead)return;const a=t.errArg===void 0?void 0:e.args[t.errArg],i=t.errArg===void 0?e.args[t.handlerArg]:a;typeof i=="function"&&queueMicrotask(()=>{if(!e.syncState?.dead)try{i(t.errArg===void 0?{type:"error",error:n}:n)}catch(r){we(r)}})}var W=Object.getOwnPropertyDescriptor(window,"claude");if(window!==top&&!(W&&W.writable===!1)){const e=x&&q.test(x)?I(x).catch(()=>{}):Promise.resolve(void 0),t=o=>{if(o.type==="auxclick"&&o.button!==1)return;const u=o.target,g=u&&u.closest?u.closest("a[href],area[href]"):null;if(!g)return;const f=g.getAttribute("href");if(!f)return;let p,P;try{p=new URL(f,document.baseURI),P=new URL(document.baseURI).origin}catch{return}if((p.protocol==="http:"||p.protocol==="https:")&&p.origin!==P){o.preventDefault();const w=(g.getAttribute("target")??"").toLowerCase(),y=o.type==="auxclick"||o.metaKey||o.ctrlKey||o.shiftKey||o.altKey||!["","_self","_top","_parent"].includes(w);parent.postMessage({__frame_nav:!0,url:p.href,newTab:y},"*")}};addEventListener("click",t,!0),addEventListener("auxclick",t,!0);const n={},a=o=>{o.isTrusted&&(n.pointer=!0)},i=o=>{o.isTrusted&&(n.click=!0)};addEventListener("pointermove",a,{capture:!0,passive:!0}),addEventListener("click",i,{capture:!0,passive:!0}),e.then(o=>{o?.wireNav&&(o.wireNav(),removeEventListener("click",t,!0),removeEventListener("auxclick",t,!0),removeEventListener("pointermove",a,!0),removeEventListener("click",i,!0),o.wireEngagement?.(n))});let r=null;try{r=Ce()}catch{}const l=W?.value??{};F(window,"claude",l);const c=o=>{let u;const g=new Promise(_=>{u=_}),f={impl:Object.create(null),queue:[],u:g,r:u,ns:null};j.set(o,f);const p=f.impl,P=_=>({code:"queue_overflow",message:`${o}.${_}: pre-init call queue is full`}),w=(_,s)=>{if(f.queue.length>=ie){const m=ee[o];return m&&_ in m?Promise.resolve(le(m[_],s)):Promise.reject(P(_))}return new Promise((m,v)=>{f.queue.push({method:_,args:s,resolve:m,reject:v})})},y=je[o],L=new Proxy(y===void 0?p:(()=>{}),{apply:(_,s,m)=>{const v=y,b=p[v]??p.__settled;return b?b(...m):w(v,m)},get:(_,s)=>{if(typeof s!="string"||s==="then"||s==="toJSON"||s==="valueOf")return;if(s==="toString")return Object.prototype.toString;if(y!==void 0&&(s==="call"||s==="apply"||s==="bind"))return Function.prototype[s];const m=N[o]?.[s];return m?(...v)=>{if(typeof v[m.handlerArg]!="function")throw new TypeError(`${o}.${s} requires a handler function`);const b=p[s];if(b)return b(...v);if(p.__settled){const S={dead:!1},ze={args:[...v],syncState:S};return p.__settled().catch(Fe=>U(ze,m,Fe)),()=>{S.dead=!0}}if(f.queue.length>=ie){const S={dead:!1};return U({args:[...v],syncState:S},m,P(s)),()=>{S.dead=!0}}let K=null;const G={dead:!1};return f.queue.push({method:s,args:v,resolve:S=>{K=typeof S=="function"?S:null,G.dead&&K?.()},reject:()=>{},syncState:G}),()=>{G.dead=!0,K?.()}}:(...v)=>{const b=p[s]??p.__settled;return b?b(...v):w(s,v)}},set:()=>!1});xe[o]?.(p,(_,s)=>L[_](...s),w),f.ns=L,F(l,o,L)};for(const o of Object.keys(k)){if(l[o]!==void 0){F(l,o,l[o]);continue}c(o)}if(l.use===void 0){const o=u=>{if(typeof u!="string"||!Object.hasOwn(k,u))return Promise.resolve(null);const g=j.get(u);return g?g.u:Promise.resolve(l[u]??null)};try{Object.defineProperty(l,"use",{value:o,writable:!0,configurable:!0,enumerable:!1})}catch{}}let d=null,E=null,T=0;const h=o=>{o.source!==parent||!re(o.origin)||ye(o.data)&&(d=o.data.__frame_init,C=o.origin,removeEventListener("message",h),clearTimeout(T),E?.())};addEventListener("message",h),parent.postMessage({__frame_connect:!0},"*");const R=new Promise(o=>{E=o,T=setTimeout(()=>{removeEventListener("message",h),o()},Ue)}),A=document.readyState==="loading"?new Promise(o=>document.addEventListener("DOMContentLoaded",()=>o(),{once:!0})):Promise.resolve();A.then(()=>{try{r?.restore()}catch{}});const O={cb:null},M=o=>{if(!(o.source!==parent||!re(o.origin))&&be(o.data)){try{r?.promoted()}catch{}O.cb?.()}};addEventListener("message",M),R.then(async()=>{if(!d||!C){for(const s of j.keys())B(s,{code:"not_granted",message:"frame initialization did not arrive - capability unavailable"});return}ae(d.theme);const o=C;let u=!1,g=!1;addEventListener("message",s=>{if(s.source!==parent||s.origin!==o)return;Ee(s.data)&&ae(s.data.__frame_theme.theme),he(s.data)&&De(s.data.__frame_patch,o);const m=s.data?.__fc_mode;m&&typeof m=="object"&&!u&&$&&q.test($)&&(u=!0,I($).then(b=>b.install?.(o,m.on===!0)).catch(()=>{}));const v=s.data?.__ft_cmd;v&&typeof v=="object"&&!g&&z&&q.test(z)&&(g=!0,I(z).then(b=>b.install?.(o,v)).catch(()=>{}))});const f=Object.keys(d.capabilities??{});for(const s of f)Object.hasOwn(k,s)||Ie.test(s)&&l[s]===void 0&&(c(s),B(s,{code:"capability_disabled",message:"capability not in this runtime generation"}));const p=f.filter(s=>Object.hasOwn(k,s)).map(s=>[s,k[s]]).filter(s=>typeof s[1]=="string"&&q.test(s[1])),P=await Promise.allSettled(p.map(([,s])=>I(s))),w=await e,y=C;w?.buildBoot||parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:"_transforms"}},y),ne=w?.buildBoot?w.buildBoot(d,w.TRANSFORMS??{},{shellOrigin:y,mount:Y},s=>parent.postMessage({__frame_cap_telemetry:s},y)):Be(d,y);const L=s=>parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:s}},y),_=ne;P.forEach((s,m)=>{const v=p[m][0];if(s.status!=="fulfilled"){L(v);return}try{s.value?.install?.(_)}catch{L(v)}});for(const[s,m]of j)if(m.impl.__settled===void 0){if(f.includes(s)){B(s,{code:"capability_disabled",message:"capability not available in this session"});continue}B(s,{code:"not_granted",message:"capability not available in this session"})}await A,parent.postMessage({__frame_ready:!0},C),e.then(s=>s?.installSizeReporter?.(y,O))})}})();</script><!-- /frame-runtime --><meta name="viewport" content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>숙박여부별 지출 비교</title>
+<style>
+.viz-root{
+  color-scheme: light;
+  --surface-1:      #fcfcfb;
+  --surface-2:      #f3f2ef;
+  --border:         #e4e2dc;
+  --text-primary:   #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted:     #85837c;
+  --series-1:       #2a78d6; /* 비숙박 */
+  --series-2:       #eb6834; /* 숙박 */
+  --grid:           #e9e7e1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .viz-root{
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --surface-2:      #232321;
+    --border:         #35342f;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #8f8d84;
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --grid:           #2b2a27;
+  }
+}
+:root[data-theme="dark"] .viz-root{
+  color-scheme: dark;
+  --surface-1:      #1a1a19;
+  --surface-2:      #232321;
+  --border:         #35342f;
+  --text-primary:   #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted:     #8f8d84;
+  --series-1:       #3987e5;
+  --series-2:       #d95926;
+  --grid:           #2b2a27;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+.viz-root{
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font-family: -apple-system, "Segoe UI", "Malgun Gothic", Pretendard, sans-serif;
+  padding: 28px 20px 48px;
+  max-width: 980px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+h1{ font-size: 20px; margin: 0 0 4px; }
+.subtitle{ color: var(--text-secondary); font-size: 14px; margin: 0 0 20px; }
+h2{ font-size: 16px; margin: 32px 0 10px; }
+.basis{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+.basis b{ color: var(--text-primary); }
+.basis ul{ margin: 6px 0 0; padding-left: 18px; }
+.basis li{ margin: 3px 0; }
+
+.table-wrap{ overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+table{ border-collapse: collapse; width: 100%; font-size: 13px; min-width: 560px; }
+th, td{ padding: 8px 10px; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+th:first-child, td:first-child{ text-align: left; font-variant-numeric: normal; }
+thead th{ color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+tbody tr:not(:last-child) td{ border-bottom: 1px solid var(--border); }
+.dot{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:1px; }
+.dot.s1{ background: var(--series-1); }
+.dot.s2{ background: var(--series-2); }
+
+.legend{ display:flex; gap:18px; font-size:12.5px; color: var(--text-secondary); margin: 6px 2px 14px; }
+.legend .item{ display:flex; align-items:center; }
+.legend .swatch{ width:10px; height:10px; border-radius:2px; margin-right:6px; }
+.legend .swatch.s1{ background: var(--series-1); }
+.legend .swatch.s2{ background: var(--series-2); }
+
+.chart-row{ display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.chart-card{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 18px 8px;
+  background: var(--surface-1);
+}
+.chart-title{ font-size: 14px; font-weight: 600; margin: 0 0 2px; }
+.chart-sub{ font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+svg{ width: 100%; height: auto; display:block; overflow: visible; }
+.gridline{ stroke: var(--grid); stroke-width: 1; }
+.axis-text{ fill: var(--text-muted); font-size: 11px; }
+.cat-text{ fill: var(--text-secondary); font-size: 12px; }
+.val-text{ fill: var(--text-primary); font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bar{ cursor: pointer; }
+.bar:hover, .bar.hover{ filter: brightness(1.08); }
+.hit{ fill: transparent; }
+
+.tooltip{
+  position: absolute;
+  pointer-events: none;
+  background: var(--text-primary);
+  color: var(--surface-1);
+  font-size: 12px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  transform: translate(-50%, -115%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .08s ease;
+  z-index: 5;
+}
+.tooltip.show{ opacity: 1; }
+.tooltip .row{ display:flex; align-items:center; gap:6px; }
+.tooltip .key{ width:8px; height:2px; border-radius:1px; display:inline-block; }
+.chart-wrap{ position: relative; }
+
+.findings{ padding-left: 20px; margin: 8px 0 0; }
+.findings li{ margin: 10px 0; }
+.findings b{ color: var(--text-primary); }
+.limits{ font-size: 13px; color: var(--text-secondary); margin-top: 8px; }
+.limits li{ margin: 4px 0; }
+
+.crm-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 12px; }
+.crm-card{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  background: var(--surface-2);
+}
+.crm-card .tag{
+  display:inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+  color: var(--surface-1);
+}
+.crm-card .tag.s1{ background: var(--series-1); }
+.crm-card .tag.s2{ background: var(--series-2); }
+.crm-card .tag.s3{ background: #4a3aa7; }
+.crm-card h3{ font-size: 14px; margin: 0 0 6px; }
+.crm-card p{ font-size: 13px; color: var(--text-secondary); margin: 0; }
+.crm-card .target{ font-size: 12px; color: var(--text-muted); margin: 6px 0 0; }
+
+.caution{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--series-2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+}
+.caution b{ color: var(--text-primary); }
+.caution ul{ margin: 6px 0 0; padding-left: 18px; }
+.caution li{ margin: 4px 0; }
+</style>
+
+<div class="viz-root">
+  <h1>숙박여부별 지출 비교 — 총지출 · 1인당지출 · 1일당지출</h1>
+  <p class="subtitle">tn_customer_all (n=2,880명, 2023년 수도권 여행로그) — LODGING_YN(숙박여부) 기준, 2그룹 비교</p>
+
+  <div class="basis">
+    <b>산식 · 기준 (계산 전 명시)</b>
+    <ul>
+      <li><b>숙박여부</b> = LODGING_YN(원본 컬럼). 이전 분석에서 쓴 VALUE_SEGMENT_SUB 끝자리(0/1)와 전수 일치 확인(N↔0 2,172명, Y↔1 708명, 예외 0건).</li>
+      <li><b>총지출</b> = PAYMENT_AMT_WON_SUM (여행 전체 결제금액 합계)</li>
+      <li><b>1인당지출</b> = 총지출 ÷ 동반인원(TRAVEL_COMPANIONS_NUM)</li>
+      <li><b>1일당지출</b> = 총지출 ÷ 총여행일수(TRAVEL_DAYS_SUM)</li>
+      <li>평균은 고액 지출자에 의해 위로 쏠릴 수 있어 중앙값을 함께 표기. 표본: 2023년 수도권 여행객 2,880명(비숙박 2,172명 / 숙박 708명).</li>
+    </ul>
+  </div>
+
+  <h2>표 — 숙박여부별 지출 요약</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>그룹</th><th>n</th><th>총지출(평균)</th><th>총지출(중앙값)</th><th>1인당지출(평균)</th><th>1인당지출(중앙값)</th><th>1일당지출(평균)</th><th>1일당지출(중앙값)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="dot s1"></span>비숙박(N)</td><td>2,172</td><td>153,153원</td><td>111,360원</td><td>78,627원</td><td>52,000원</td><td>134,525원</td><td>101,088원</td></tr>
+        <tr><td><span class="dot s2"></span>숙박(Y)</td><td>708</td><td>493,377원</td><td>402,077원</td><td>216,731원</td><td>164,030원</td><td>225,095원</td><td>191,215원</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>차트</h2>
+  <div class="legend">
+    <span class="item"><span class="swatch s1"></span>비숙박(N)</span>
+    <span class="item"><span class="swatch s2"></span>숙박(Y)</span>
+  </div>
+  <div class="chart-row">
+    <div class="chart-card">
+      <p class="chart-title">평균 총지출</p>
+      <p class="chart-sub">Y축 0부터 · 단위: 원</p>
+      <div class="chart-wrap">
+        <svg id="chart1" viewBox="0 0 300 260" role="img" aria-label="숙박여부별 평균 총지출 비교"><line x1="54" x2="288" y1="230" y2="230" class="gridline"></line><text x="46" y="234" class="axis-text" text-anchor="end">0만</text><line x1="54" x2="288" y1="190" y2="190" class="gridline"></line><text x="46" y="194" class="axis-text" text-anchor="end">10만</text><line x1="54" x2="288" y1="150" y2="150" class="gridline"></line><text x="46" y="154" class="axis-text" text-anchor="end">20만</text><line x1="54" x2="288" y1="110.00000000000001" y2="110.00000000000001" class="gridline"></line><text x="46" y="114.00000000000001" class="axis-text" text-anchor="end">30만</text><line x1="54" x2="288" y1="70" y2="70" class="gridline"></line><text x="46" y="74" class="axis-text" text-anchor="end">40만</text><line x1="54" x2="288" y1="30" y2="30" class="gridline"></line><text x="46" y="34" class="axis-text" text-anchor="end">50만</text><path d="M116,230 L116,172.7388 Q116,168.7388 120,168.7388 L158,168.7388 Q162,168.7388 162,172.7388 L162,230 Z" fill="#3987e5" class="bar"></path><rect x="114" y="10" width="50" height="220" class="hit" tabindex="0"></rect><text x="139" y="160.7388" class="val-text" text-anchor="middle">153,153</text><text x="139" y="248" class="cat-text" text-anchor="middle">비숙박</text><path d="M180,230 L180,36.64920000000001 Q180,32.64920000000001 184,32.64920000000001 L222,32.64920000000001 Q226,32.64920000000001 226,36.64920000000001 L226,230 Z" fill="#d95926" class="bar"></path><rect x="178" y="10" width="50" height="220" class="hit" tabindex="0"></rect><text x="203" y="24.649200000000008" class="val-text" text-anchor="middle">493,377</text><text x="203" y="248" class="cat-text" text-anchor="middle">숙박</text></svg>
+        <div class="tooltip" id="tip1"></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <p class="chart-title">평균 1인당지출</p>
+      <p class="chart-sub">Y축 0부터 · 단위: 원</p>
+      <div class="chart-wrap">
+        <svg id="chart2" viewBox="0 0 300 260" role="img" aria-label="숙박여부별 평균 1인당지출 비교"><line x1="54" x2="288" y1="230" y2="230" class="gridline"></line><text x="46" y="234" class="axis-text" text-anchor="end">0만</text><line x1="54" x2="288" y1="186" y2="186" class="gridline"></line><text x="46" y="190" class="axis-text" text-anchor="end">5만</text><line x1="54" x2="288" y1="142" y2="142" class="gridline"></line><text x="46" y="146" class="axis-text" text-anchor="end">10만</text><line x1="54" x2="288" y1="98" y2="98" class="gridline"></line><text x="46" y="102" class="axis-text" text-anchor="end">15만</text><line x1="54" x2="288" y1="54" y2="54" class="gridline"></line><text x="46" y="58" class="axis-text" text-anchor="end">20만</text><line x1="54" x2="288" y1="10" y2="10" class="gridline"></line><text x="46" y="14" class="axis-text" text-anchor="end">25만</text><path d="M116,230 L116,164.80824 Q116,160.80824 120,160.80824 L158,160.80824 Q162,160.80824 162,164.80824 L162,230 Z" fill="#3987e5" class="bar"></path><rect x="114" y="10" width="50" height="220" class="hit" tabindex="0"></rect><text x="139" y="152.80824" class="val-text" text-anchor="middle">78,627</text><text x="139" y="248" class="cat-text" text-anchor="middle">비숙박</text><path d="M180,230 L180,43.27671999999998 Q180,39.27671999999998 184,39.27671999999998 L222,39.27671999999998 Q226,39.27671999999998 226,43.27671999999998 L226,230 Z" fill="#d95926" class="bar"></path><rect x="178" y="10" width="50" height="220" class="hit" tabindex="0"></rect><text x="203" y="31.276719999999983" class="val-text" text-anchor="middle">216,731</text><text x="203" y="248" class="cat-text" text-anchor="middle">숙박</text></svg>
+        <div class="tooltip" id="tip2"></div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <p class="chart-title">평균 1일당지출</p>
+      <p class="chart-sub">Y축 0부터 · 단위: 원</p>
+      <div class="chart-wrap">
+        <svg id="chart3" viewBox="0 0 300 260" role="img" aria-label="숙박여부별 평균 1일당지출 비교"><line x1="54" x2="288" y1="230" y2="230" class="gridline"></line><text x="46" y="234" class="axis-text" text-anchor="end">0만</text><line x1="54" x2="288" y1="186" y2="186" class="gridline"></line><text x="46" y="190" class="axis-text" text-anchor="end">5만</text><line x1="54" x2="288" y1="142" y2="142" class="gridline"></line><text x="46" y="146" class="axis-text" text-anchor="end">10만</text><line x1="54" x2="288" y1="98" y2="98" class="gridline"></line><text x="46" y="102" class="axis-text" text-anchor="end">15만</text><line x1="54" x2="288" y1="54" y2="54" class="gridline"></line><text x="46" y="58" class="axis-text" text-anchor="end">20만</text><line x1="54" x2="288" y1="10" y2="10" class="gridline"></line><text x="46" y="14" class="axis-text" text-anchor="end">25만</text><path d="M116,230 L116,115.618 Q116,111.618 120,111.618 L158,111.618 Q162,111.618 162,115.618 L162,230 Z" fill="#3987e5" class="bar"></path><rect x="114" y="10" width="50" height="220" class="hit" tabindex="0"></rect><text x="139" y="103.618" class="val-text" text-anchor="middle">134,525</text><text x="139" y="248" class="cat-text" text-anchor="middle">비숙박</text><path d="M180,230 L180,35.91640000000001 Q180,31.91640000000001 184,31.91640000000001 L222,31.91640000000001 Q226,31.91640000000001 226,35.91640000000001 L226,230 Z" fill="#d95926" class="bar"></path><rect x="178" y="10" width="50" height="220" class="hit" tabindex="0"></rect><text x="203" y="23.91640000000001" class="val-text" text-anchor="middle">225,095</text><text x="203" y="248" class="cat-text" text-anchor="middle">숙박</text></svg>
+        <div class="tooltip" id="tip3"></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>핵심 발견 3개</h2>
+  <ol class="findings">
+    <li><b>숙박여부에 따른 지출 격차는 총지출(3.2배) &gt; 1인당지출(2.8배) &gt; 1일당지출(1.7배) 순으로 좁아진다.</b> 숙박객은 여행일수(평균 2.2일 vs 1.2일)와 동반인원(평균 2.8명 vs 2.3명)도 더 크기 때문에, 총지출 격차의 상당 부분은 "더 오래·더 여럿이" 여행하는 규모 효과다. 다만 1인당·1일당으로 나눠도 격차가 남아있다는 건, 숙박 자체가 지출 강도도 함께 끌어올린다는 뜻이다.</li>
+    <li><b>평균과 중앙값 차이가 커서(예: 숙박 총지출 평균 493,377원 vs 중앙값 402,077원) 소수 고액 지출자가 평균을 끌어올리고 있다.</b> 대표값 판단은 중앙값 기준이 더 안전하다.</li>
+    <li><b>가치등급(A/B/C)보다 숙박여부가 지출액에 더 크게 작용한다.</b> 세부 구간(VALUE_SEGMENT_SUB)으로 보면 C1(저가치·숙박) 총지출 중앙값(278,935원)이 A0(고가치·비숙박, 200,650원)보다 오히려 높다 — 방문지수·다양성 분석에서 나온 패턴과 동일한 방향.</li>
+  </ol>
+
+  <h2>참고 — 가치등급(VALUE_SEGMENT_SUB) 세부 구간별 지출</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>그룹</th><th>n</th><th>총지출(평균)</th><th>총지출(중앙값)</th><th>1인당지출(평균)</th><th>1인당지출(중앙값)</th><th>1일당지출(평균)</th><th>1일당지출(중앙값)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="dot s1"></span>A0</td><td>543</td><td>288,058원</td><td>200,650원</td><td>174,806원</td><td>117,833원</td><td>257,691원</td><td>186,300원</td></tr>
+        <tr><td><span class="dot s1"></span>B0</td><td>652</td><td>148,154원</td><td>125,475원</td><td>67,756원</td><td>59,143원</td><td>129,460원</td><td>117,538원</td></tr>
+        <tr><td><span class="dot s1"></span>C0</td><td>977</td><td>81,511원</td><td>69,700원</td><td>32,426원</td><td>30,500원</td><td>69,452원</td><td>66,183원</td></tr>
+        <tr><td><span class="dot s2"></span>A1</td><td>177</td><td>752,984원</td><td>581,848원</td><td>436,006원</td><td>346,750원</td><td>331,750원</td><td>280,243원</td></tr>
+        <tr><td><span class="dot s2"></span>B1</td><td>213</td><td>492,330원</td><td>408,847원</td><td>198,538원</td><td>188,788원</td><td>228,114원</td><td>200,840원</td></tr>
+        <tr><td><span class="dot s2"></span>C1</td><td>318</td><td>349,580원</td><td>278,935원</td><td>106,869원</td><td>108,028원</td><td>163,708원</td><td>135,103원</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>CRM 전략 인사이트</h2>
+  <div class="crm-grid">
+    <div class="crm-card">
+      <span class="tag s1">발견 1 기반</span>
+      <h3>체류일수 연장 프로모션</h3>
+      <p>숙박여부 지출 격차는 1일당지출(1.7배)보다 총지출(3.2배)에서 훨씬 크다 — 하루 소비 강도 차이보다 "며칠 머무느냐"가 총지출을 가르는 핵심 변수. 1박→2박 연장 시 혜택(2일차 액티비티 할인 등)을 주는 캠페인이 방문지 다양성 캠페인보다 직접적으로 매출에 연결된다.</p>
+      <p class="target">타깃: 비숙박 고객 전체, 특히 이미 지출 여력이 확인된 A0/B0</p>
+    </div>
+    <div class="crm-card">
+      <span class="tag s2">발견 2 기반</span>
+      <h3>고액 지출자 별도 관리(VIP 라인)</h3>
+      <p>평균이 중앙값보다 훨씬 높다는 건 소수의 고액 지출 고객이 숨어있다는 뜻. 이들을 상위 N% 별도 세그먼트로 뽑아 개인화 컨시어지·프리미엄 패키지를 제안하면, 전체 평균을 끌어올리는 이 그룹의 이탈을 막는 효과가 크다.</p>
+      <p class="target">타깃: 숙박 그룹 내 총지출 상위 구간(특히 A1)</p>
+    </div>
+    <div class="crm-card">
+      <span class="tag s3">발견 3 기반</span>
+      <h3>가치등급보다 "숙박 여부"를 CRM 1차 분기로</h3>
+      <p>C1(저가치·숙박)이 A0(고가치·비숙박)보다 지출이 높다 — 현재 가치등급(A/B/C)으로 캠페인을 나누는 것보다, 숙박여부를 1차 분기로 쓰고 그 안에서 가치등급을 2차 타깃팅에 쓰는 구조가 실제 지출 규모와 더 잘 맞는다.</p>
+      <p class="target">타깃: CRM 세그먼트 설계 전체 재검토 대상</p>
+    </div>
+  </div>
+
+  <h2>한계</h2>
+  <ul class="limits">
+    <li>2023년 수도권 2,880명 표본에 한정된 결과이며 인과관계가 아니다 — 숙박객이 원래 지출 여력이 큰 사람들일 수도 있고, 숙박이 지출을 유도한 것일 수도 있어 이 데이터만으로는 방향을 구분할 수 없다.</li>
+    <li><b>데이터 품질 이슈 발견</b>: VALUE_SEGMENT(가치)와 VALUE_SEGMENT_SUB(가치_분리)의 문자 등급이 항상 일치하지 않는다(예: TRAVELER_ID e000013은 VALUE_SEGMENT='A'인데 VALUE_SEGMENT_SUB='B1'). 즉 두 컬럼은 서로 다른 기준으로 산출된 것으로 보인다. 이번 분석의 세부 구간표는 VALUE_SEGMENT_SUB 자체를 하나의 라벨로만 취급했고(이전 대화에서 사용자가 정의한 방식), VALUE_SEGMENT와 조합해 해석하지 않았다. 원 산출 로직은 팀 확인이 필요하다.</li>
+  </ul>
+</div>
+
+<script>
+(function(){
+  function buildChart(svgId, tipId, data, maxVal, yTicks, unit){
+    var svg = document.getElementById(svgId);
+    var tip = document.getElementById(tipId);
+    var W = 300, H = 260;
+    var padL = 54, padR = 12, padT = 10, padB = 30;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var ns = "http://www.w3.org/2000/svg";
+
+    function el(tag, attrs){
+      var e = document.createElementNS(ns, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    yTicks.forEach(function(t){
+      var y = padT + plotH - (t / maxVal) * plotH;
+      svg.appendChild(el("line", {x1: padL, x2: W - padR, y1: y, y2: y, class: "gridline"}));
+      var txt = el("text", {x: padL - 8, y: y + 4, class: "axis-text", "text-anchor": "end"});
+      txt.textContent = (t/10000) + "만";
+      svg.appendChild(txt);
+    });
+
+    var groupW = plotW;
+    var barW = 46, gap = 18;
+    var cx = padL + groupW / 2;
+
+    data[0].series.forEach(function(s, si){
+      var bh = (s.value / maxVal) * plotH;
+      var bx = cx - barW - gap/2 + si * (barW + gap);
+      var by = padT + plotH - bh;
+
+      var bar = el("path", { d: roundedTopRectPath(bx, by, barW, bh, 4), fill: s.color, class: "bar" });
+      svg.appendChild(bar);
+
+      var hit = el("rect", {x: bx - 2, y: padT, width: barW + 4, height: plotH, class: "hit"});
+      svg.appendChild(hit);
+
+      var valTxt = el("text", { x: bx + barW/2, y: by - 8, class: "val-text", "text-anchor": "middle" });
+      valTxt.textContent = Math.round(s.value).toLocaleString();
+      svg.appendChild(valTxt);
+
+      var catTxt = el("text", {x: bx + barW/2, y: H - padB + 18, class: "cat-text", "text-anchor": "middle"});
+      catTxt.textContent = s.name;
+      svg.appendChild(catTxt);
+
+      function showTip(evt){
+        bar.classList.add("hover");
+        tip.innerHTML = "";
+        var row = document.createElement("div");
+        row.className = "row";
+        var key = document.createElement("span");
+        key.className = "key";
+        key.style.background = s.color;
+        var text = document.createElement("span");
+        text.textContent = s.name + ": " + Math.round(s.value).toLocaleString() + unit + " (n=" + s.n + ")";
+        row.appendChild(key);
+        row.appendChild(text);
+        tip.appendChild(row);
+        tip.classList.add("show");
+        var rect = svg.getBoundingClientRect();
+        var scale = rect.width / W;
+        var left = rect.left + (bx + barW/2) * scale + window.scrollX;
+        var top = rect.top + by * scale + window.scrollY;
+        tip.style.left = left + "px";
+        tip.style.top = top + "px";
+      }
+      function hideTip(){
+        bar.classList.remove("hover");
+        tip.classList.remove("show");
+      }
+      hit.addEventListener("pointermove", showTip);
+      hit.addEventListener("pointerenter", showTip);
+      hit.addEventListener("pointerleave", hideTip);
+      hit.addEventListener("focus", showTip);
+      hit.addEventListener("blur", hideTip);
+      hit.setAttribute("tabindex", "0");
+    });
+
+    function roundedTopRectPath(x, y, w, h, r){
+      if (h < r) r = h;
+      return "M" + x + "," + (y + h) +
+             " L" + x + "," + (y + r) +
+             " Q" + x + "," + y + " " + (x + r) + "," + y +
+             " L" + (x + w - r) + "," + y +
+             " Q" + (x + w) + "," + y + " " + (x + w) + "," + (y + r) +
+             " L" + (x + w) + "," + (y + h) +
+             " Z";
+    }
+  }
+
+  var s1 = getComputedStyle(document.querySelector(".viz-root")).getPropertyValue("--series-1").trim();
+  var s2 = getComputedStyle(document.querySelector(".viz-root")).getPropertyValue("--series-2").trim();
+
+  buildChart("chart1", "tip1", [{ series: [
+    { name: "비숙박", value: 153153, n: 2172, color: s1 },
+    { name: "숙박",   value: 493377, n: 708,  color: s2 }
+  ]}], 550000, [0,100000,200000,300000,400000,500000], "원");
+
+  buildChart("chart2", "tip2", [{ series: [
+    { name: "비숙박", value: 78627, n: 2172, color: s1 },
+    { name: "숙박",   value: 216731, n: 708, color: s2 }
+  ]}], 250000, [0,50000,100000,150000,200000,250000], "원");
+
+  buildChart("chart3", "tip3", [{ series: [
+    { name: "비숙박", value: 134525, n: 2172, color: s1 },
+    { name: "숙박",   value: 225095, n: 708,  color: s2 }
+  ]}], 250000, [0,50000,100000,150000,200000,250000], "원");
+})();
+</script>
+
+</body></html>

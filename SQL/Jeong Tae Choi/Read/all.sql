@@ -15,6 +15,7 @@ select * from tn_visit_area_info AS 방문지_정보;
 select * from tc_column_dictionary AS 컬럼_사전;
 select * from tn_move_his AS 이동_이력;
 select * from tc_sgg AS 시군구_코드;
+SELECT * from tn_customer_all AS 고객분석테이블;
 
 select count(*) from tc_codea tca;
 select count(*) from tc_codeb tcb;

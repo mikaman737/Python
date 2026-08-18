@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Descriptive Statistics — Lodging-split Dataset</title>
+<style>
+  :root{
+    color-scheme: light;
+    --surface-1:#fcfcfb; --plane:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+    --critical:#d03b3b; --good:#0ca30c;
+    --seq-250:#86b6ef; --seq-400:#3987e5; --seq-550:#1c5cab;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --surface-1:#1a1a19; --plane:#0d0d0d;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+      --seq-250:#184f95; --seq-400:#2a78d6; --seq-550:#5598e7;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --surface-1:#1a1a19; --plane:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+    --seq-250:#184f95; --seq-400:#2a78d6; --seq-550:#5598e7;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--text-primary);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px}
+  h1{font-size:30px;line-height:1.2;margin:0 0 8px;letter-spacing:-0.02em}
+  .sub{color:var(--text-secondary);margin:0 0 4px}
+  .meta{color:var(--muted);font-size:13px;margin:0}
+  h2{font-size:20px;margin:46px 0 6px;letter-spacing:-0.01em}
+  h3{font-size:15px;margin:26px 0 8px;font-weight:600}
+  p{margin:10px 0} .lede{color:var(--text-secondary)}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:22px;margin:18px 0}
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:18px 0}
+  .tile{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+  .tile .lab{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .tile .val{font-size:24px;font-weight:600;margin-top:4px;letter-spacing:-0.02em}
+  .tile .note{font-size:12px;color:var(--text-secondary);margin-top:2px}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:12px 0}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--grid)}
+  th{color:var(--text-secondary);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr.tot td{font-weight:600;border-top:1px solid var(--axis)}
+  .flag{color:var(--critical);font-weight:600}
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--text-secondary);margin:8px 0 2px}
+  .callout{border-left:3px solid var(--s2);background:var(--surface-1);border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0}
+  .callout.warn{border-left-color:var(--critical)}
+  figure{margin:0}
+  figcaption{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .chart-title{font-size:14px;font-weight:600;margin-bottom:2px}
+  .chart-sub{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media (max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+  svg{display:block;max-width:100%;overflow:visible}
+  .tt{position:fixed;pointer-events:none;opacity:0;transition:opacity .12s;background:var(--surface-1);
+    border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12.5px;
+    box-shadow:0 4px 16px rgba(0,0,0,.14);z-index:50;color:var(--text-primary)}
+  .toggle{position:fixed;top:14px;right:14px;background:var(--surface-1);color:var(--text-secondary);
+    border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer;z-index:60;font-family:inherit}
+  ul{margin:10px 0;padding-left:20px} li{margin:6px 0}
+  code{background:var(--plane);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:12.5px}
+  .scroll{overflow-x:auto}
+</style>
+</head>
+<body data-palette="#2a78d6,#eb6834,#1baf7a">
+<button class="toggle" id="themeBtn">Dark / light</button>
+<div class="wrap">
+
+<h1>Descriptive statistics</h1>
+<p class="sub">Every variable in the lodging-split dataset, with distributions</p>
+<p class="meta" id="hdr-meta"></p>
+
+<div class="tiles">
+  <div class="tile"><div class="lab">Travellers</div><div class="val">2,880</div><div class="note">1 row = 1 traveller</div></div>
+  <div class="tile"><div class="lab">With lodging</div><div class="val">753</div><div class="note">26.1%</div></div>
+  <div class="tile"><div class="lab">Without lodging</div><div class="val">2,127</div><div class="note">73.9%</div></div>
+  <div class="tile"><div class="lab">Variables</div><div class="val">13</div><div class="note">8 continuous · 5 categorical</div></div>
+</div>
+
+<h2>1. Continuous variables</h2>
+<p class="lede">All three samples. Skewness beyond ±1 and kurtosis beyond ±3 are flagged.</p>
+
+<div class="card scroll">
+  <div class="chart-title">Summary table — all travellers (n = 2,880)</div>
+  <div class="chart-sub">Ordinal codes (age, income, education) are included for completeness; their means are indicative only</div>
+  <table id="tbl-cont"><thead><tr>
+    <th>Variable</th><th class="num">n</th><th class="num">Missing</th><th class="num">Mean</th>
+    <th class="num">SD</th><th class="num">SE</th><th class="num">Min</th><th class="num">Q1</th>
+    <th class="num">Median</th><th class="num">Q3</th><th class="num">Max</th>
+    <th class="num">Skew</th><th class="num">Kurt</th></tr></thead><tbody></tbody></table>
+</div>
+
+<details>
+  <summary>Same table split by lodging group</summary>
+  <div class="scroll"><table id="tbl-cont-split"><thead><tr>
+    <th>Sample</th><th>Variable</th><th class="num">n</th><th class="num">Mean</th><th class="num">SD</th>
+    <th class="num">Min</th><th class="num">Median</th><th class="num">Max</th>
+    <th class="num">Skew</th><th class="num">Kurt</th></tr></thead><tbody></tbody></table></div>
+</details>
+
+<h3>Outcome measures</h3>
+<div class="card">
+  <div class="chart-title">Distribution of the three rating measures</div>
+  <div class="chart-sub">Per-traveller means over visit areas of type 1–13 · bin width 0.25 · all travellers</div>
+  <div class="grid3" id="c-ratings"></div>
+  <figcaption>All three are left-skewed against the 5-point ceiling. Satisfaction is the most compressed; revisit intention is the most spread out (SD 0.63 vs 0.53).</figcaption>
+</div>
+
+<h3>Lodging payment</h3>
+<div class="card">
+  <div class="grid2">
+    <figure>
+      <div class="chart-title">Total lodging spend per trip</div>
+      <div class="chart-sub">Sum across all lodging payments · n = 753 · bin width ₩50,000</div>
+      <div id="c-pay"></div>
+    </figure>
+    <div>
+      <div class="tiles" style="grid-template-columns:1fr 1fr;margin-top:0">
+        <div class="tile"><div class="lab">Median</div><div class="val">₩125,243</div><div class="note">mean ₩171,028</div></div>
+        <div class="tile"><div class="lab">Skewness</div><div class="val">2.52</div><div class="note">strong right tail</div></div>
+        <div class="tile"><div class="lab">Range</div><div class="val">₩0–1.32M</div><div class="note">IQR ₩65k–₩229k</div></div>
+        <div class="tile"><div class="lab">Zero-value</div><div class="val">45</div><div class="note">6.0% of lodging trips</div></div>
+      </div>
+      <p style="font-size:14px;margin-top:14px">Mean far exceeds median — the classic signature of a right-skewed spend variable. For any test involving this variable, use the median and a rank-based method, or log-transform first.</p>
+    </div>
+  </div>
+  <div class="callout warn" style="margin-bottom:0">
+    <strong>45 trips have a lodging payment of ₩0.</strong> These are real rows in the source data, not import errors. They could be free or comped stays, points redemptions, or missing amounts recorded as zero — the data cannot distinguish these. Decide explicitly whether to keep, drop, or treat them as missing before running any spend analysis.
+  </div>
+</div>
+
+<h3>Travel companions</h3>
+<div class="card">
+  <div class="grid2">
+    <figure>
+      <div class="chart-title">Number of travel companions</div>
+      <div class="chart-sub">Count distribution · all travellers</div>
+      <div id="c-comp"></div>
+    </figure>
+    <div>
+      <p style="margin-top:0">The distribution is dominated by small values — <strong>69.7% of travellers report 0 or 1 companion</strong> — with a thin tail running to 20.</p>
+      <table style="font-size:13px">
+        <tr><td>Mean / SD</td><td class="num">1.38 / 1.46</td></tr>
+        <tr><td>Median</td><td class="num">1</td></tr>
+        <tr><td>Skewness</td><td class="num flag">3.76</td></tr>
+        <tr><td>Kurtosis</td><td class="num flag">30.60</td></tr>
+        <tr><td>Max</td><td class="num">20</td></tr>
+      </table>
+      <p style="font-size:14px">Kurtosis above 30 means a handful of cases sit far from everything else. Treating this as a linear predictor lets those few rows dominate the fit — categorise it (0 / 1 / 2 / 3+) or use rank-based methods.</p>
+    </div>
+  </div>
+</div>
+
+<h2>2. Categorical variables</h2>
+
+<div class="card">
+  <div class="grid2">
+    <figure>
+      <div class="chart-title">Gender</div><div class="chart-sub">n = 2,880</div>
+      <div id="c-gender"></div>
+    </figure>
+    <figure>
+      <div class="chart-title">Marital status</div><div class="chart-sub">n = 2,880</div>
+      <div id="c-marr"></div>
+    </figure>
+  </div>
+  <div class="grid2" style="margin-top:24px">
+    <figure>
+      <div class="chart-title">Age group</div><div class="chart-sub">10-year bands</div>
+      <div id="c-age"></div>
+    </figure>
+    <figure>
+      <div class="chart-title">Education</div><div class="chart-sub">8 coded levels</div>
+      <div id="c-edu"></div>
+    </figure>
+  </div>
+  <div class="legend" style="margin-top:16px">
+    <span><span class="swatch" style="background:var(--s1)"></span>n ≥ 40 (usable)</span>
+    <span><span class="swatch" style="background:var(--critical)"></span>n &lt; 40 (too sparse to test)</span>
+  </div>
+</div>
+
+<div class="card">
+  <figure>
+    <div class="chart-title">Household income</div>
+    <div class="chart-sub">Monthly household income band · ordinal codes 1–12 · n = 2,880</div>
+    <div id="c-inc"></div>
+    <figcaption>The best-spread demographic variable in the dataset — every band holds at least 40 cases, and the distribution is close to symmetric (skew 0.23). This makes it the most usable predictor of the three you asked about.</figcaption>
+  </figure>
+</div>
+
+<div class="card">
+  <div class="grid2">
+    <figure>
+      <div class="chart-title">Residence (시도)</div>
+      <div class="chart-sub">17 provinces · n = 2,880</div>
+      <div id="c-sido"></div>
+      <figcaption>Heavily concentrated: 경기 and 서울 alone account for 77.0% of travellers.</figcaption>
+    </figure>
+    <figure>
+      <div class="chart-title">Lodging type</div>
+      <div class="chart-sub">First stay per trip · n = 753</div>
+      <div id="c-lodge"></div>
+      <figcaption>Seven of the eleven categories hold fewer than 40 cases (140 trips combined) and need collapsing before any chi-square test.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<details>
+  <summary>Full frequency tables</summary>
+  <div id="freq-tables"></div>
+</details>
+
+<h2>3. Notes for analysis</h2>
+<ul>
+  <li><strong>Two structurally missing columns.</strong> <code>PAYMENT_AMT_WON</code> and <code>LODGING_TYPE_CD</code> are missing for all 2,127 no-lodging travellers by definition, not by data loss. Any analysis using them is confined to n = 753.</li>
+  <li><strong>Two genuinely missing rows.</strong> The three rating measures are missing for 2 travellers who had no visit areas of type 1–13, so nothing could be averaged.</li>
+  <li><strong>Three variables are ordinal codes, not quantities.</strong> <code>EDU_NM</code> (1–8), <code>HOUSE_INCOME</code> (1–12) and <code>AGE_GRP</code> (10-year bands). Means are reported for completeness but the spacing between codes is not guaranteed equal — prefer Spearman or ordinal methods over Pearson correlation.</li>
+  <li><strong>Sparse categories are widespread.</strong> Counting cells under n = 40: marital status 3 of 5, education 3 of 8, lodging type 7 of 11, residence 10 of 17. All need collapsing before testing, and the collapsing rule belongs in the write-up.</li>
+  <li><strong>Two heavily skewed continuous variables.</strong> Lodging payment (skew 2.52) and companions (skew 3.76, kurtosis 30.6) both violate normality substantially — unlike the rating measures, which are only mildly skewed.</li>
+</ul>
+
+<div class="callout">
+  <strong>An alternative reading of the ₩0 payments.</strong> Treating those 45 rows as valid spend pulls the mean down and inflates the left tail; treating them as missing raises the mean and narrows n to 708. Neither is obviously right, and the choice moves every payment statistic on this page. The data records an amount, not whether that amount means "free" or "unknown."
+</div>
+
+</div>
+<div class="tt" id="tt"></div>
+<script>
+const D = {
+ "n": {
+  "all": 2880,
+  "with": 753,
+  "without": 2127
+ },
+ "cont": {
+  "PAYMENT_AMT_WON": {
+   "All": {
+    "n": 753,
+    "mean": 171028.30677290837,
+    "sd": 167377.8617663844,
+    "min": 0.0,
+    "q1": 65000.0,
+    "median": 125243.0,
+    "q3": 229000.0,
+    "max": 1320000.0,
+    "skew": 2.5156792853919883,
+    "kurt": 9.507337596579573,
+    "se": 6099.588365869479
+   },
+   "With lodging": {
+    "n": 753,
+    "mean": 171028.30677290837,
+    "sd": 167377.8617663844,
+    "min": 0.0,
+    "q1": 65000.0,
+    "median": 125243.0,
+    "q3": 229000.0,
+    "max": 1320000.0,
+    "skew": 2.5156792853919883,
+    "kurt": 9.507337596579573,
+    "se": 6099.588365869479
+   },
+   "Without lodging": null,
+   "missing_all": 2127
+  },
+  "TRAVEL_COMPANIONS_NUM": {
+   "All": {
+    "n": 2880,
+    "mean": 1.3809027777777778,
+    "sd": 1.4583662478298212,
+    "min": 0.0,
+    "q1": 1.0,
+    "median": 1.0,
+    "q3": 2.0,
+    "max": 20.0,
+    "skew": 3.756714560942335,
+    "kurt": 30.59976341870457,
+    "se": 0.027175050551989877
+   },
+   "With lodging": {
+    "n": 753,
+    "mean": 1.4794156706507304,
+    "sd": 1.5393469458855906,
+    "min": 0.0,
+    "q1": 1.0,
+    "median": 1.0,
+    "q3": 2.0,
+    "max": 20.0,
+    "skew": 3.911870063998977,
+    "kurt": 31.875065536396647,
+    "se": 0.056096921200161944
+   },
+   "Without lodging": {
+    "n": 2127,
+    "mean": 1.3460272684532204,
+    "sd": 1.4273441596720038,
+    "min": 0.0,
+    "q1": 1.0,
+    "median": 1.0,
+    "q3": 2.0,
+    "max": 20.0,
+    "skew": 3.679697194884647,
+    "kurt": 29.784661267561575,
+    "se": 0.03094888144799242
+   },
+   "missing_all": 0
+  },
+  "DGSTFN": {
+   "All": {
+    "n": 2878,
+    "mean": 4.299943593670731,
+    "sd": 0.5283403793469977,
+    "min": 1.0,
+    "q1": 4.0,
+    "median": 4.333333333333333,
+    "q3": 4.75,
+    "max": 5.0,
+    "skew": -0.6096395621159727,
+    "kurt": 0.9825896523127091,
+    "se": 0.009848461894361327
+   },
+   "With lodging": {
+    "n": 751,
+    "mean": 4.303624955515757,
+    "sd": 0.4996703063019252,
+    "min": 2.0,
+    "q1": 4.0,
+    "median": 4.333333333333333,
+    "q3": 4.714285714285714,
+    "max": 5.0,
+    "skew": -0.5456919536976643,
+    "kurt": 0.4836491104050138,
+    "se": 0.018233228435311378
+   },
+   "Without lodging": {
+    "n": 2127,
+    "mean": 4.29864378043819,
+    "sd": 0.5382060674294988,
+    "min": 1.0,
+    "q1": 4.0,
+    "median": 4.333333333333333,
+    "q3": 4.75,
+    "max": 5.0,
+    "skew": -0.6255129353102307,
+    "kurt": 1.0914353002740018,
+    "se": 0.0116698384636915
+   },
+   "missing_all": 2
+  },
+  "REVISIT_INTENTION": {
+   "All": {
+    "n": 2878,
+    "mean": 4.114007354775496,
+    "sd": 0.6267415465630638,
+    "min": 1.0,
+    "q1": 3.666666666666667,
+    "median": 4.0,
+    "q3": 4.625,
+    "max": 5.0,
+    "skew": -0.3217795589346789,
+    "kurt": -0.2769248380958951,
+    "se": 0.011682696383282773
+   },
+   "With lodging": {
+    "n": 751,
+    "mean": 4.10299071107044,
+    "sd": 0.6062254214453775,
+    "min": 1.5,
+    "q1": 3.666666666666667,
+    "median": 4.066666666666666,
+    "q3": 4.6,
+    "max": 5.0,
+    "skew": -0.29899312784113324,
+    "kurt": -0.31860701093062804,
+    "se": 0.022121479809983843
+   },
+   "Without lodging": {
+    "n": 2127,
+    "mean": 4.117897105326741,
+    "sd": 0.6339206697664121,
+    "min": 1.0,
+    "q1": 3.666666666666667,
+    "median": 4.0,
+    "q3": 4.666666666666667,
+    "max": 5.0,
+    "skew": -0.3302235888336006,
+    "kurt": -0.2682707817417458,
+    "se": 0.01374520330159267
+   },
+   "missing_all": 2
+  },
+  "RCMDTN_INTENTION": {
+   "All": {
+    "n": 2878,
+    "mean": 4.2022943495504546,
+    "sd": 0.5668125853355868,
+    "min": 2.0,
+    "q1": 3.8,
+    "median": 4.2,
+    "q3": 4.666666666666667,
+    "max": 5.0,
+    "skew": -0.2826471254515126,
+    "kurt": -0.5032039089648306,
+    "se": 0.01056559817521673
+   },
+   "With lodging": {
+    "n": 751,
+    "mean": 4.186009959675439,
+    "sd": 0.5436135423284119,
+    "min": 2.7,
+    "q1": 3.809523809523809,
+    "median": 4.2,
+    "q3": 4.6,
+    "max": 5.0,
+    "skew": -0.24176187228965612,
+    "kurt": -0.5901382047377379,
+    "se": 0.019836739891870885
+   },
+   "Without lodging": {
+    "n": 2127,
+    "mean": 4.208044033046522,
+    "sd": 0.5747944458108512,
+    "min": 2.0,
+    "q1": 3.8,
+    "median": 4.2,
+    "q3": 4.666666666666667,
+    "max": 5.0,
+    "skew": -0.297867714675278,
+    "kurt": -0.48256595827788473,
+    "se": 0.01246317858227858
+   },
+   "missing_all": 2
+  },
+  "AGE_GRP": {
+   "All": {
+    "n": 2880,
+    "mean": 31.104166666666668,
+    "sd": 11.756011373078868,
+    "min": 20.0,
+    "q1": 20.0,
+    "median": 30.0,
+    "q3": 40.0,
+    "max": 60.0,
+    "skew": 1.0823952821747806,
+    "kurt": 0.4598000533042166,
+    "se": 0.21906033812054157
+   },
+   "With lodging": {
+    "n": 753,
+    "mean": 31.699867197875164,
+    "sd": 12.259612489250852,
+    "min": 20.0,
+    "q1": 20.0,
+    "median": 30.0,
+    "q3": 40.0,
+    "max": 60.0,
+    "skew": 0.99943020286346,
+    "kurt": 0.1491304951684791,
+    "se": 0.4467651152926901
+   },
+   "Without lodging": {
+    "n": 2127,
+    "mean": 30.893276915843913,
+    "sd": 11.568089031795722,
+    "min": 20.0,
+    "q1": 20.0,
+    "median": 30.0,
+    "q3": 40.0,
+    "max": 60.0,
+    "skew": 1.1111376184766433,
+    "kurt": 0.5799494644778513,
+    "se": 0.2508290755238303
+   },
+   "missing_all": 0
+  },
+  "HOUSE_INCOME": {
+   "All": {
+    "n": 2880,
+    "mean": 6.895833333333333,
+    "sd": 2.759853986301335,
+    "min": 1.0,
+    "q1": 5.0,
+    "median": 7.0,
+    "q3": 9.0,
+    "max": 12.0,
+    "skew": 0.23001276379752597,
+    "kurt": -0.7171829485426007,
+    "se": 0.05142684267786298
+   },
+   "With lodging": {
+    "n": 753,
+    "mean": 7.0265604249667994,
+    "sd": 2.7847105333687985,
+    "min": 1.0,
+    "q1": 5.0,
+    "median": 7.0,
+    "q3": 9.0,
+    "max": 12.0,
+    "skew": 0.23695388546324803,
+    "kurt": -0.7985566966205102,
+    "se": 0.10148049325279315
+   },
+   "Without lodging": {
+    "n": 2127,
+    "mean": 6.849553361542078,
+    "sd": 2.750169504370974,
+    "min": 1.0,
+    "q1": 5.0,
+    "median": 7.0,
+    "q3": 9.0,
+    "max": 12.0,
+    "skew": 0.2265615398982765,
+    "kurt": -0.6902343462219633,
+    "se": 0.05963149768463707
+   },
+   "missing_all": 0
+  },
+  "EDU_NM": {
+   "All": {
+    "n": 2880,
+    "mean": 5.719444444444444,
+    "sd": 0.8874312659931154,
+    "min": 1.0,
+    "q1": 5.0,
+    "median": 6.0,
+    "q3": 6.0,
+    "max": 8.0,
+    "skew": -0.6949633455985538,
+    "kurt": 1.1504562271651677,
+    "se": 0.016536305300994196
+   },
+   "With lodging": {
+    "n": 753,
+    "mean": 5.752988047808765,
+    "sd": 0.8395602452725246,
+    "min": 2.0,
+    "q1": 5.0,
+    "median": 6.0,
+    "q3": 6.0,
+    "max": 8.0,
+    "skew": -0.8451664892826038,
+    "kurt": 1.684235162585665,
+    "se": 0.030595276164170095
+   },
+   "Without lodging": {
+    "n": 2127,
+    "mean": 5.707569346497414,
+    "sd": 0.9036635307574243,
+    "min": 1.0,
+    "q1": 5.0,
+    "median": 6.0,
+    "q3": 6.0,
+    "max": 8.0,
+    "skew": -0.6463135447088743,
+    "kurt": 0.9927015137797821,
+    "se": 0.019593995808770137
+   },
+   "missing_all": 0
+  }
+ },
+ "cat": {
+  "GENDER": {
+   "All": {
+    "남": 1213,
+    "여": 1667
+   },
+   "With lodging": {
+    "남": 335,
+    "여": 418
+   },
+   "Without lodging": {
+    "남": 878,
+    "여": 1249
+   },
+   "missing_all": 0
+  },
+  "MARR_STTS": {
+   "All": {
+    "1": 1719,
+    "2": 1114,
+    "3": 16,
+    "4": 28,
+    "5": 3
+   },
+   "With lodging": {
+    "1": 439,
+    "2": 300,
+    "3": 5,
+    "4": 8,
+    "5": 1
+   },
+   "Without lodging": {
+    "1": 1280,
+    "2": 814,
+    "3": 11,
+    "4": 20,
+    "5": 2
+   },
+   "missing_all": 0
+  },
+  "EDU_NM": {
+   "All": {
+    "1": 2,
+    "2": 4,
+    "3": 12,
+    "4": 339,
+    "5": 452,
+    "6": 1727,
+    "7": 304,
+    "8": 40
+   },
+   "With lodging": {
+    "2": 2,
+    "3": 5,
+    "4": 67,
+    "5": 122,
+    "6": 472,
+    "7": 77,
+    "8": 8
+   },
+   "Without lodging": {
+    "1": 2,
+    "2": 2,
+    "3": 7,
+    "4": 272,
+    "5": 330,
+    "6": 1255,
+    "7": 227,
+    "8": 32
+   },
+   "missing_all": 0
+  },
+  "AGE_GRP": {
+   "All": {
+    "20": 1062,
+    "30": 999,
+    "40": 483,
+    "50": 111,
+    "60": 225
+   },
+   "With lodging": {
+    "20": 275,
+    "30": 243,
+    "40": 136,
+    "50": 30,
+    "60": 69
+   },
+   "Without lodging": {
+    "20": 787,
+    "30": 756,
+    "40": 347,
+    "50": 81,
+    "60": 156
+   },
+   "missing_all": 0
+  },
+  "HOUSE_INCOME": {
+   "All": {
+    "1": 40,
+    "2": 80,
+    "3": 117,
+    "4": 370,
+    "5": 413,
+    "6": 371,
+    "7": 377,
+    "8": 323,
+    "9": 208,
+    "10": 188,
+    "11": 153,
+    "12": 240
+   },
+   "With lodging": {
+    "1": 8,
+    "2": 18,
+    "3": 31,
+    "4": 91,
+    "5": 106,
+    "6": 104,
+    "7": 98,
+    "8": 80,
+    "9": 49,
+    "10": 49,
+    "11": 49,
+    "12": 70
+   },
+   "Without lodging": {
+    "1": 32,
+    "2": 62,
+    "3": 86,
+    "4": 279,
+    "5": 307,
+    "6": 267,
+    "7": 279,
+    "8": 243,
+    "9": 159,
+    "10": 139,
+    "11": 104,
+    "12": 170
+   },
+   "missing_all": 0
+  },
+  "RESIDENCE_SGG_CD": {
+   "All": {
+    "11": 980,
+    "26": 32,
+    "27": 41,
+    "28": 233,
+    "29": 27,
+    "30": 56,
+    "31": 11,
+    "36": 17,
+    "41": 1236,
+    "42": 39,
+    "43": 49,
+    "44": 69,
+    "45": 34,
+    "46": 9,
+    "47": 18,
+    "48": 24,
+    "50": 5
+   },
+   "With lodging": {
+    "11": 252,
+    "26": 14,
+    "27": 14,
+    "28": 54,
+    "29": 13,
+    "30": 19,
+    "31": 4,
+    "36": 5,
+    "41": 301,
+    "42": 6,
+    "43": 18,
+    "44": 19,
+    "45": 12,
+    "46": 4,
+    "47": 8,
+    "48": 9,
+    "50": 1
+   },
+   "Without lodging": {
+    "11": 728,
+    "26": 18,
+    "27": 27,
+    "28": 179,
+    "29": 14,
+    "30": 37,
+    "31": 7,
+    "36": 12,
+    "41": 935,
+    "42": 33,
+    "43": 31,
+    "44": 50,
+    "45": 22,
+    "46": 5,
+    "47": 10,
+    "48": 15,
+    "50": 4
+   },
+   "missing_all": 0
+  },
+  "LODGING_TYPE_CD": {
+   "All": {
+    "1.0": 302,
+    "2.0": 93,
+    "3.0": 115,
+    "4.0": 38,
+    "5.0": 103,
+    "6.0": 9,
+    "7.0": 25,
+    "8.0": 4,
+    "9.0": 11,
+    "10.0": 21,
+    "11.0": 32
+   },
+   "With lodging": {
+    "1": 302,
+    "2": 93,
+    "3": 115,
+    "4": 38,
+    "5": 103,
+    "6": 9,
+    "7": 25,
+    "8": 4,
+    "9": 11,
+    "10": 21,
+    "11": 32
+   },
+   "Without lodging": {},
+   "missing_all": 2127
+  }
+ },
+ "hist": {
+  "PAYMENT_AMT_WON": [
+   {
+    "lo": 0.0,
+    "hi": 50000.0,
+    "n": 132
+   },
+   {
+    "lo": 50000.0,
+    "hi": 100000.0,
+    "n": 170
+   },
+   {
+    "lo": 100000.0,
+    "hi": 150000.0,
+    "n": 139
+   },
+   {
+    "lo": 150000.0,
+    "hi": 200000.0,
+    "n": 89
+   },
+   {
+    "lo": 200000.0,
+    "hi": 250000.0,
+    "n": 54
+   },
+   {
+    "lo": 250000.0,
+    "hi": 300000.0,
+    "n": 53
+   },
+   {
+    "lo": 300000.0,
+    "hi": 350000.0,
+    "n": 27
+   },
+   {
+    "lo": 350000.0,
+    "hi": 400000.0,
+    "n": 30
+   },
+   {
+    "lo": 400000.0,
+    "hi": 450000.0,
+    "n": 19
+   },
+   {
+    "lo": 450000.0,
+    "hi": 500000.0,
+    "n": 8
+   },
+   {
+    "lo": 500000.0,
+    "hi": 550000.0,
+    "n": 6
+   },
+   {
+    "lo": 550000.0,
+    "hi": 600000.0,
+    "n": 7
+   },
+   {
+    "lo": 600000.0,
+    "hi": 650000.0,
+    "n": 2
+   },
+   {
+    "lo": 650000.0,
+    "hi": 700000.0,
+    "n": 2
+   },
+   {
+    "lo": 700000.0,
+    "hi": 750000.0,
+    "n": 2
+   },
+   {
+    "lo": 750000.0,
+    "hi": 800000.0,
+    "n": 2
+   },
+   {
+    "lo": 800000.0,
+    "hi": 850000.0,
+    "n": 3
+   },
+   {
+    "lo": 850000.0,
+    "hi": 900000.0,
+    "n": 0
+   },
+   {
+    "lo": 900000.0,
+    "hi": 950000.0,
+    "n": 2
+   },
+   {
+    "lo": 950000.0,
+    "hi": 1000000.0,
+    "n": 2
+   },
+   {
+    "lo": 1000000.0,
+    "hi": 1050000.0,
+    "n": 1
+   },
+   {
+    "lo": 1050000.0,
+    "hi": 1100000.0,
+    "n": 0
+   },
+   {
+    "lo": 1100000.0,
+    "hi": 1150000.0,
+    "n": 0
+   },
+   {
+    "lo": 1150000.0,
+    "hi": 1200000.0,
+    "n": 1
+   },
+   {
+    "lo": 1200000.0,
+    "hi": 1250000.0,
+    "n": 1
+   },
+   {
+    "lo": 1250000.0,
+    "hi": 1300000.0,
+    "n": 0
+   },
+   {
+    "lo": 1300000.0,
+    "hi": 1350000.0,
+    "n": 1
+   },
+   {
+    "lo": 1350000.0,
+    "hi": 1400000.0,
+    "n": 0
+   }
+  ],
+  "DGSTFN": {
+   "All": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 2
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 0
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 1
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 2
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 2
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 13
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 1
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 57
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 67
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 236
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 204
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 695
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 431
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 430
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 737
+    }
+   ],
+   "With lodging": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 0
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 0
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 0
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 1
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 1
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 3
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 0
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 12
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 20
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 52
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 64
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 175
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 135
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 109
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 179
+    }
+   ],
+   "Without lodging": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 2
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 0
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 1
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 1
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 1
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 10
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 1
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 45
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 47
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 184
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 140
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 520
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 296
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 321
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 558
+    }
+   ]
+  },
+  "REVISIT_INTENTION": {
+   "All": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 1
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 1
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 0
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 10
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 2
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 22
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 23
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 178
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 177
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 374
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 276
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 549
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 319
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 335
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 611
+    }
+   ],
+   "With lodging": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 0
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 1
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 0
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 0
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 1
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 5
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 8
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 47
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 48
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 90
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 91
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 139
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 90
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 85
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 146
+    }
+   ],
+   "Without lodging": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 1
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 0
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 0
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 10
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 1
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 17
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 15
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 131
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 129
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 284
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 185
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 410
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 229
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 250
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 465
+    }
+   ]
+  },
+  "RCMDTN_INTENTION": {
+   "All": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 0
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 0
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 0
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 3
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 1
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 10
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 12
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 104
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 140
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 321
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 260
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 631
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 367
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 377
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 652
+    }
+   ],
+   "With lodging": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 0
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 0
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 0
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 0
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 0
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 1
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 6
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 28
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 36
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 87
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 68
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 172
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 105
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 99
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 149
+    }
+   ],
+   "Without lodging": [
+    {
+     "lo": 1.0,
+     "hi": 1.25,
+     "n": 0
+    },
+    {
+     "lo": 1.25,
+     "hi": 1.5,
+     "n": 0
+    },
+    {
+     "lo": 1.5,
+     "hi": 1.75,
+     "n": 0
+    },
+    {
+     "lo": 1.75,
+     "hi": 2.0,
+     "n": 0
+    },
+    {
+     "lo": 2.0,
+     "hi": 2.25,
+     "n": 3
+    },
+    {
+     "lo": 2.25,
+     "hi": 2.5,
+     "n": 1
+    },
+    {
+     "lo": 2.5,
+     "hi": 2.75,
+     "n": 9
+    },
+    {
+     "lo": 2.75,
+     "hi": 3.0,
+     "n": 6
+    },
+    {
+     "lo": 3.0,
+     "hi": 3.25,
+     "n": 76
+    },
+    {
+     "lo": 3.25,
+     "hi": 3.5,
+     "n": 104
+    },
+    {
+     "lo": 3.5,
+     "hi": 3.75,
+     "n": 234
+    },
+    {
+     "lo": 3.75,
+     "hi": 4.0,
+     "n": 192
+    },
+    {
+     "lo": 4.0,
+     "hi": 4.25,
+     "n": 459
+    },
+    {
+     "lo": 4.25,
+     "hi": 4.5,
+     "n": 262
+    },
+    {
+     "lo": 4.5,
+     "hi": 4.75,
+     "n": 278
+    },
+    {
+     "lo": 4.75,
+     "hi": 5.0,
+     "n": 503
+    }
+   ]
+  },
+  "TRAVEL_COMPANIONS_NUM": [
+   {
+    "v": 0,
+    "n": 629
+   },
+   {
+    "v": 1,
+    "n": 1379
+   },
+   {
+    "v": 2,
+    "n": 408
+   },
+   {
+    "v": 3,
+    "n": 320
+   },
+   {
+    "v": 4,
+    "n": 58
+   },
+   {
+    "v": 5,
+    "n": 36
+   },
+   {
+    "v": 6,
+    "n": 17
+   },
+   {
+    "v": 7,
+    "n": 12
+   },
+   {
+    "v": 8,
+    "n": 6
+   },
+   {
+    "v": 9,
+    "n": 8
+   },
+   {
+    "v": 10,
+    "n": 2
+   },
+   {
+    "v": 12,
+    "n": 1
+   },
+   {
+    "v": 14,
+    "n": 1
+   },
+   {
+    "v": 18,
+    "n": 1
+   },
+   {
+    "v": 20,
+    "n": 2
+   }
+  ]
+ },
+ "labels": {
+  "LODGING_TYPE_CD": {
+   "1": "호텔",
+   "2": "모텔/여관",
+   "3": "펜션",
+   "4": "콘도미니엄/리조트",
+   "5": "야영(캠핑,글램핑등)",
+   "6": "전통 숙박시설",
+   "7": "게스트하우스",
+   "8": "민박",
+   "9": "자연휴양림내 시설",
+   "10": "가족/친지집",
+   "11": "기타",
+   "12": "무박 여행"
+  },
+  "HOUSE_INCOME": {
+   "1": "No income",
+   "2": "<1M",
+   "3": "1–2M",
+   "4": "2–3M",
+   "5": "3–4M",
+   "6": "4–5M",
+   "7": "5–6M",
+   "8": "6–7M",
+   "9": "7–8M",
+   "10": "8–9M",
+   "11": "9–10M",
+   "12": "10M+"
+  },
+  "EDU_NM": {
+   "1": "No schooling",
+   "2": "Elementary",
+   "3": "Middle school",
+   "4": "High school",
+   "5": "College <4yr",
+   "6": "University 4yr",
+   "7": "Master's",
+   "8": "Doctorate"
+  },
+  "MARR_STTS": {
+   "1": "Single",
+   "2": "Married",
+   "3": "Widowed",
+   "4": "Divorced",
+   "5": "Other"
+  },
+  "AGE_GRP": {
+   "20": "20s",
+   "30": "30s",
+   "40": "40s",
+   "50": "50s",
+   "60": "60s+"
+  },
+  "RESIDENCE_SGG_CD": {
+   "11": "서울특별시",
+   "26": "부산광역시",
+   "27": "대구광역시",
+   "28": "인천광역시",
+   "29": "광주광역시",
+   "30": "대전광역시",
+   "31": "울산광역시",
+   "36": "세종특별자치시",
+   "41": "경기도",
+   "42": "강원도",
+   "43": "충청북도",
+   "44": "충청남도",
+   "45": "전라북도",
+   "46": "전라남도",
+   "47": "경상북도",
+   "48": "경상남도",
+   "50": "제주특별자치도"
+  },
+  "GENDER": {
+   "남": "Male",
+   "여": "Female"
+  }
+ }
+};
+
+const tt=document.getElementById('tt');
+function showTT(e,h){tt.innerHTML=h;tt.style.opacity=1;const r=tt.getBoundingClientRect();
+  let x=e.clientX+14,y=e.clientY-10;
+  if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;
+  if(y+r.height>innerHeight-8)y=innerHeight-r.height-8;
+  tt.style.left=x+'px';tt.style.top=Math.max(8,y)+'px';}
+function hideTT(){tt.style.opacity=0;}
+const NS='http://www.w3.org/2000/svg';
+function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;}
+function txt(x,y,s,a){const t=el('text',Object.assign({x,y},a));t.textContent=s;return t;}
+const fmt=n=>n.toLocaleString('en-US');
+const f3=n=>n.toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3});
+
+document.getElementById('hdr-meta').textContent =
+  `n = ${fmt(D.n.all)} travellers · ${fmt(D.n.with)} with lodging / ${fmt(D.n.without)} without · Source: 숙박여부_분리_데이터셋.xlsx (from 여행데이터통합문서_전처리_병합_0811.xlsx)`;
+
+const DISP={PAYMENT_AMT_WON:'Lodging payment (₩)',TRAVEL_COMPANIONS_NUM:'Travel companions',
+  DGSTFN:'Satisfaction',REVISIT_INTENTION:'Revisit intention',RCMDTN_INTENTION:'Recommendation',
+  AGE_GRP:'Age group (code)',HOUSE_INCOME:'Household income (code 1–12)',EDU_NM:'Education (code 1–8)'};
+const ORD=['PAYMENT_AMT_WON','TRAVEL_COMPANIONS_NUM','DGSTFN','REVISIT_INTENTION','RCMDTN_INTENTION',
+  'AGE_GRP','HOUSE_INCOME','EDU_NM'];
+
+/* continuous table */
+(function(){
+  const tb=document.querySelector('#tbl-cont tbody');
+  ORD.forEach(k=>{
+    const d=D.cont[k].All; if(!d) return;
+    const money=k==='PAYMENT_AMT_WON';
+    const nf=v=>money?fmt(Math.round(v)):f3(v);
+    const sk=Math.abs(d.skew)>1, ku=Math.abs(d.kurt)>3;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${DISP[k]}<br><span style="color:var(--muted);font-size:11px">${k}</span></td>
+      <td class="num">${fmt(d.n)}</td><td class="num">${D.cont[k].missing_all?fmt(D.cont[k].missing_all):'—'}</td>
+      <td class="num">${nf(d.mean)}</td><td class="num">${nf(d.sd)}</td><td class="num">${nf(d.se)}</td>
+      <td class="num">${nf(d.min)}</td><td class="num">${nf(d.q1)}</td><td class="num">${nf(d.median)}</td>
+      <td class="num">${nf(d.q3)}</td><td class="num">${nf(d.max)}</td>
+      <td class="num ${sk?'flag':''}">${d.skew.toFixed(2)}</td><td class="num ${ku?'flag':''}">${d.kurt.toFixed(2)}</td>`;
+    tb.appendChild(tr);
+  });
+  const tb2=document.querySelector('#tbl-cont-split tbody');
+  ['With lodging','Without lodging'].forEach(g=>{
+    let first=true;
+    ORD.forEach(k=>{
+      const d=D.cont[k][g]; if(!d) return;
+      const money=k==='PAYMENT_AMT_WON'; const nf=v=>money?fmt(Math.round(v)):f3(v);
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${first?`<strong>${g}</strong>`:''}</td><td>${DISP[k]}</td>
+        <td class="num">${fmt(d.n)}</td><td class="num">${nf(d.mean)}</td><td class="num">${nf(d.sd)}</td>
+        <td class="num">${nf(d.min)}</td><td class="num">${nf(d.median)}</td><td class="num">${nf(d.max)}</td>
+        <td class="num">${d.skew.toFixed(2)}</td><td class="num">${d.kurt.toFixed(2)}</td>`;
+      first=false; tb2.appendChild(tr);
+    });
+  });
+})();
+
+/* generic vertical histogram */
+function histChart(host,bins,opts){
+  const W=opts.w||310,H=opts.h||230,P={t:14,r:12,b:44,l:opts.l||44};
+  const iw=W-P.l-P.r, ih=H-P.t-P.b;
+  const max=Math.max(...bins.map(b=>b.n)), step=iw/bins.length;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':opts.label||''});
+  const ticks=4;
+  for(let i=0;i<=ticks;i++){
+    const v=max*i/ticks, y=P.t+ih-(v/max)*ih;
+    svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:y,y2:y,stroke:'var(--grid)','stroke-width':1}));
+    svg.appendChild(txt(P.l-8,y+4,fmt(Math.round(v)),{fill:'var(--muted)','font-size':10.5,'text-anchor':'end','font-variant-numeric':'tabular-nums'}));
+  }
+  bins.forEach((b,i)=>{
+    if(b.n<=0) return;
+    const h=(b.n/max)*ih, x=P.l+i*step+1, w=Math.max(step-2,1), y=P.t+ih-h;
+    const r=el('path',{d:`M${x},${P.t+ih} L${x},${y+3} Q${x},${y} ${x+3},${y} L${x+w-3},${y} Q${x+w},${y} ${x+w},${y+3} L${x+w},${P.t+ih} Z`,fill:opts.color||'var(--seq-400)'});
+    r.style.cursor='pointer';
+    r.addEventListener('mousemove',e=>showTT(e,opts.tip(b)));
+    r.addEventListener('mouseleave',hideTT);
+    svg.appendChild(r);
+  });
+  (opts.xticks||[]).forEach(t=>{
+    svg.appendChild(txt(P.l+t.pos*iw,P.t+ih+17,t.label,{fill:'var(--muted)','font-size':10.5,'text-anchor':'middle'}));
+  });
+  svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:P.t+ih,y2:P.t+ih,stroke:'var(--axis)','stroke-width':1}));
+  if(opts.xlab) svg.appendChild(txt(P.l+iw/2,H-6,opts.xlab,{fill:'var(--text-secondary)','font-size':11.5,'text-anchor':'middle'}));
+  host.appendChild(svg);
+}
+
+/* ratings small multiples */
+(function(){
+  const host=document.getElementById('c-ratings');
+  [['DGSTFN','Satisfaction'],['REVISIT_INTENTION','Revisit intention'],['RCMDTN_INTENTION','Recommendation']].forEach(([k,name])=>{
+    const d=document.createElement('div');
+    const s=D.cont[k].All;
+    const t=document.createElement('div'); t.className='chart-title'; t.style.fontSize='13px'; t.textContent=name;
+    const sb=document.createElement('div'); sb.className='chart-sub'; sb.style.marginBottom='6px';
+    sb.textContent=`mean ${s.mean.toFixed(3)} · SD ${s.sd.toFixed(3)} · skew ${s.skew.toFixed(2)}`;
+    d.appendChild(t); d.appendChild(sb);
+    histChart(d,D.hist[k].All,{w:310,h:220,label:name,
+      xticks:[{pos:0,label:'1'},{pos:0.25,label:'2'},{pos:0.5,label:'3'},{pos:0.75,label:'4'},{pos:1,label:'5'}],
+      xlab:'score', tip:b=>`<b>${b.lo.toFixed(2)} – ${b.hi.toFixed(2)}</b><br>${fmt(b.n)} travellers (${(b.n/2878*100).toFixed(1)}%)`});
+    host.appendChild(d);
+  });
+})();
+
+/* payment histogram */
+histChart(document.getElementById('c-pay'),D.hist.PAYMENT_AMT_WON,{w:470,h:250,l:46,
+  xticks:[{pos:0,label:'0'},{pos:0.25,label:'₩350k'},{pos:0.5,label:'₩700k'},{pos:0.75,label:'₩1.05M'},{pos:1,label:'₩1.4M'}],
+  xlab:'total lodging spend per trip',
+  tip:b=>`<b>₩${fmt(b.lo)} – ₩${fmt(b.hi)}</b><br>${fmt(b.n)} trips (${(b.n/753*100).toFixed(1)}%)`});
+
+/* companions */
+(function(){
+  const rows=D.hist.TRAVEL_COMPANIONS_NUM;
+  const bins=rows.map(r=>({n:r.n,v:r.v}));
+  const host=document.getElementById('c-comp');
+  const W=470,H=250,P={t:14,r:12,b:44,l:46};
+  const iw=W-P.l-P.r, ih=H-P.t-P.b, max=Math.max(...bins.map(b=>b.n)), step=iw/bins.length;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img'});
+  for(let i=0;i<=4;i++){
+    const v=max*i/4, y=P.t+ih-(v/max)*ih;
+    svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:y,y2:y,stroke:'var(--grid)','stroke-width':1}));
+    svg.appendChild(txt(P.l-8,y+4,fmt(Math.round(v)),{fill:'var(--muted)','font-size':10.5,'text-anchor':'end','font-variant-numeric':'tabular-nums'}));
+  }
+  bins.forEach((b,i)=>{
+    const h=(b.n/max)*ih,x=P.l+i*step+1.5,w=Math.max(step-3,2),y=P.t+ih-h;
+    const r=el('path',{d:`M${x},${P.t+ih} L${x},${y+3} Q${x},${y} ${x+3},${y} L${x+w-3},${y} Q${x+w},${y} ${x+w},${y+3} L${x+w},${P.t+ih} Z`,fill:'var(--seq-400)'});
+    r.style.cursor='pointer';
+    r.addEventListener('mousemove',e=>showTT(e,`<b>${b.v} companion${b.v===1?'':'s'}</b><br>${fmt(b.n)} travellers (${(b.n/2880*100).toFixed(1)}%)`));
+    r.addEventListener('mouseleave',hideTT); svg.appendChild(r);
+    if(b.v<=6||b.v%5===0) svg.appendChild(txt(x+w/2,P.t+ih+17,b.v,{fill:'var(--muted)','font-size':10.5,'text-anchor':'middle'}));
+  });
+  svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:P.t+ih,y2:P.t+ih,stroke:'var(--axis)','stroke-width':1}));
+  svg.appendChild(txt(P.l+iw/2,H-6,'number of companions',{fill:'var(--text-secondary)','font-size':11.5,'text-anchor':'middle'}));
+  host.appendChild(svg);
+})();
+
+/* horizontal category bars */
+function catBars(hostId,varName,opts){
+  opts=opts||{};
+  const counts=D.cat[varName][opts.sample||'All'];
+  const labels=D.labels[varName]||{};
+  let keys=Object.keys(counts);
+  if(opts.sortByCount) keys.sort((a,b)=>counts[b]-counts[a]);
+  else keys.sort((a,b)=>(isNaN(+a)||isNaN(+b))?a.localeCompare(b):(+a)-(+b));
+  const total=keys.reduce((s,k)=>s+counts[k],0);
+  const max=Math.max(...keys.map(k=>counts[k]));
+  const W=opts.w||470,rowH=opts.rowH||25,P={t:6,r:56,b:26,l:opts.l||120};
+  const H=P.t+keys.length*rowH+P.b, iw=W-P.l-P.r;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':varName});
+  [0,max/2,max].forEach(v=>{
+    const x=P.l+(v/max)*iw;
+    svg.appendChild(el('line',{x1:x,x2:x,y1:P.t,y2:P.t+keys.length*rowH,stroke:'var(--grid)','stroke-width':1}));
+    svg.appendChild(txt(x,P.t+keys.length*rowH+17,fmt(Math.round(v)),{fill:'var(--muted)','font-size':10.5,'text-anchor':'middle','font-variant-numeric':'tabular-nums'}));
+  });
+  keys.forEach((k,i)=>{
+    const n=counts[k], y=P.t+i*rowH+4, h=rowH-10, w=Math.max((n/max)*iw,2);
+    const sparse=n<40 && !opts.noFlag;
+    const c=sparse?'var(--critical)':(opts.color||'var(--s1)');
+    const r=el('path',{d:`M${P.l},${y} L${P.l+w-3},${y} Q${P.l+w},${y} ${P.l+w},${y+3} L${P.l+w},${y+h-3} Q${P.l+w},${y+h} ${P.l+w-3},${y+h} L${P.l},${y+h} Z`,fill:c});
+    r.style.cursor='pointer';
+    const lab=labels[k]!==undefined?labels[k]:(labels[+k]!==undefined?labels[+k]:k);
+    r.addEventListener('mousemove',e=>showTT(e,`<b>${lab}</b><br>${fmt(n)} (${(n/total*100).toFixed(1)}%)${sparse?'<br><span style="color:#d03b3b">sparse — n &lt; 40</span>':''}`));
+    r.addEventListener('mouseleave',hideTT);
+    svg.appendChild(r);
+    svg.appendChild(txt(P.l-9,y+h/2+4,lab,{fill:'var(--text-secondary)','font-size':11,'text-anchor':'end'}));
+    svg.appendChild(txt(P.l+w+7,y+h/2+4,fmt(n),{fill:sparse?'var(--critical)':'var(--text-secondary)','font-size':10.5,'font-weight':sparse?600:400,'font-variant-numeric':'tabular-nums'}));
+  });
+  document.getElementById(hostId).appendChild(svg);
+}
+catBars('c-gender','GENDER',{w:470,rowH:34,l:80});
+catBars('c-marr','MARR_STTS',{w:470,rowH:27,l:80});
+catBars('c-age','AGE_GRP',{w:470,rowH:27,l:80});
+catBars('c-edu','EDU_NM',{w:470,rowH:25,l:130});
+catBars('c-inc','HOUSE_INCOME',{w:980,rowH:25,l:130});
+catBars('c-sido','RESIDENCE_SGG_CD',{w:470,rowH:22,l:110,sortByCount:true});
+catBars('c-lodge','LODGING_TYPE_CD',{w:470,rowH:24,l:130,sample:'With lodging'});
+
+/* frequency tables */
+(function(){
+  const host=document.getElementById('freq-tables');
+  const NAMES={GENDER:'Gender',MARR_STTS:'Marital status',EDU_NM:'Education',AGE_GRP:'Age group',
+    HOUSE_INCOME:'Household income',RESIDENCE_SGG_CD:'Residence (시도)',LODGING_TYPE_CD:'Lodging type'};
+  Object.keys(NAMES).forEach(v=>{
+    const h=document.createElement('h3'); h.textContent=NAMES[v]+`  ·  ${v}`; host.appendChild(h);
+    const counts=D.cat[v].All, cw=D.cat[v]['With lodging']||{}, cwo=D.cat[v]['Without lodging']||{};
+    const labels=D.labels[v]||{};
+    const keys=Object.keys(counts).sort((a,b)=>(isNaN(+a)||isNaN(+b))?a.localeCompare(b):(+a)-(+b));
+    const total=keys.reduce((s,k)=>s+counts[k],0);
+    const t=document.createElement('table');
+    t.innerHTML=`<thead><tr><th>Code</th><th>Label</th><th class="num">n</th><th class="num">%</th>
+      <th class="num">With lodging</th><th class="num">Without lodging</th></tr></thead><tbody>${
+      keys.map(k=>`<tr><td>${k}</td><td>${labels[k]!==undefined?labels[k]:(labels[+k]!==undefined?labels[+k]:k)}</td>
+        <td class="num">${fmt(counts[k])}</td><td class="num">${(counts[k]/total*100).toFixed(1)}%</td>
+        <td class="num">${fmt(cw[k]||0)}</td><td class="num">${fmt(cwo[k]||0)}</td></tr>`).join('')}
+      <tr class="tot"><td></td><td>Total</td><td class="num">${fmt(total)}</td><td class="num">100.0%</td>
+        <td class="num">${fmt(keys.reduce((s,k)=>s+(cw[k]||0),0))}</td>
+        <td class="num">${fmt(keys.reduce((s,k)=>s+(cwo[k]||0),0))}</td></tr></tbody>`;
+    host.appendChild(t);
+  });
+})();
+
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const dark=cur?cur==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+});
+</script>
+</body>
+</html>

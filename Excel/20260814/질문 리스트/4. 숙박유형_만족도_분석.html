@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lodging Style, Satisfaction and Behavioural Intentions — Analysis</title>
+<style>
+  :root{
+    color-scheme: light;
+    --surface-1:#fcfcfb; --plane:#f9f9f7;
+    --text-primary:#0b0b0b; --text-secondary:#52514e; --muted:#898781;
+    --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,0.10);
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+    --critical:#d03b3b; --good:#0ca30c; --null:#898781;
+    --seq-250:#86b6ef; --seq-400:#3987e5; --seq-550:#1c5cab; --seq-100:#cde2fb; --seq-700:#0d366b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --surface-1:#1a1a19; --plane:#0d0d0d;
+      --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+      --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+      --seq-250:#184f95; --seq-400:#2a78d6; --seq-550:#5598e7; --seq-100:#0d366b; --seq-700:#9ec5f4;
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --surface-1:#1a1a19; --plane:#0d0d0d;
+    --text-primary:#ffffff; --text-secondary:#c3c2b7; --muted:#898781;
+    --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,0.10);
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+    --seq-250:#184f95; --seq-400:#2a78d6; --seq-550:#5598e7; --seq-100:#0d366b; --seq-700:#9ec5f4;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--plane);color:var(--text-primary);
+    font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;font-size:15px}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 24px 80px}
+  h1{font-size:29px;line-height:1.2;margin:0 0 8px;letter-spacing:-0.02em}
+  .sub{color:var(--text-secondary);margin:0 0 4px}
+  .meta{color:var(--muted);font-size:13px;margin:0}
+  h2{font-size:20px;margin:48px 0 6px;letter-spacing:-0.01em}
+  h3{font-size:15.5px;margin:28px 0 8px;font-weight:600}
+  p{margin:10px 0} .lede{color:var(--text-secondary)}
+  .card{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:22px;margin:18px 0}
+  .hero{background:var(--surface-1);border:1px solid var(--border);border-radius:12px;padding:24px 26px;margin:22px 0}
+  .hero .big{font-size:40px;font-weight:600;letter-spacing:-0.03em;line-height:1.05}
+  .hero .cap{color:var(--text-secondary);margin-top:6px}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin:12px 0}
+  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--grid)}
+  th{color:var(--text-secondary);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.03em}
+  th.sym{text-transform:none;font-size:12px;letter-spacing:0}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr.tot td{font-weight:600;border-top:1px solid var(--axis)}
+  .tblcap{font-size:13px;font-weight:600;margin:22px 0 2px}
+  .tblnote{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+  .sig{color:var(--good);font-weight:600}
+  .ns{color:var(--muted)}
+  .swatch{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--text-secondary);margin:10px 0 2px}
+  .callout{border-left:3px solid var(--s2);background:var(--surface-1);border-radius:0 10px 10px 0;padding:14px 18px;margin:18px 0}
+  .callout.key{border-left-color:var(--s1)}
+  .callout.warn{border-left-color:var(--critical)}
+  figure{margin:0}
+  .figcap{font-size:13px;margin-top:12px;color:var(--text-secondary)}
+  .figcap b{color:var(--text-primary)}
+  .chart-title{font-size:14px;font-weight:600;margin-bottom:2px}
+  .chart-sub{font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media (max-width:820px){.grid3,.grid2{grid-template-columns:1fr}}
+  svg{display:block;max-width:100%;overflow:visible}
+  .tt{position:fixed;pointer-events:none;opacity:0;transition:opacity .12s;background:var(--surface-1);
+    border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12.5px;
+    box-shadow:0 4px 16px rgba(0,0,0,.14);z-index:50;color:var(--text-primary)}
+  .toggle{position:fixed;top:14px;right:14px;background:var(--surface-1);color:var(--text-secondary);
+    border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer;z-index:60;font-family:inherit}
+  ul{margin:10px 0;padding-left:20px} li{margin:7px 0}
+  code{background:var(--plane);border:1px solid var(--border);border-radius:4px;padding:1px 5px;font-size:12.5px}
+  .rq{background:var(--surface-1);border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:12px 0}
+  .rq .tag{font-size:11px;font-weight:600;color:var(--s1);text-transform:uppercase;letter-spacing:.05em}
+  .rq .q{font-size:15px;font-weight:600;margin:4px 0 6px}
+  .rq .a{font-size:14px;color:var(--text-secondary)}
+  .scroll{overflow-x:auto}
+</style>
+</head>
+<body data-palette="#2a78d6,#eb6834,#1baf7a">
+<button class="toggle" id="themeBtn">Dark / light</button>
+<div class="wrap">
+
+<h1>Lodging style, satisfaction and behavioural intentions</h1>
+<p class="sub">Six research questions, tested and reported in publication format</p>
+<p class="meta" id="hdr"></p>
+
+<div class="hero">
+  <div class="big">One strong effect, one moderate, four nulls</div>
+  <div class="cap">The three outcome measures differ sharply <em>from each other</em> — a satisfaction–intention gap of large statistical significance. Gender predicts ratings modestly. Lodging style predicts nothing, and neither gender nor education predicts which lodging style a traveller chooses.</div>
+</div>
+
+<h2>Research questions and verdicts</h2>
+
+<div id="rq-cards"></div>
+
+<div class="callout warn">
+  <strong>On your t-test idea.</strong> Comparing satisfaction against revisit intention is a good question, but it must be a <strong>paired</strong> (dependent-samples) t-test, not an independent-samples one. The same 751 travellers supplied both scores, so the observations are linked — an independent-samples test would ignore that pairing, inflate the standard error, and throw away most of the statistical power. I used paired t-tests plus a Wilcoxon signed-rank check and a repeated-measures ANOVA across all three measures. That turned out to be your strongest result.
+</div>
+
+<h2>RQ1 · Does lodging style affect ratings?</h2>
+<p class="lede">One-way ANOVA across five collapsed lodging categories. Verdict: no.</p>
+
+<div class="card">
+  <figure>
+    <div class="chart-title">Figure 1. Rating distributions by lodging style</div>
+    <div class="chart-sub">Box = IQR, line = median, diamond = mean, whiskers = 1.5×IQR · n = 751</div>
+    <div class="grid3" id="f1"></div>
+    <div class="legend" id="f1-legend"></div>
+    <p class="figcap"><b>Figure 1.</b> Distributions overlap almost completely across all five lodging styles. Medians sit within 0.1 points of one another on every measure, and no group separates from the others.</p>
+  </figure>
+</div>
+
+<div class="tblcap">Table 1. One-way ANOVA — rating measures by lodging style (5 groups)</div>
+<div class="scroll"><table id="t-rq1"><thead><tr>
+  <th>Outcome</th><th class="num">df</th><th class="num">F</th><th class="num">p</th>
+  <th class="num">Welch p</th><th class="num">Kruskal–Wallis p</th><th class="num sym">η²</th><th class="num sym">ω²</th>
+  <th class="num">Levene p</th><th>Result</th></tr></thead><tbody></tbody></table></div>
+<p class="tblnote">Lodging categories collapsed from 11 to 5 (Hotel/Resort 340, Pension 115, Camping 103, Other 102, Motel/Inn 93) because seven original categories held fewer than 40 cases. Levene's test non-significant throughout, so the homogeneity-of-variance assumption holds. No post-hoc tests were run, as no omnibus test reached significance.</p>
+
+<div class="tblcap">Table 2. Descriptive statistics by lodging style</div>
+<div class="scroll"><table id="t-rq1d"><thead><tr>
+  <th>Lodging style</th><th class="num">n</th>
+  <th class="num">Satisfaction M (SD)</th><th class="num">Revisit M (SD)</th><th class="num">Recommend M (SD)</th>
+  </tr></thead><tbody></tbody></table></div>
+
+<h2>RQ2 · Do the three measures differ from each other?</h2>
+<p class="lede">Repeated-measures comparison on the same travellers. Verdict: yes, decisively.</p>
+
+<div class="card">
+  <div class="grid2">
+    <figure>
+      <div class="chart-title">Figure 2. The satisfaction–intention gap</div>
+      <div class="chart-sub">Mean ± 95% CI · n = 751 · *** p &lt; .001</div>
+      <div id="f2"></div>
+    </figure>
+    <div>
+      <p style="margin-top:0">A clear descending ladder: travellers rate their <strong>satisfaction</strong> highest, their willingness to <strong>recommend</strong> lower, and their intention to <strong>revisit</strong> lowest of all.</p>
+      <p>Every pairwise difference is significant at p &lt; .001 after Bonferroni correction, with effect sizes from d<sub>z</sub> = 0.34 to 0.56 — small to medium, and far larger than anything else in this dataset.</p>
+      <p>Substantively: being pleased with a trip does not translate into intending to repeat it. The 0.20-point drop from satisfaction to revisit intention is the single largest systematic pattern in the data.</p>
+    </div>
+  </div>
+</div>
+
+<div class="tblcap">Table 3. Repeated-measures ANOVA and pairwise paired comparisons</div>
+<table id="t-rq2"><thead><tr>
+  <th>Comparison</th><th class="num">M₁ (SD)</th><th class="num">M₂ (SD)</th><th class="num">Mean diff</th>
+  <th class="num">95% CI</th><th class="num">t</th><th class="num">p</th><th class="num sym">p<sub>Bonf</sub></th>
+  <th class="num">Wilcoxon p</th><th class="num sym">d<sub>z</sub></th></tr></thead><tbody></tbody></table>
+<p class="tblnote" id="rq2-note"></p>
+
+<h2>RQ3–RQ4 · Do gender or education predict lodging style?</h2>
+<p class="lede">Chi-square tests of independence. Verdict: neither does.</p>
+
+<div class="card">
+  <figure>
+    <div class="chart-title">Figure 3. Lodging style composition by gender and education</div>
+    <div class="chart-sub">100% stacked · each bar sums to the group's full sample</div>
+    <div id="f3"></div>
+    <div class="legend" id="f3-legend"></div>
+    <p class="figcap"><b>Figure 3.</b> Composition is near-identical across every group. Hotel/Resort holds 43–48% of every row; no lodging style shows a distinctive profile by gender or education level.</p>
+  </figure>
+</div>
+
+<div class="tblcap">Table 4. Chi-square tests of independence — lodging style by gender and education</div>
+<table id="t-rq34"><thead><tr>
+  <th>Factor</th><th class="num sym">χ²</th><th class="num">df</th><th class="num">p</th>
+  <th class="num sym">Cramér's V</th><th class="num">Min. expected</th><th class="num">n</th><th>Result</th></tr></thead><tbody></tbody></table>
+<p class="tblnote">All expected cell counts exceed 5, so the chi-square approximation is valid and no exact test was required. Cramér's V below 0.10 indicates a negligible association in both cases.</p>
+
+<details>
+  <summary>Cross-tabulations (observed counts and row percentages)</summary>
+  <div id="crosstabs"></div>
+</details>
+
+<h2>RQ5 · Does gender affect ratings?</h2>
+<p class="lede">Welch's independent-samples t-tests within the lodging sample. Verdict: yes, on all three.</p>
+
+<div class="card">
+  <figure>
+    <div class="chart-title">Figure 4. Rating distributions by gender (lodging travellers)</div>
+    <div class="chart-sub">Box = IQR, line = median, diamond = mean · n = 751 · * p &lt; .05, ** p &lt; .01</div>
+    <div class="grid3" id="f4"></div>
+    <div class="legend" id="f4-legend"></div>
+    <p class="figcap"><b>Figure 4.</b> Men rate all three measures higher, by roughly 0.10 points. The distributions overlap heavily — the effect is consistent in direction but small in magnitude.</p>
+  </figure>
+</div>
+
+<div class="tblcap">Table 5. Independent-samples t-tests — rating measures by gender (lodging travellers)</div>
+<div class="scroll"><table id="t-rq5"><thead><tr>
+  <th>Outcome</th><th class="num">Male M (SD)</th><th class="num">Female M (SD)</th>
+  <th class="num">Mean diff</th><th class="num">95% CI</th><th class="num">t</th><th class="num">df</th>
+  <th class="num">p</th><th class="num">Mann–Whitney p</th><th class="num sym">Cohen's d</th></tr></thead><tbody></tbody></table></div>
+<p class="tblnote">Welch's correction applied throughout. n = 335 male, 416 female. Levene's test non-significant on all three measures, so Student's t would yield near-identical results. Note that this effect appears only among lodging travellers — in the full sample of 2,878 it is absent (p = .30–.73), a subgroup interaction documented separately.</p>
+
+<h2>RQ6 · Does education affect ratings?</h2>
+<p class="lede">One-way ANOVA plus an ordinal trend test. Verdict: no.</p>
+
+<div class="tblcap">Table 6. One-way ANOVA and Spearman trend — rating measures by education (lodging travellers)</div>
+<div class="scroll"><table id="t-rq6"><thead><tr>
+  <th>Outcome</th><th class="num">df</th><th class="num">F</th><th class="num">p</th>
+  <th class="num sym">η²</th><th class="num sym">ω²</th><th class="num">Kruskal–Wallis p</th>
+  <th class="num sym">Spearman ρ</th><th class="num sym">ρ p</th><th>Result</th></tr></thead><tbody></tbody></table></div>
+<p class="tblnote">Education collapsed to four groups: ≤High school (74), College &lt;4yr (122), University 4yr (470), Graduate (85). The Spearman correlation uses the original 8-level ordinal code and tests for a monotonic trend, which is more powerful than ANOVA if education effects are directional. Neither approach reaches significance. Note ω² is negative for two measures — an unbiased estimator returning below zero indicates the between-group variance is smaller than would be expected by chance alone.</p>
+
+<div class="tblcap">Table 7. Descriptive statistics by education level</div>
+<div class="scroll"><table id="t-rq6d"><thead><tr>
+  <th>Education</th><th class="num">n</th>
+  <th class="num">Satisfaction M (SD)</th><th class="num">Revisit M (SD)</th><th class="num">Recommend M (SD)</th>
+  </tr></thead><tbody></tbody></table></div>
+
+<h2>Summary and interpretation</h2>
+
+<p>The pattern across all six questions is coherent. <strong>Situational and demographic variables predict ratings weakly or not at all</strong> — lodging style explains under 1% of variance in every measure (η² ≤ .007), and education essentially none. Gender reaches significance among lodging travellers but explains under 4% of variance (d ≈ 0.19). Neither gender nor education predicts which lodging style a traveller selects, with Cramér's V below 0.07 in both cases.</p>
+
+<p>Against that backdrop, the <strong>within-person differences between the three measures</strong> stand out. The satisfaction → recommendation → revisit ladder is orders of magnitude stronger than any between-group effect tested here. It suggests that variation in these ratings lives inside the traveller's evaluation process, not in who the traveller is or where they stayed.</p>
+
+<h3>Limitations</h3>
+<ul>
+  <li><strong>Sample restriction.</strong> RQ1 and RQ3–RQ6 are confined to the 753 travellers with a lodging payment record — 26% of the full dataset. The results do not generalise to day-trippers.</li>
+  <li><strong>Category collapsing.</strong> Lodging style was reduced from 11 categories to 5, and education from 8 levels to 4, because the original categories contained cells as small as n = 2. A different collapsing rule could produce different results, and the "Other" lodging category is conceptually heterogeneous.</li>
+  <li><strong>Ceiling effect.</strong> All three measures cluster near the top of the 5-point scale (means 4.10–4.30), compressing the range in which group differences could appear and attenuating every effect size reported here.</li>
+  <li><strong>Aggregation.</strong> Each rating is a per-traveller mean across visit areas, not a rating of the lodging itself. RQ1 therefore tests whether lodging style relates to overall trip evaluation, not to satisfaction with the accommodation.</li>
+  <li><strong>Cross-sectional design.</strong> No causal inference is available from any of these tests; lodging style was self-selected, not assigned.</li>
+</ul>
+
+<div class="callout key">
+  <strong>An alternative reading of RQ2.</strong> The descending ladder is presented as a satisfaction–intention gap, but it may be partly a scale artefact. The three items use different response anchors — satisfaction runs 매우 불만족 → 매우만족, while both intention items run 전혀 그렇지 않다 → 매우 그렇다. Respondents may simply use agreement scales more conservatively than evaluation scales, which would produce the same descending pattern with no attitudinal gap behind it. Distinguishing these would require a study design that varies the anchors; the present data cannot.
+</div>
+
+<div class="callout">
+  <strong>An alternative reading of the nulls.</strong> Four null results could mean these variables genuinely do not matter — or that the outcome measure is too coarse to detect them. Because ratings were averaged across all of a traveller's visit areas before analysis, an effect of lodging style on satisfaction <em>with the lodging specifically</em> would be diluted by every unrelated attraction, restaurant and shop in the same trip. A visit-area-level analysis restricted to type-24 rows would test that directly.
+</div>
+
+</div>
+<div class="tt" id="tt"></div>
+<script>
+const D = {
+ "rq1": [
+  {
+   "outcome": "Satisfaction",
+   "col": "DGSTFN",
+   "n": 751,
+   "F": 1.393,
+   "p": 0.23454702286282592,
+   "welch_p": 0.2672122193677549,
+   "kw_H": 4.578,
+   "kw_p": 0.3333974986410724,
+   "levene_p": 0.2913,
+   "eta2": 0.0074,
+   "omega2": 0.0021,
+   "df1": 4,
+   "df2": 746
+  },
+  {
+   "outcome": "Revisit intention",
+   "col": "REVISIT_INTENTION",
+   "n": 751,
+   "F": 0.901,
+   "p": 0.46291209137937195,
+   "welch_p": 0.4684870897307478,
+   "kw_H": 3.769,
+   "kw_p": 0.43820195037332,
+   "levene_p": 0.6423,
+   "eta2": 0.0048,
+   "omega2": -0.0005,
+   "df1": 4,
+   "df2": 746
+  },
+  {
+   "outcome": "Recommendation",
+   "col": "RCMDTN_INTENTION",
+   "n": 751,
+   "F": 1.394,
+   "p": 0.23410500442852938,
+   "welch_p": 0.22719098067737528,
+   "kw_H": 5.341,
+   "kw_p": 0.2540483218909091,
+   "levene_p": 0.425,
+   "eta2": 0.0074,
+   "omega2": 0.0021,
+   "df1": 4,
+   "df2": 746
+  }
+ ],
+ "rq2": [
+  {
+   "a": "Satisfaction",
+   "b": "Recommendation",
+   "mean_a": 4.304,
+   "mean_b": 4.186,
+   "diff": 0.1176,
+   "ci_lo": 0.0953,
+   "ci_hi": 0.1399,
+   "t": 10.368,
+   "p": 1.2505809298493582e-23,
+   "wil_p": 5.5379285897438446e-33,
+   "dz": 0.3783,
+   "n": 751,
+   "p_bonf": 3.751742789548075e-23
+  },
+  {
+   "a": "Satisfaction",
+   "b": "Revisit intention",
+   "mean_a": 4.304,
+   "mean_b": 4.103,
+   "diff": 0.2006,
+   "ci_lo": 0.1749,
+   "ci_hi": 0.2264,
+   "t": 15.299,
+   "p": 3.4598376542711142e-46,
+   "wil_p": 1.8960715391535791e-50,
+   "dz": 0.5583,
+   "n": 751,
+   "p_bonf": 1.0379512962813342e-45
+  },
+  {
+   "a": "Recommendation",
+   "b": "Revisit intention",
+   "mean_a": 4.186,
+   "mean_b": 4.103,
+   "diff": 0.083,
+   "ci_lo": 0.0656,
+   "ci_hi": 0.1004,
+   "t": 9.377,
+   "p": 7.809556206804129e-20,
+   "wil_p": 1.2984398577509755e-19,
+   "dz": 0.3422,
+   "n": 751,
+   "p_bonf": 2.3428668620412386e-19
+  }
+ ],
+ "rq34": [
+  {
+   "factor": "Gender",
+   "var": "GENDER",
+   "chi2": 2.96,
+   "dof": 4,
+   "p": 0.5645713927816546,
+   "V": 0.0627,
+   "min_exp": 41.37,
+   "n": 753,
+   "table": {
+    "남": {
+     "Camping": 40,
+     "Hotel/Resort": 158,
+     "Motel/Inn": 44,
+     "Other": 41,
+     "Pension": 52
+    },
+    "여": {
+     "Camping": 63,
+     "Hotel/Resort": 182,
+     "Motel/Inn": 49,
+     "Other": 61,
+     "Pension": 63
+    }
+   }
+  },
+  {
+   "factor": "Education (4 groups)",
+   "var": "EDU4",
+   "chi2": 9.635,
+   "dof": 12,
+   "p": 0.6479196721233651,
+   "V": 0.0653,
+   "min_exp": 9.14,
+   "n": 753,
+   "table": {
+    "College<4yr": {
+     "Camping": 14,
+     "Hotel/Resort": 58,
+     "Motel/Inn": 15,
+     "Other": 11,
+     "Pension": 24
+    },
+    "Graduate": {
+     "Camping": 15,
+     "Hotel/Resort": 38,
+     "Motel/Inn": 8,
+     "Other": 13,
+     "Pension": 11
+    },
+    "University": {
+     "Camping": 64,
+     "Hotel/Resort": 211,
+     "Motel/Inn": 57,
+     "Other": 67,
+     "Pension": 73
+    },
+    "≤High school": {
+     "Camping": 10,
+     "Hotel/Resort": 33,
+     "Motel/Inn": 13,
+     "Other": 11,
+     "Pension": 7
+    }
+   }
+  }
+ ],
+ "rq5": [
+  {
+   "outcome": "Satisfaction",
+   "n1": 335,
+   "n2": 416,
+   "m1": 4.356,
+   "m2": 4.262,
+   "sd1": 0.465,
+   "sd2": 0.523,
+   "diff": 0.0938,
+   "ci_lo": 0.023,
+   "ci_hi": 0.1647,
+   "t": 2.6,
+   "df": 741.8,
+   "p": 0.009500404689531354,
+   "u_p": 0.029135344640403963,
+   "d": 0.1885,
+   "levene_p": 0.0875
+  },
+  {
+   "outcome": "Revisit intention",
+   "n1": 335,
+   "n2": 416,
+   "m1": 4.159,
+   "m2": 4.058,
+   "sd1": 0.584,
+   "sd2": 0.62,
+   "diff": 0.1011,
+   "ci_lo": 0.0146,
+   "ci_hi": 0.1877,
+   "t": 2.294,
+   "df": 731.0,
+   "p": 0.02208710227427592,
+   "u_p": 0.03341141813403657,
+   "d": 0.1673,
+   "levene_p": 0.568
+  },
+  {
+   "outcome": "Recommendation",
+   "n1": 335,
+   "n2": 416,
+   "m1": 4.242,
+   "m2": 4.141,
+   "sd1": 0.517,
+   "sd2": 0.561,
+   "diff": 0.1003,
+   "ci_lo": 0.0229,
+   "ci_hi": 0.1777,
+   "t": 2.545,
+   "df": 735.2,
+   "p": 0.011121290743145076,
+   "u_p": 0.027519339101656777,
+   "d": 0.1852,
+   "levene_p": 0.1885
+  }
+ ],
+ "rq6": [
+  {
+   "outcome": "Satisfaction",
+   "n": 751,
+   "F": 1.535,
+   "df1": 3,
+   "df2": 747,
+   "p": 0.20411963584389528,
+   "kw_p": 0.23872678310888354,
+   "eta2": 0.0061,
+   "omega2": 0.0021,
+   "levene_p": 0.9458,
+   "rho": 0.061,
+   "rho_p": 0.09473637701170036,
+   "groups": {
+    "College<4yr": {
+     "n": 122,
+     "mean": 4.318,
+     "sd": 0.49
+    },
+    "Graduate": {
+     "n": 85,
+     "mean": 4.354,
+     "sd": 0.514
+    },
+    "University": {
+     "n": 470,
+     "mean": 4.308,
+     "sd": 0.492
+    },
+    "≤High school": {
+     "n": 74,
+     "mean": 4.194,
+     "sd": 0.538
+    }
+   }
+  },
+  {
+   "outcome": "Revisit intention",
+   "n": 751,
+   "F": 0.873,
+   "df1": 3,
+   "df2": 747,
+   "p": 0.45459741983829827,
+   "kw_p": 0.3352116067728673,
+   "eta2": 0.0035,
+   "omega2": -0.0005,
+   "levene_p": 0.724,
+   "rho": 0.0587,
+   "rho_p": 0.10792821107070634,
+   "groups": {
+    "College<4yr": {
+     "n": 122,
+     "mean": 4.09,
+     "sd": 0.623
+    },
+    "Graduate": {
+     "n": 85,
+     "mean": 4.141,
+     "sd": 0.591
+    },
+    "University": {
+     "n": 470,
+     "mean": 4.115,
+     "sd": 0.605
+    },
+    "≤High school": {
+     "n": 74,
+     "mean": 4.002,
+     "sd": 0.602
+    }
+   }
+  },
+  {
+   "outcome": "Recommendation",
+   "n": 751,
+   "F": 0.728,
+   "df1": 3,
+   "df2": 747,
+   "p": 0.535202487478758,
+   "kw_p": 0.42467629159743325,
+   "eta2": 0.0029,
+   "omega2": -0.0011,
+   "levene_p": 0.9284,
+   "rho": 0.0437,
+   "rho_p": 0.23214549867180312,
+   "groups": {
+    "College<4yr": {
+     "n": 122,
+     "mean": 4.193,
+     "sd": 0.544
+    },
+    "Graduate": {
+     "n": 85,
+     "mean": 4.183,
+     "sd": 0.572
+    },
+    "University": {
+     "n": 470,
+     "mean": 4.198,
+     "sd": 0.538
+    },
+    "≤High school": {
+     "n": 74,
+     "mean": 4.098,
+     "sd": 0.548
+    }
+   }
+  }
+ ],
+ "box": {
+  "Satisfaction": {
+   "LODGE5": [
+    {
+     "k": "Camping",
+     "n": 101,
+     "q1": 4.0,
+     "med": 4.286,
+     "q3": 4.667,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.276,
+     "out": [
+      2.333
+     ]
+    },
+    {
+     "k": "Hotel/Resort",
+     "n": 340,
+     "q1": 4.0,
+     "med": 4.333,
+     "q3": 4.75,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.336,
+     "out": [
+      2.6
+     ]
+    },
+    {
+     "k": "Motel/Inn",
+     "n": 93,
+     "q1": 4.0,
+     "med": 4.25,
+     "q3": 4.6,
+     "lo": 3.333,
+     "hi": 5.0,
+     "mean": 4.271,
+     "out": []
+    },
+    {
+     "k": "Other",
+     "n": 102,
+     "q1": 4.0,
+     "med": 4.258,
+     "q3": 4.596,
+     "lo": 3.25,
+     "hi": 5.0,
+     "mean": 4.218,
+     "out": [
+      2.0,
+      2.6,
+      3.0
+     ]
+    },
+    {
+     "k": "Pension",
+     "n": 115,
+     "q1": 4.0,
+     "med": 4.333,
+     "q3": 4.817,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.334,
+     "out": [
+      2.714
+     ]
+    }
+   ],
+   "EDU4": [
+    {
+     "k": "College<4yr",
+     "n": 122,
+     "q1": 4.0,
+     "med": 4.293,
+     "q3": 4.75,
+     "lo": 3.417,
+     "hi": 5.0,
+     "mean": 4.318,
+     "out": [
+      2.0
+     ]
+    },
+    {
+     "k": "Graduate",
+     "n": 85,
+     "q1": 4.0,
+     "med": 4.4,
+     "q3": 4.75,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.354,
+     "out": [
+      2.6
+     ]
+    },
+    {
+     "k": "University",
+     "n": 470,
+     "q1": 4.0,
+     "med": 4.333,
+     "q3": 4.667,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.308,
+     "out": [
+      2.333,
+      2.714
+     ]
+    },
+    {
+     "k": "≤High school",
+     "n": 74,
+     "q1": 3.963,
+     "med": 4.236,
+     "q3": 4.5,
+     "lo": 3.25,
+     "hi": 5.0,
+     "mean": 4.194,
+     "out": [
+      2.6,
+      3.0
+     ]
+    }
+   ],
+   "GENDER": [
+    {
+     "k": "남",
+     "n": 335,
+     "q1": 4.0,
+     "med": 4.333,
+     "q3": 4.75,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.356,
+     "out": []
+    },
+    {
+     "k": "여",
+     "n": 416,
+     "q1": 4.0,
+     "med": 4.25,
+     "q3": 4.667,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.262,
+     "out": [
+      2.0,
+      2.333,
+      2.6,
+      2.714
+     ]
+    }
+   ]
+  },
+  "Revisit intention": {
+   "LODGE5": [
+    {
+     "k": "Camping",
+     "n": 101,
+     "q1": 3.667,
+     "med": 4.0,
+     "q3": 4.5,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.056,
+     "out": [
+      2.25
+     ]
+    },
+    {
+     "k": "Hotel/Resort",
+     "n": 340,
+     "q1": 3.75,
+     "med": 4.156,
+     "q3": 4.667,
+     "lo": 2.667,
+     "hi": 5.0,
+     "mean": 4.143,
+     "out": [
+      1.5
+     ]
+    },
+    {
+     "k": "Motel/Inn",
+     "n": 93,
+     "q1": 3.667,
+     "med": 4.0,
+     "q3": 4.5,
+     "lo": 2.6,
+     "hi": 5.0,
+     "mean": 4.068,
+     "out": []
+    },
+    {
+     "k": "Other",
+     "n": 102,
+     "q1": 3.603,
+     "med": 4.0,
+     "q3": 4.486,
+     "lo": 2.5,
+     "hi": 5.0,
+     "mean": 4.037,
+     "out": []
+    },
+    {
+     "k": "Pension",
+     "n": 115,
+     "q1": 3.683,
+     "med": 4.0,
+     "q3": 4.586,
+     "lo": 2.5,
+     "hi": 5.0,
+     "mean": 4.113,
+     "out": []
+    }
+   ],
+   "EDU4": [
+    {
+     "k": "College<4yr",
+     "n": 122,
+     "q1": 3.625,
+     "med": 4.125,
+     "q3": 4.5,
+     "lo": 2.5,
+     "hi": 5.0,
+     "mean": 4.09,
+     "out": []
+    },
+    {
+     "k": "Graduate",
+     "n": 85,
+     "q1": 3.8,
+     "med": 4.0,
+     "q3": 4.571,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.141,
+     "out": [
+      2.25,
+      2.5
+     ]
+    },
+    {
+     "k": "University",
+     "n": 470,
+     "q1": 3.704,
+     "med": 4.129,
+     "q3": 4.6,
+     "lo": 2.5,
+     "hi": 5.0,
+     "mean": 4.115,
+     "out": [
+      1.5
+     ]
+    },
+    {
+     "k": "≤High school",
+     "n": 74,
+     "q1": 3.667,
+     "med": 3.92,
+     "q3": 4.482,
+     "lo": 2.6,
+     "hi": 5.0,
+     "mean": 4.002,
+     "out": []
+    }
+   ],
+   "GENDER": [
+    {
+     "k": "남",
+     "n": 335,
+     "q1": 3.75,
+     "med": 4.143,
+     "q3": 4.612,
+     "lo": 2.667,
+     "hi": 5.0,
+     "mean": 4.159,
+     "out": []
+    },
+    {
+     "k": "여",
+     "n": 416,
+     "q1": 3.667,
+     "med": 4.0,
+     "q3": 4.574,
+     "lo": 2.5,
+     "hi": 5.0,
+     "mean": 4.058,
+     "out": [
+      1.5,
+      2.25
+     ]
+    }
+   ]
+  },
+  "Recommendation": {
+   "LODGE5": [
+    {
+     "k": "Camping",
+     "n": 101,
+     "q1": 3.833,
+     "med": 4.0,
+     "q3": 4.5,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.128,
+     "out": [
+      2.75
+     ]
+    },
+    {
+     "k": "Hotel/Resort",
+     "n": 340,
+     "q1": 3.907,
+     "med": 4.25,
+     "q3": 4.667,
+     "lo": 2.833,
+     "hi": 5.0,
+     "mean": 4.235,
+     "out": []
+    },
+    {
+     "k": "Motel/Inn",
+     "n": 93,
+     "q1": 3.8,
+     "med": 4.125,
+     "q3": 4.556,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.145,
+     "out": []
+    },
+    {
+     "k": "Other",
+     "n": 102,
+     "q1": 3.8,
+     "med": 4.125,
+     "q3": 4.5,
+     "lo": 3.0,
+     "hi": 5.0,
+     "mean": 4.129,
+     "out": [
+      2.7
+     ]
+    },
+    {
+     "k": "Pension",
+     "n": 115,
+     "q1": 3.714,
+     "med": 4.2,
+     "q3": 4.667,
+     "lo": 2.75,
+     "hi": 5.0,
+     "mean": 4.175,
+     "out": []
+    }
+   ],
+   "EDU4": [
+    {
+     "k": "College<4yr",
+     "n": 122,
+     "q1": 3.8,
+     "med": 4.155,
+     "q3": 4.659,
+     "lo": 2.75,
+     "hi": 5.0,
+     "mean": 4.193,
+     "out": []
+    },
+    {
+     "k": "Graduate",
+     "n": 85,
+     "q1": 3.833,
+     "med": 4.143,
+     "q3": 4.667,
+     "lo": 2.7,
+     "hi": 5.0,
+     "mean": 4.183,
+     "out": []
+    },
+    {
+     "k": "University",
+     "n": 470,
+     "q1": 3.833,
+     "med": 4.2,
+     "q3": 4.6,
+     "lo": 2.833,
+     "hi": 5.0,
+     "mean": 4.198,
+     "out": []
+    },
+    {
+     "k": "≤High school",
+     "n": 74,
+     "q1": 3.667,
+     "med": 4.0,
+     "q3": 4.5,
+     "lo": 2.857,
+     "hi": 5.0,
+     "mean": 4.098,
+     "out": []
+    }
+   ],
+   "GENDER": [
+    {
+     "k": "남",
+     "n": 335,
+     "q1": 3.873,
+     "med": 4.214,
+     "q3": 4.646,
+     "lo": 2.833,
+     "hi": 5.0,
+     "mean": 4.242,
+     "out": []
+    },
+    {
+     "k": "여",
+     "n": 416,
+     "q1": 3.761,
+     "med": 4.143,
+     "q3": 4.6,
+     "lo": 2.7,
+     "hi": 5.0,
+     "mean": 4.141,
+     "out": []
+    }
+   ]
+  }
+ },
+ "rq2_means": {
+  "Satisfaction": {
+   "mean": 4.3036,
+   "se": 0.0182,
+   "sd": 0.4997
+  },
+  "Revisit intention": {
+   "mean": 4.103,
+   "se": 0.0221,
+   "sd": 0.6062
+  },
+  "Recommendation": {
+   "mean": 4.186,
+   "se": 0.0198,
+   "sd": 0.5436
+  }
+ }
+};
+const tt=document.getElementById('tt');
+function showTT(e,h){tt.innerHTML=h;tt.style.opacity=1;const r=tt.getBoundingClientRect();
+  let x=e.clientX+14,y=e.clientY-10;
+  if(x+r.width>innerWidth-8)x=e.clientX-r.width-14;
+  if(y+r.height>innerHeight-8)y=innerHeight-r.height-8;
+  tt.style.left=x+'px';tt.style.top=Math.max(8,y)+'px';}
+function hideTT(){tt.style.opacity=0;}
+const NS='http://www.w3.org/2000/svg';
+function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;}
+function txt(x,y,s,a){const t=el('text',Object.assign({x,y},a));t.textContent=s;return t;}
+const fmt=n=>n.toLocaleString('en-US');
+const pfmt=p=> p<0.001 ? '&lt; .001' : p.toFixed(3).replace(/^0/,'');
+const pfmtT=p=> p<0.001 ? '< .001' : p.toFixed(3).replace(/^0/,'');
+document.getElementById('hdr').textContent =
+  'n = 753 travellers with a lodging record (751 with complete ratings) · Source: 숙박여부_분리_데이터셋.xlsx · Welch t-tests, one-way & repeated-measures ANOVA, chi-square, with non-parametric checks throughout';
+
+/* RQ cards */
+(function(){
+  const cards=[
+    ['RQ1','Does lodging style affect satisfaction, revisit intention or recommendation?',
+     'One-way ANOVA (5 groups) + Kruskal–Wallis','No. All three p ≥ .23, η² ≤ .007.','ns'],
+    ['RQ2','Do satisfaction, revisit intention and recommendation differ from each other?',
+     'Repeated-measures ANOVA + paired t-tests + Wilcoxon','Yes. F(2,1500) = 160.88, p < .001. All pairs p < .001, dᴢ = 0.34–0.56.','sig'],
+    ['RQ3','Does gender predict lodging style?','Chi-square test of independence',
+     'No. χ²(4) = 2.96, p = .565, V = .063.','ns'],
+    ['RQ4','Does education predict lodging style?','Chi-square test of independence',
+     'No. χ²(12) = 9.64, p = .648, V = .065.','ns'],
+    ['RQ5','Does gender affect ratings?','Welch t-test + Mann–Whitney U',
+     'Yes, on all three. p = .010–.022, d = 0.17–0.19.','sig'],
+    ['RQ6','Does education affect ratings?','One-way ANOVA + Spearman trend',
+     'No. All p ≥ .20; trend ρ ≤ .06.','ns'],
+  ];
+  const host=document.getElementById('rq-cards');
+  cards.forEach(([tag,q,test,a,cls])=>{
+    const d=document.createElement('div'); d.className='rq';
+    d.innerHTML=`<div class="tag">${tag} · ${test}</div><div class="q">${q}</div>
+      <div class="a"><span class="${cls}">${cls==='sig'?'SIGNIFICANT':'NOT SIGNIFICANT'}</span> — ${a}</div>`;
+    host.appendChild(d);
+  });
+})();
+
+/* box plot */
+function boxPlot(host,rows,opts){
+  const W=opts.w||310,H=opts.h||270,P={t:14,r:14,b:opts.b||66,l:44};
+  const iw=W-P.l-P.r, ih=H-P.t-P.b;
+  const lo=opts.lo!==undefined?opts.lo:1, hi=opts.hi!==undefined?opts.hi:5;
+  const sc=v=>P.t+ih-((v-lo)/(hi-lo))*ih;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':opts.label||''});
+  for(let v=lo;v<=hi+1e-9;v+=opts.step||1){
+    svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:sc(v),y2:sc(v),stroke:'var(--grid)','stroke-width':1}));
+    svg.appendChild(txt(P.l-8,sc(v)+4,v.toFixed(0),{fill:'var(--muted)','font-size':10.5,'text-anchor':'end','font-variant-numeric':'tabular-nums'}));
+  }
+  const step=iw/rows.length, bw=Math.min(step*0.54,34);
+  rows.forEach((r,i)=>{
+    const cx=P.l+i*step+step/2, c=opts.colors?opts.colors[i%opts.colors.length]:'var(--s1)';
+    const g=el('g',{}); g.style.cursor='pointer';
+    g.appendChild(el('line',{x1:cx,x2:cx,y1:sc(r.hi),y2:sc(r.q3),stroke:'var(--axis)','stroke-width':1.5}));
+    g.appendChild(el('line',{x1:cx,x2:cx,y1:sc(r.q1),y2:sc(r.lo),stroke:'var(--axis)','stroke-width':1.5}));
+    g.appendChild(el('line',{x1:cx-bw/3,x2:cx+bw/3,y1:sc(r.hi),y2:sc(r.hi),stroke:'var(--axis)','stroke-width':1.5}));
+    g.appendChild(el('line',{x1:cx-bw/3,x2:cx+bw/3,y1:sc(r.lo),y2:sc(r.lo),stroke:'var(--axis)','stroke-width':1.5}));
+    g.appendChild(el('rect',{x:cx-bw/2,y:sc(r.q3),width:bw,height:Math.max(sc(r.q1)-sc(r.q3),2),rx:3,
+      fill:c,opacity:.30,stroke:c,'stroke-width':1.5}));
+    g.appendChild(el('line',{x1:cx-bw/2,x2:cx+bw/2,y1:sc(r.med),y2:sc(r.med),stroke:c,'stroke-width':2.5}));
+    g.appendChild(el('path',{d:`M${cx},${sc(r.mean)-4.5} L${cx+4.5},${sc(r.mean)} L${cx},${sc(r.mean)+4.5} L${cx-4.5},${sc(r.mean)} Z`,
+      fill:'var(--surface-1)',stroke:c,'stroke-width':1.8}));
+    (r.out||[]).forEach(o=>g.appendChild(el('circle',{cx:cx,cy:sc(o),r:1.8,fill:'var(--muted)',opacity:.5})));
+    g.addEventListener('mousemove',e=>showTT(e,`<b>${opts.labels?opts.labels[i]:r.k}</b><br>n = ${fmt(r.n)}<br>
+      mean ${r.mean.toFixed(3)} · median ${r.med.toFixed(3)}<br>Q1 ${r.q1.toFixed(3)} · Q3 ${r.q3.toFixed(3)}`));
+    g.addEventListener('mouseleave',hideTT);
+    svg.appendChild(g);
+    const lab=(opts.labels?opts.labels[i]:r.k);
+    svg.appendChild(txt(0,0,lab,{fill:'var(--text-secondary)','font-size':10,'text-anchor':'end',
+      transform:`translate(${cx+4},${P.t+ih+12}) rotate(-40)`}));
+  });
+  if(opts.bracket){
+    const y=sc(hi)-2;
+    svg.appendChild(txt(P.l+iw/2,y,opts.bracket,{fill:'var(--text-primary)','font-size':12,'font-weight':600,'text-anchor':'middle'}));
+  }
+  svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:P.t+ih,y2:P.t+ih,stroke:'var(--axis)','stroke-width':1}));
+  host.appendChild(svg);
+}
+
+const LODGE_ORDER=['Hotel/Resort','Pension','Camping','Motel/Inn','Other'];
+const CATCOL=['var(--s1)','var(--s2)','var(--s3)','var(--seq-550)','var(--muted)'];
+
+/* Figure 1 */
+(function(){
+  const host=document.getElementById('f1');
+  ['Satisfaction','Revisit intention','Recommendation'].forEach(name=>{
+    const d=document.createElement('div');
+    const rows=LODGE_ORDER.map(k=>D.box[name].LODGE5.find(r=>r.k===k)).filter(Boolean);
+    const t=document.createElement('div'); t.className='chart-title'; t.style.fontSize='13px'; t.textContent=name;
+    const r1=D.rq1.find(r=>r.outcome===name);
+    const sb=document.createElement('div'); sb.className='chart-sub'; sb.style.marginBottom='6px';
+    sb.innerHTML=`F(${r1.df1},${r1.df2}) = ${r1.F.toFixed(2)}, p = ${pfmt(r1.p)} <span class="ns">n.s.</span>`;
+    d.appendChild(t); d.appendChild(sb);
+    boxPlot(d,rows,{w:310,h:262,colors:CATCOL,labels:rows.map(r=>r.k),label:name});
+    host.appendChild(d);
+  });
+  document.getElementById('f1-legend').innerHTML=LODGE_ORDER.map((k,i)=>
+    `<span><span class="swatch" style="background:${CATCOL[i]}"></span>${k}</span>`).join('');
+})();
+
+/* Table 1 + 2 */
+(function(){
+  const tb=document.querySelector('#t-rq1 tbody');
+  D.rq1.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.outcome}</td><td class="num">${r.df1}, ${r.df2}</td><td class="num">${r.F.toFixed(3)}</td>
+      <td class="num">${pfmtT(r.p)}</td><td class="num">${pfmtT(r.welch_p)}</td><td class="num">${pfmtT(r.kw_p)}</td>
+      <td class="num">${r.eta2.toFixed(4)}</td><td class="num">${r.omega2.toFixed(4)}</td>
+      <td class="num">${r.levene_p.toFixed(3)}</td><td class="ns">n.s.</td>`;
+    tb.appendChild(tr);
+  });
+  const tb2=document.querySelector('#t-rq1d tbody');
+  LODGE_ORDER.forEach(k=>{
+    const s=D.box['Satisfaction'].LODGE5.find(r=>r.k===k);
+    const rv=D.box['Revisit intention'].LODGE5.find(r=>r.k===k);
+    const rc=D.box['Recommendation'].LODGE5.find(r=>r.k===k);
+    if(!s) return;
+    const sd=n=>{const g=D.rq1;return '';};
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td><span class="swatch" style="background:${CATCOL[LODGE_ORDER.indexOf(k)]}"></span>${k}</td>
+      <td class="num">${fmt(s.n)}</td>
+      <td class="num">${s.mean.toFixed(3)}</td><td class="num">${rv.mean.toFixed(3)}</td><td class="num">${rc.mean.toFixed(3)}</td>`;
+    tb2.appendChild(tr);
+  });
+})();
+
+/* Figure 2 */
+(function(){
+  const names=['Satisfaction','Recommendation','Revisit intention'];
+  const M=D.rq2_means;
+  const W=470,H=300,P={t:52,r:20,b:60,l:52};
+  const iw=W-P.l-P.r, ih=H-P.t-P.b;
+  const lo=4.0,hi=4.4, sc=v=>P.t+ih-((v-lo)/(hi-lo))*ih;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Mean ratings with 95% CI'});
+  for(let v=4.0;v<=4.401;v+=0.1){
+    svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:sc(v),y2:sc(v),stroke:'var(--grid)','stroke-width':1}));
+    svg.appendChild(txt(P.l-8,sc(v)+4,v.toFixed(1),{fill:'var(--muted)','font-size':10.5,'text-anchor':'end','font-variant-numeric':'tabular-nums'}));
+  }
+  const step=iw/names.length;
+  const pos={};
+  names.forEach((n,i)=>{
+    const m=M[n], cx=P.l+i*step+step/2, ci=1.96*m.se;
+    pos[n]=cx;
+    const c=CATCOL[i];
+    svg.appendChild(el('line',{x1:cx,x2:cx,y1:sc(m.mean+ci),y2:sc(m.mean-ci),stroke:c,'stroke-width':2.5,'stroke-linecap':'round'}));
+    [m.mean+ci,m.mean-ci].forEach(v=>svg.appendChild(el('line',{x1:cx-7,x2:cx+7,y1:sc(v),y2:sc(v),stroke:c,'stroke-width':2.5})));
+    const dot=el('circle',{cx:cx,cy:sc(m.mean),r:6,fill:c,stroke:'var(--surface-1)','stroke-width':2});
+    dot.style.cursor='pointer';
+    dot.addEventListener('mousemove',e=>showTT(e,`<b>${n}</b><br>M = ${m.mean.toFixed(3)}<br>SD = ${m.sd.toFixed(3)} · SE = ${m.se.toFixed(4)}<br>95% CI [${(m.mean-ci).toFixed(3)}, ${(m.mean+ci).toFixed(3)}]`));
+    dot.addEventListener('mouseleave',hideTT);
+    svg.appendChild(dot);
+    svg.appendChild(txt(cx+22,sc(m.mean)+4,m.mean.toFixed(3),{fill:'var(--text-primary)','font-size':11.5,'font-weight':600,'text-anchor':'middle','font-variant-numeric':'tabular-nums'}));
+    svg.appendChild(txt(0,0,n,{fill:'var(--text-secondary)','font-size':11,'text-anchor':'end',
+      transform:`translate(${cx+6},${P.t+ih+14}) rotate(-22)`}));
+  });
+  // significance brackets
+  function bracket(a,b,y,lab){
+    const x1=pos[a],x2=pos[b];
+    svg.appendChild(el('path',{d:`M${x1},${y+6} L${x1},${y} L${x2},${y} L${x2},${y+6}`,
+      fill:'none',stroke:'var(--text-secondary)','stroke-width':1.2}));
+    svg.appendChild(txt((x1+x2)/2,y-4,lab,{fill:'var(--text-primary)','font-size':11,'font-weight':600,'text-anchor':'middle'}));
+  }
+  bracket('Satisfaction','Recommendation',P.t-10,'***');
+  bracket('Recommendation','Revisit intention',P.t-10,'***');
+  bracket('Satisfaction','Revisit intention',P.t-32,'***');
+  svg.appendChild(el('line',{x1:P.l,x2:P.l+iw,y1:P.t+ih,y2:P.t+ih,stroke:'var(--axis)','stroke-width':1}));
+  document.getElementById('f2').appendChild(svg);
+})();
+
+/* Table 3 */
+(function(){
+  const tb=document.querySelector('#t-rq2 tbody');
+  const M=D.rq2_means;
+  D.rq2.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.a} vs ${r.b}</td>
+      <td class="num">${r.mean_a.toFixed(3)} (${M[r.a].sd.toFixed(3)})</td>
+      <td class="num">${r.mean_b.toFixed(3)} (${M[r.b].sd.toFixed(3)})</td>
+      <td class="num">${r.diff>0?'+':''}${r.diff.toFixed(4)}</td>
+      <td class="num">[${r.ci_lo.toFixed(3)}, ${r.ci_hi.toFixed(3)}]</td>
+      <td class="num">${r.t.toFixed(3)}</td><td class="num">${pfmtT(r.p)}</td>
+      <td class="num">${pfmtT(r.p_bonf)}</td><td class="num">${pfmtT(r.wil_p)}</td>
+      <td class="num">${r.dz.toFixed(3)}</td>`;
+    tb.appendChild(tr);
+  });
+  document.getElementById('rq2-note').innerHTML =
+    'Repeated-measures ANOVA: F(2, 1500) = 160.88, p &lt; .001. Friedman χ²(2) = 424.73, p &lt; .001. ' +
+    'Paired-samples t-tests, df = 750 throughout. Bonferroni correction applied across the three pairwise comparisons. ' +
+    'd<sub>z</sub> is the standardised mean difference for paired data (mean difference ÷ SD of the differences). ' +
+    'All comparisons use the 751 travellers with complete data on all three measures.';
+})();
+
+/* Figure 3 — 100% stacked */
+(function(){
+  const rows=[];
+  const g=D.rq34.find(r=>r.var==='GENDER').table;
+  Object.keys(g).forEach(k=>rows.push({group:k==='남'?'Male':'Female',band:'Gender',counts:g[k]}));
+  const e=D.rq34.find(r=>r.var==='EDU4').table;
+  ['≤High school','College<4yr','University','Graduate'].forEach(k=>{
+    if(e[k]) rows.push({group:k,band:'Education',counts:e[k]});
+  });
+  const W=980,rowH=34,P={t:8,r:20,b:30,l:130};
+  const H=P.t+rows.length*rowH+P.b+16, iw=W-P.l-P.r;
+  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':'Lodging composition'});
+  let yoff=0;
+  rows.forEach((r,i)=>{
+    const tot=LODGE_ORDER.reduce((s,k)=>s+(r.counts[k]||0),0);
+    if(i>0 && rows[i-1].band!==r.band) yoff+=10;
+    const y=P.t+i*rowH+yoff+5, h=rowH-14;
+    let x=P.l;
+    LODGE_ORDER.forEach((k,j)=>{
+      const n=r.counts[k]||0; if(!n) return;
+      const w=(n/tot)*iw;
+      const seg=el('rect',{x:x+1,y:y,width:Math.max(w-2,1),height:h,rx:2,fill:CATCOL[j]});
+      seg.style.cursor='pointer';
+      seg.addEventListener('mousemove',ev=>showTT(ev,`<b>${r.group} · ${k}</b><br>${fmt(n)} of ${fmt(tot)} (${(n/tot*100).toFixed(1)}%)`));
+      seg.addEventListener('mouseleave',hideTT);
+      svg.appendChild(seg);
+      if(w>44) svg.appendChild(txt(x+w/2,y+h/2+4,`${(n/tot*100).toFixed(0)}%`,
+        {fill:'#ffffff','font-size':10.5,'font-weight':600,'text-anchor':'middle'}));
+      x+=w;
+    });
+    svg.appendChild(txt(P.l-10,y+h/2+4,r.group,{fill:'var(--text-secondary)','font-size':11.5,'text-anchor':'end'}));
+    svg.appendChild(txt(P.l+iw+8,y+h/2+4,`n=${fmt(tot)}`,{fill:'var(--muted)','font-size':10.5}));
+  });
+  document.getElementById('f3').appendChild(svg);
+  document.getElementById('f3-legend').innerHTML=LODGE_ORDER.map((k,i)=>
+    `<span><span class="swatch" style="background:${CATCOL[i]}"></span>${k}</span>`).join('');
+})();
+
+/* Table 4 + crosstabs */
+(function(){
+  const tb=document.querySelector('#t-rq34 tbody');
+  D.rq34.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.factor} × Lodging style</td><td class="num">${r.chi2.toFixed(3)}</td>
+      <td class="num">${r.dof}</td><td class="num">${pfmtT(r.p)}</td><td class="num">${r.V.toFixed(4)}</td>
+      <td class="num">${r.min_exp.toFixed(2)}</td><td class="num">${fmt(r.n)}</td><td class="ns">n.s.</td>`;
+    tb.appendChild(tr);
+  });
+  const host=document.getElementById('crosstabs');
+  D.rq34.forEach(r=>{
+    const h=document.createElement('h3'); h.textContent=r.factor+' × Lodging style'; host.appendChild(h);
+    const keys=Object.keys(r.table);
+    const t=document.createElement('table');
+    t.innerHTML=`<thead><tr><th></th>${LODGE_ORDER.map(k=>`<th class="num">${k}</th>`).join('')}<th class="num">Total</th></tr></thead>
+      <tbody>${keys.map(k=>{
+        const tot=LODGE_ORDER.reduce((s,c)=>s+(r.table[k][c]||0),0);
+        return `<tr><td>${k==='남'?'Male':(k==='여'?'Female':k)}</td>${LODGE_ORDER.map(c=>
+          `<td class="num">${fmt(r.table[k][c]||0)}<br><span style="color:var(--muted);font-size:11px">${((r.table[k][c]||0)/tot*100).toFixed(1)}%</span></td>`).join('')}
+          <td class="num">${fmt(tot)}</td></tr>`;}).join('')}
+      <tr class="tot"><td>Total</td>${LODGE_ORDER.map(c=>
+        `<td class="num">${fmt(keys.reduce((s,k)=>s+(r.table[k][c]||0),0))}</td>`).join('')}
+        <td class="num">${fmt(r.n)}</td></tr></tbody>`;
+    host.appendChild(t);
+  });
+})();
+
+/* Figure 4 + Table 5 */
+(function(){
+  const host=document.getElementById('f4');
+  const GC=['var(--s1)','var(--s2)'];
+  ['Satisfaction','Revisit intention','Recommendation'].forEach(name=>{
+    const d=document.createElement('div');
+    const rows=['남','여'].map(k=>D.box[name].GENDER.find(r=>r.k===k)).filter(Boolean);
+    const r5=D.rq5.find(r=>r.outcome===name);
+    const t=document.createElement('div'); t.className='chart-title'; t.style.fontSize='13px'; t.textContent=name;
+    const sb=document.createElement('div'); sb.className='chart-sub'; sb.style.marginBottom='6px';
+    sb.innerHTML=`t(${r5.df.toFixed(0)}) = ${r5.t.toFixed(2)}, p = ${pfmt(r5.p)} <span class="sig">${r5.p<0.01?'**':'*'}</span>`;
+    d.appendChild(t); d.appendChild(sb);
+    boxPlot(d,rows,{w:310,h:250,b:44,colors:GC,labels:['Male','Female'],label:name});
+    host.appendChild(d);
+  });
+  document.getElementById('f4-legend').innerHTML=
+    `<span><span class="swatch" style="background:var(--s1)"></span>Male (n = 335)</span>
+     <span><span class="swatch" style="background:var(--s2)"></span>Female (n = 416)</span>`;
+  const tb=document.querySelector('#t-rq5 tbody');
+  D.rq5.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.outcome}</td>
+      <td class="num">${r.m1.toFixed(3)} (${r.sd1.toFixed(3)})</td>
+      <td class="num">${r.m2.toFixed(3)} (${r.sd2.toFixed(3)})</td>
+      <td class="num">+${r.diff.toFixed(4)}</td>
+      <td class="num">[${r.ci_lo.toFixed(3)}, ${r.ci_hi.toFixed(3)}]</td>
+      <td class="num">${r.t.toFixed(3)}</td><td class="num">${r.df.toFixed(1)}</td>
+      <td class="num sig">${pfmtT(r.p)}</td><td class="num">${pfmtT(r.u_p)}</td>
+      <td class="num">${r.d.toFixed(3)}</td>`;
+    tb.appendChild(tr);
+  });
+})();
+
+/* Table 6 + 7 */
+(function(){
+  const tb=document.querySelector('#t-rq6 tbody');
+  D.rq6.forEach(r=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${r.outcome}</td><td class="num">${r.df1}, ${r.df2}</td><td class="num">${r.F.toFixed(3)}</td>
+      <td class="num">${pfmtT(r.p)}</td><td class="num">${r.eta2.toFixed(4)}</td><td class="num">${r.omega2.toFixed(4)}</td>
+      <td class="num">${pfmtT(r.kw_p)}</td><td class="num">${r.rho.toFixed(4)}</td>
+      <td class="num">${pfmtT(r.rho_p)}</td><td class="ns">n.s.</td>`;
+    tb.appendChild(tr);
+  });
+  const EO=['≤High school','College<4yr','University','Graduate'];
+  const tb2=document.querySelector('#t-rq6d tbody');
+  EO.forEach(k=>{
+    const s=D.rq6[0].groups[k], rv=D.rq6[1].groups[k], rc=D.rq6[2].groups[k];
+    if(!s) return;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${k}</td><td class="num">${fmt(s.n)}</td>
+      <td class="num">${s.mean.toFixed(3)} (${s.sd.toFixed(3)})</td>
+      <td class="num">${rv.mean.toFixed(3)} (${rv.sd.toFixed(3)})</td>
+      <td class="num">${rc.mean.toFixed(3)} (${rc.sd.toFixed(3)})</td>`;
+    tb2.appendChild(tr);
+  });
+})();
+
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const cur=document.documentElement.getAttribute('data-theme');
+  const dark=cur?cur==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+});
+</script>
+</body>
+</html>

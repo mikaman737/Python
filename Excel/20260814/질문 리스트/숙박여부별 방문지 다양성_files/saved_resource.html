@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<!-- saved from url=(0253)https://fe7fcb18-1b51-43ad-970c-059e174c52b9.frame.claudeusercontent.com/_f/1786629463-20d1/?__frame_t=6SRewjXOksvl6E0icDwS1SA0.3e5c02ea-d0b3-4294-befd-de64383a478d.b45e97a8-4ea6-42f5-b0a6-b1e41ebbfe0d.1786684622&__frame_v=manifest.c760995c2b5961e2.json -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!-- frame-runtime --><!--<base href="/_f/1786629463-20d1/">--><base href="."><script>window.__FRAME_PREAMBLE={"capabilities":{"artifact":"artifact.BWD0CGLd.js","assets":"assets.hcOK0ALv.js","comments":"comments.aMuwftAG.js","db":"db.C8ehi_0m.js","downloads":"downloads.BXsoAvg9.js","mcp":"mcp.D3B2EyQu.js","permissions":"permissions.DdITF2Mk.js","room":"room.BgXZkiYR.js","sample":"sample.DpdXn9di.js","self":"artifact.BWD0CGLd.js","user":"user.o5zdRedj.js"},"transforms":"_transforms.BI3gXbbT.js","comments":"_comments.Cp2LbYKb.js","translate":"_translate.BOzFH2D9.js"}</script><script>(function(){"use strict";var ce=["light","dark","system"],ue=/^[A-Za-z0-9_-]{1,64}$/,V=/^[a-zA-Z_:][a-zA-Z0-9_:.-]{0,127}$/,fe=new Set(["class","hidden","value","checked"]);function de(e){const t=e.toLowerCase();return t.startsWith("data-")||t.startsWith("aria-")||fe.has(t)}var pe="http://www.w3.org/1999/xhtml",me="http://www.w3.org/2000/svg",ge=new Set(["script","style","iframe","noscript","noframes","noembed","xmp","plaintext","template","title","textarea","object","embed"]),ve=new Set(["script","style"]);function _e(e){const t=e.localName.toLowerCase();return e.namespaceURI===pe?!ge.has(t):e.namespaceURI===me?!ve.has(t):!1}function he(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_patch;if(t===null||typeof t!="object")return!1;const{seq:n,elements:a}=t;if(typeof n!="number"||!Number.isSafeInteger(n)||!Array.isArray(a)||a.length===0||a.length>64)return!1;for(const i of a){if(i===null||typeof i!="object")return!1;const r=i;if(typeof r.target!="string"||!ue.test(r.target)||r.text!==void 0&&typeof r.text!="string")return!1;if(r.attrsSet!==void 0){if(r.attrsSet===null||typeof r.attrsSet!="object")return!1;for(const[l,c]of Object.entries(r.attrsSet))if(!V.test(l)||typeof c!="string")return!1}if(r.attrsRemoved!==void 0){if(!Array.isArray(r.attrsRemoved))return!1;for(const l of r.attrsRemoved)if(typeof l!="string"||!V.test(l))return!1}}return!0}function ye(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_init;return t!==null&&typeof t=="object"}function be(e){return e!==null&&typeof e=="object"&&e.__frame_size_poke===!0}function Ee(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_theme;if(t===null||typeof t!="object")return!1;const n=t.theme;return typeof n=="string"&&ce.includes(n)}function we(e){try{typeof reportError=="function"?reportError(e):setTimeout(()=>{throw e},0)}catch{}}var X=["#62744c","#b04e72","#5b7596","#a3651f","#7a6ba8","#3f7a75"],J=e=>{let t=0;for(let n=0;n<e.length;n++)t=t*31+e.charCodeAt(n)>>>0;return X[t%X.length]??"#788c5d"},Z="#c7c9d1",Q=e=>"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 2'%3E%3Ccircle cx='1' cy='1' r='1' fill='"+encodeURIComponent(e)+"'/%3E%3C/svg%3E",Ae=Object.freeze({id:null,name:"",avatarUrl:Q(Z),color:Z,email:null,isOwner:!1,canEdit:!1}),Se=(...e)=>{const t=e[0],n=typeof t=="string"?[t]:Array.isArray(t)?t.filter(i=>typeof i=="string"):[],a=Object.create(null);for(const i of n)a[i]={id:i,name:"",avatarUrl:Q(J(i)),color:J(i),email:null,isMe:!1};return a},ee=Object.freeze(Object.assign(Object.create(null),{user:Object.freeze(Object.assign(Object.create(null),{id:null,isOwner:!1,canEdit:!1,me:Ae,profiles:Se,name:"",avatarUrl:null,search:Object.freeze([]),email:null}))})),je={sample:"sample"};function te(){const e=new Uint8Array(20);try{crypto.getRandomValues(e)}catch{for(let n=0;n<e.length;n++)e[n]=Math.floor(Math.random()*256)}let t="";for(const n of e)t+=(n%36).toString(36);return t}function Re(e,t){const n=r=>{const l={path:r},c=r.split("/");return{id:c[c.length-1],path:r,get:()=>t("get",[l]),set:d=>t("set",[l,d]),update:d=>t("update",[l,d]),delete:()=>t("delete",[l]),acquire:d=>t("acquire",[l,d]),onSnapshot:(d,E)=>t("subscribe",[l,d,E]),collection:d=>i(r+"/"+String(d))}},a=r=>({where:(l,c,d)=>a({...r,where:[...r.where??[],{f:String(l),op:String(c),v:d}]}),orderBy:(l,c)=>a({...r,orderBy:{f:String(l),dir:c===void 0?"asc":String(c)}}),limit:l=>a({...r,limit:Number(l)}),get:()=>t("query",[r]),onSnapshot:(l,c)=>t("subscribe",[r,l,c])}),i=r=>({...a({collection:r}),path:r,doc:l=>n(r+"/"+(l===void 0?te():String(l))),add:l=>{const c=n(r+"/"+te());return Promise.resolve(c.set(l)).then(()=>c)}});e.doc=r=>n(String(r)),e.collection=r=>i(String(r))}var Oe=Object.freeze([]);function Pe(e,t){let n=null,a=null;const i=()=>e.__settled;e.peers=()=>Oe,e.connected=()=>!1,e.emit=()=>i()?.()??Promise.resolve(),e.presence=r=>{const l=i();if(l)return l();let c=null;if(r!==null&&typeof r=="object")try{Array.isArray(r)||(c={...r})}catch{}return c===null?Promise.reject({code:"invalid_argument",message:"presence takes an object"}):(n===null&&(n=Object.create(null),a=Promise.resolve(t("presence",[n]))),Object.assign(n,c),a)}}var D="__frame_scroll",Te=150,Me=310,Le=160,ke=3e4;function Ce(){let e=0,t=!1,n=!1,a=!1,i=0,r=null;const l=u=>{try{sessionStorage.setItem(D,JSON.stringify({y:u}))}catch{}},c=()=>{if(clearTimeout(e),r===null)return;const u=r;r=null,l(u)},d=()=>{if(t){t=!1;return}n=!0,r=scrollY,clearTimeout(e),e=setTimeout(c,Te)};try{addEventListener("scroll",d,{passive:!0}),addEventListener("pagehide",c)}catch{}const E=()=>{let u;try{u=sessionStorage.getItem(D)}catch{return null}if(u===null)return null;let g;try{g=JSON.parse(u)}catch{g=null}const f=g?.y;if(!(typeof f=="number"&&Number.isFinite(f)&&f>=0)){try{sessionStorage.removeItem(D)}catch{}return null}return f};let T=!1;const h=u=>{try{const g=scrollY;scrollTo({top:u,left:0,behavior:"instant"}),i=u,a=!0,clearTimeout(e),r=null,l(u);const f=scrollY;f!==g&&(t=!0),f!==u&&!T&&(T=!0,addEventListener("load",()=>{try{if(scrollY===f){const p=E();h(p!==null?p:i)}}catch{}},{once:!0}))}catch{}},R=()=>{try{return!!location.hash}catch{return!0}};let A=!1;const O=()=>{try{if(A||innerWidth>Me||innerHeight>Le)return;A=!0;const u=Date.now(),g=()=>{try{removeEventListener("resize",g)}catch{}if(Date.now()-u>ke||n||R())return;const f=E();h(f!==null?f:i)};addEventListener("resize",g)}catch{}};let M=!1,o=!1;return{restore(){if(M||(M=!0,R()))return;const u=E();u!==null&&(h(u),O())},promoted(){if(o||(o=!0,R()))return;const u=E();u!==null?(h(u),O()):a&&h(i)}}}var He="modulepreload",Ye=function(e){return"/"+e},We={},Ne=function(t,n,a){let i=Promise.resolve();function r(l){const c=new Event("vite:preloadError",{cancelable:!0});if(c.payload=l,window.dispatchEvent(c),!c.defaultPrevented)throw l}return i.then(l=>{for(const c of l||[])c.status==="rejected"&&r(c.reason);return t().catch(r)})};(function(){const e=Object.defineProperty,t=globalThis,n=["RTCPeerConnection","webkitRTCPeerConnection","RTCDataChannel","RTCIceCandidate","RTCSessionDescription","RTCRtpSender","RTCRtpReceiver"];let a=0;for(let i=0;i<n.length;i++){const r=n[i];try{e(t,r,{value:void 0,writable:!1,configurable:!1})}catch{try{delete t[r]}catch{}try{e(t,r,{value:void 0,writable:!1,configurable:!0})}catch{}}typeof t[r]=="function"&&a++}if(a&&window!==top)try{parent.postMessage({__frame_rtc_lockdown_failed:a},"*")}catch{}})();var Ue=1e4,qe=Object.freeze([...window.__FRAME_PREAMBLE?.origins??["https://claude.ai","https://preview.claude.ai"]]);function re(e){for(const t of qe)if(t.endsWith(":*"))try{const n=new URL(e);if(`${n.protocol}//${n.hostname}:*`===t)return!0}catch{}else if(e===t)return!0;return!1}var k=Object.freeze({...window.__FRAME_PREAMBLE?.capabilities}),x=window.__FRAME_PREAMBLE?.transforms,$=window.__FRAME_PREAMBLE?.comments,z=window.__FRAME_PREAMBLE?.translate,q=/^[\w.-]+\.js$/,Ie=/^[a-z][a-z0-9_-]{0,63}$/,I=e=>Ne(()=>import("/_runtime/"+e),void 0);function Be(e,t){return{contract:e.contract,changes:new Set(e.changes??[]),flags:new Set(e.flags??[]),capabilities:e.capabilities??{},capBudgets:e.capBudgets??{},transforms:new Map,shellOrigin:t,mount:Y,pipe:()=>({wrap:(n,a)=>(...i)=>{try{return a(...i)}catch(r){return Promise.reject(r)}}})}}var ne=null,C=null;function F(e,t,n){try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!1,enumerable:!0})}catch{try{Object.defineProperty(e,t,{value:n,writable:!1,configurable:!0,enumerable:!0})}catch{}}}var H=!1;function De(e,t){const n=[];for(const a of e.elements){const i=document.querySelector(`[data-id="${a.target}"]`);if(!i){parent.postMessage({__frame_patch_miss:{seq:e.seq}},t);return}if([...Object.keys(a.attrsSet??{}),...a.attrsRemoved??[]].some(r=>!de(r))){parent.postMessage({__frame_patch_miss:{seq:e.seq}},t);return}if(a.text!==void 0&&!_e(i)){parent.postMessage({__frame_patch_miss:{seq:e.seq}},t);return}for(const[r,l]of Object.entries(a.attrsSet??{}))if(!oe(i,r)){try{i.setAttribute(r,l)}catch{}se(i,r,l)}for(const r of a.attrsRemoved??[])oe(i,r)||(i.removeAttribute(r),se(i,r,null));typeof a.text=="string"&&(i.textContent=a.text),n.push(a.target)}try{document.dispatchEvent(new CustomEvent("claude:edit",{detail:{seq:e.seq,targets:n}}))}catch{}}function se(e,t,n){if(!(e instanceof HTMLInputElement))return;const a=t.toLowerCase();a==="checked"?e.checked=n!==null:a==="value"&&e.type!=="file"&&(e.value=n??"")}function oe(e,t){const n=t.toLowerCase(),a=e;return n==="data-id"||(n==="value"||n==="checked")&&(a.__artifactSecret===!0||/^(password|hidden|file)$/.test(a.type??"")||/(^|\s)(cc-|one-time-code|current-password|new-password)/i.test(`${e.getAttribute("autocomplete")??""} ${a.autocomplete??""}`))}function ae(e){const t=document.documentElement;e==="light"||e==="dark"?(t.dataset.theme=e,t.style.colorScheme=e,H=!0):H&&(delete t.dataset.theme,t.style.colorScheme="",H=!1)}var ie=256,N=Object.assign(Object.create(null),{mcp:Object.assign(Object.create(null),{watchTool:{handlerArg:3}}),db:Object.assign(Object.create(null),{subscribe:{handlerArg:1,errArg:2}}),room:Object.assign(Object.create(null),{on:{handlerArg:1,errArg:2},onPeers:{handlerArg:0,errArg:1},onConnection:{handlerArg:0,errArg:1}})}),xe=Object.assign(Object.create(null),{db:(e,t)=>Re(e,t),room:(e,t,n)=>Pe(e,n)}),j=new Map;function Y(e,t){const n=j.get(e);if(!n)return;const a=Object.assign(Object.create(null),t);Object.assign(n.impl,a),n.r(n.ns),n.impl.__settled=()=>Promise.reject({code:"capability_removed",message:`${e}: method not in this runtime`});const i=n.queue;n.queue=[];for(const r of i){const l=a[r.method];if(l)if(N[e]?.[r.method])try{r.resolve(l(...r.args))}catch{U(r,N[e][r.method],{code:"transform_error",message:`${e}.${r.method} rejected its arguments`})}else l(...r.args).then(r.resolve,r.reject);else{const c={code:"capability_removed",message:`${e}.${r.method} is not in this runtime`},d=N[e]?.[r.method];if(d){U(r,d,c);continue}r.reject(c)}}}function $e(e,t){const n=j.get(e);if(!n)return;n.impl.__settled=()=>Promise.reject(t),n.r(null);const a=n.queue;n.queue=[];for(const i of a){const r=N[e]?.[i.method];if(r){U(i,r,t);continue}i.reject(t)}}function le(e,t){if(typeof e=="function")try{return e(...t)}catch{return Object.create(null)}return Array.isArray(e)?[...e]:e!==null&&typeof e=="object"?{...e}:e}function B(e,t){const n=ee[e];if(!n){$e(e,t);return}j.get(e)?.r(null),Y(e,Object.fromEntries(Object.entries(n).map(([a,i])=>[a,(...r)=>Promise.resolve(le(i,r))])))}function U(e,t,n){if(e.syncState?.dead)return;const a=t.errArg===void 0?void 0:e.args[t.errArg],i=t.errArg===void 0?e.args[t.handlerArg]:a;typeof i=="function"&&queueMicrotask(()=>{if(!e.syncState?.dead)try{i(t.errArg===void 0?{type:"error",error:n}:n)}catch(r){we(r)}})}var W=Object.getOwnPropertyDescriptor(window,"claude");if(window!==top&&!(W&&W.writable===!1)){const e=x&&q.test(x)?I(x).catch(()=>{}):Promise.resolve(void 0),t=o=>{if(o.type==="auxclick"&&o.button!==1)return;const u=o.target,g=u&&u.closest?u.closest("a[href],area[href]"):null;if(!g)return;const f=g.getAttribute("href");if(!f)return;let p,P;try{p=new URL(f,document.baseURI),P=new URL(document.baseURI).origin}catch{return}if((p.protocol==="http:"||p.protocol==="https:")&&p.origin!==P){o.preventDefault();const w=(g.getAttribute("target")??"").toLowerCase(),y=o.type==="auxclick"||o.metaKey||o.ctrlKey||o.shiftKey||o.altKey||!["","_self","_top","_parent"].includes(w);parent.postMessage({__frame_nav:!0,url:p.href,newTab:y},"*")}};addEventListener("click",t,!0),addEventListener("auxclick",t,!0);const n={},a=o=>{o.isTrusted&&(n.pointer=!0)},i=o=>{o.isTrusted&&(n.click=!0)};addEventListener("pointermove",a,{capture:!0,passive:!0}),addEventListener("click",i,{capture:!0,passive:!0}),e.then(o=>{o?.wireNav&&(o.wireNav(),removeEventListener("click",t,!0),removeEventListener("auxclick",t,!0),removeEventListener("pointermove",a,!0),removeEventListener("click",i,!0),o.wireEngagement?.(n))});let r=null;try{r=Ce()}catch{}const l=W?.value??{};F(window,"claude",l);const c=o=>{let u;const g=new Promise(_=>{u=_}),f={impl:Object.create(null),queue:[],u:g,r:u,ns:null};j.set(o,f);const p=f.impl,P=_=>({code:"queue_overflow",message:`${o}.${_}: pre-init call queue is full`}),w=(_,s)=>{if(f.queue.length>=ie){const m=ee[o];return m&&_ in m?Promise.resolve(le(m[_],s)):Promise.reject(P(_))}return new Promise((m,v)=>{f.queue.push({method:_,args:s,resolve:m,reject:v})})},y=je[o],L=new Proxy(y===void 0?p:(()=>{}),{apply:(_,s,m)=>{const v=y,b=p[v]??p.__settled;return b?b(...m):w(v,m)},get:(_,s)=>{if(typeof s!="string"||s==="then"||s==="toJSON"||s==="valueOf")return;if(s==="toString")return Object.prototype.toString;if(y!==void 0&&(s==="call"||s==="apply"||s==="bind"))return Function.prototype[s];const m=N[o]?.[s];return m?(...v)=>{if(typeof v[m.handlerArg]!="function")throw new TypeError(`${o}.${s} requires a handler function`);const b=p[s];if(b)return b(...v);if(p.__settled){const S={dead:!1},ze={args:[...v],syncState:S};return p.__settled().catch(Fe=>U(ze,m,Fe)),()=>{S.dead=!0}}if(f.queue.length>=ie){const S={dead:!1};return U({args:[...v],syncState:S},m,P(s)),()=>{S.dead=!0}}let K=null;const G={dead:!1};return f.queue.push({method:s,args:v,resolve:S=>{K=typeof S=="function"?S:null,G.dead&&K?.()},reject:()=>{},syncState:G}),()=>{G.dead=!0,K?.()}}:(...v)=>{const b=p[s]??p.__settled;return b?b(...v):w(s,v)}},set:()=>!1});xe[o]?.(p,(_,s)=>L[_](...s),w),f.ns=L,F(l,o,L)};for(const o of Object.keys(k)){if(l[o]!==void 0){F(l,o,l[o]);continue}c(o)}if(l.use===void 0){const o=u=>{if(typeof u!="string"||!Object.hasOwn(k,u))return Promise.resolve(null);const g=j.get(u);return g?g.u:Promise.resolve(l[u]??null)};try{Object.defineProperty(l,"use",{value:o,writable:!0,configurable:!0,enumerable:!1})}catch{}}let d=null,E=null,T=0;const h=o=>{o.source!==parent||!re(o.origin)||ye(o.data)&&(d=o.data.__frame_init,C=o.origin,removeEventListener("message",h),clearTimeout(T),E?.())};addEventListener("message",h),parent.postMessage({__frame_connect:!0},"*");const R=new Promise(o=>{E=o,T=setTimeout(()=>{removeEventListener("message",h),o()},Ue)}),A=document.readyState==="loading"?new Promise(o=>document.addEventListener("DOMContentLoaded",()=>o(),{once:!0})):Promise.resolve();A.then(()=>{try{r?.restore()}catch{}});const O={cb:null},M=o=>{if(!(o.source!==parent||!re(o.origin))&&be(o.data)){try{r?.promoted()}catch{}O.cb?.()}};addEventListener("message",M),R.then(async()=>{if(!d||!C){for(const s of j.keys())B(s,{code:"not_granted",message:"frame initialization did not arrive - capability unavailable"});return}ae(d.theme);const o=C;let u=!1,g=!1;addEventListener("message",s=>{if(s.source!==parent||s.origin!==o)return;Ee(s.data)&&ae(s.data.__frame_theme.theme),he(s.data)&&De(s.data.__frame_patch,o);const m=s.data?.__fc_mode;m&&typeof m=="object"&&!u&&$&&q.test($)&&(u=!0,I($).then(b=>b.install?.(o,m.on===!0)).catch(()=>{}));const v=s.data?.__ft_cmd;v&&typeof v=="object"&&!g&&z&&q.test(z)&&(g=!0,I(z).then(b=>b.install?.(o,v)).catch(()=>{}))});const f=Object.keys(d.capabilities??{});for(const s of f)Object.hasOwn(k,s)||Ie.test(s)&&l[s]===void 0&&(c(s),B(s,{code:"capability_disabled",message:"capability not in this runtime generation"}));const p=f.filter(s=>Object.hasOwn(k,s)).map(s=>[s,k[s]]).filter(s=>typeof s[1]=="string"&&q.test(s[1])),P=await Promise.allSettled(p.map(([,s])=>I(s))),w=await e,y=C;w?.buildBoot||parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:"_transforms"}},y),ne=w?.buildBoot?w.buildBoot(d,w.TRANSFORMS??{},{shellOrigin:y,mount:Y},s=>parent.postMessage({__frame_cap_telemetry:s},y)):Be(d,y);const L=s=>parent.postMessage({__frame_cap_telemetry:{kind:"cap-load-error",cap:s}},y),_=ne;P.forEach((s,m)=>{const v=p[m][0];if(s.status!=="fulfilled"){L(v);return}try{s.value?.install?.(_)}catch{L(v)}});for(const[s,m]of j)if(m.impl.__settled===void 0){if(f.includes(s)){B(s,{code:"capability_disabled",message:"capability not available in this session"});continue}B(s,{code:"not_granted",message:"capability not available in this session"})}await A,parent.postMessage({__frame_ready:!0},C),e.then(s=>s?.installSizeReporter?.(y,O))})}})();</script><!-- /frame-runtime --><meta name="viewport" content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>숙박여부별 방문지 다양성</title>
+<style>
+.viz-root{
+  color-scheme: light;
+  --surface-1:      #fcfcfb;
+  --surface-2:      #f3f2ef;
+  --border:         #e4e2dc;
+  --text-primary:   #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted:     #85837c;
+  --series-1:       #2a78d6; /* 비숙박 */
+  --series-2:       #eb6834; /* 숙박 */
+  --grid:           #e9e7e1;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) .viz-root{
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --surface-2:      #232321;
+    --border:         #35342f;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #8f8d84;
+    --series-1:       #3987e5;
+    --series-2:       #d95926;
+    --grid:           #2b2a27;
+  }
+}
+:root[data-theme="dark"] .viz-root{
+  color-scheme: dark;
+  --surface-1:      #1a1a19;
+  --surface-2:      #232321;
+  --border:         #35342f;
+  --text-primary:   #ffffff;
+  --text-secondary: #c3c2b7;
+  --text-muted:     #8f8d84;
+  --series-1:       #3987e5;
+  --series-2:       #d95926;
+  --grid:           #2b2a27;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+.viz-root{
+  background: var(--surface-1);
+  color: var(--text-primary);
+  font-family: -apple-system, "Segoe UI", "Malgun Gothic", Pretendard, sans-serif;
+  padding: 28px 20px 48px;
+  max-width: 920px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+h1{ font-size: 20px; margin: 0 0 4px; }
+.subtitle{ color: var(--text-secondary); font-size: 14px; margin: 0 0 20px; }
+h2{ font-size: 16px; margin: 32px 0 10px; }
+.basis{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+.basis b{ color: var(--text-primary); }
+.basis ul{ margin: 6px 0 0; padding-left: 18px; }
+.basis li{ margin: 3px 0; }
+
+.table-wrap{ overflow-x: auto; border: 1px solid var(--border); border-radius: 10px; }
+table{ border-collapse: collapse; width: 100%; font-size: 13px; min-width: 640px; }
+th, td{ padding: 8px 10px; text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+th:first-child, td:first-child{ text-align: left; font-variant-numeric: normal; }
+thead th{ color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--border); background: var(--surface-2); }
+tbody tr:not(:last-child) td{ border-bottom: 1px solid var(--border); }
+tbody tr.group-end td{ border-bottom: 1px solid var(--border); }
+.dot{ display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:6px; vertical-align:1px; }
+.dot.s1{ background: var(--series-1); }
+.dot.s2{ background: var(--series-2); }
+
+.legend{ display:flex; gap:18px; font-size:12.5px; color: var(--text-secondary); margin: 6px 2px 14px; }
+.legend .item{ display:flex; align-items:center; }
+.legend .swatch{ width:10px; height:10px; border-radius:2px; margin-right:6px; }
+.legend .swatch.s1{ background: var(--series-1); }
+.legend .swatch.s2{ background: var(--series-2); }
+
+.chart-card{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 18px 8px;
+  background: var(--surface-1);
+}
+.chart-title{ font-size: 14px; font-weight: 600; margin: 0 0 2px; }
+.chart-sub{ font-size: 12px; color: var(--text-muted); margin: 0 0 10px; }
+svg{ width: 100%; height: auto; display:block; overflow: visible; }
+.gridline{ stroke: var(--grid); stroke-width: 1; }
+.axis-text{ fill: var(--text-muted); font-size: 11px; }
+.cat-text{ fill: var(--text-secondary); font-size: 12px; }
+.val-text{ fill: var(--text-primary); font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bar{ cursor: pointer; }
+.bar:hover, .bar.hover{ filter: brightness(1.08); }
+.hit{ fill: transparent; }
+
+.tooltip{
+  position: absolute;
+  pointer-events: none;
+  background: var(--text-primary);
+  color: var(--surface-1);
+  font-size: 12px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  transform: translate(-50%, -115%);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .08s ease;
+  z-index: 5;
+}
+.tooltip.show{ opacity: 1; }
+.tooltip .row{ display:flex; align-items:center; gap:6px; }
+.tooltip .key{ width:8px; height:2px; border-radius:1px; display:inline-block; }
+
+.findings{ padding-left: 20px; margin: 8px 0 0; }
+.findings li{ margin: 10px 0; }
+.findings b{ color: var(--text-primary); }
+.limits{ font-size: 13px; color: var(--text-secondary); margin-top: 8px; }
+.limits li{ margin: 4px 0; }
+.chart-wrap{ position: relative; }
+
+.crm-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 12px; }
+.crm-card{
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  background: var(--surface-2);
+}
+.crm-card .tag{
+  display:inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+  color: var(--surface-1);
+}
+.crm-card .tag.s1{ background: var(--series-1); }
+.crm-card .tag.s2{ background: var(--series-2); }
+.crm-card .tag.s3{ background: #4a3aa7; }
+.crm-card h3{ font-size: 14px; margin: 0 0 6px; }
+.crm-card p{ font-size: 13px; color: var(--text-secondary); margin: 0; }
+.crm-card .target{ font-size: 12px; color: var(--text-muted); margin: 6px 0 0; }
+.caution{
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--series-2);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 14px;
+}
+.caution b{ color: var(--text-primary); }
+.caution ul{ margin: 6px 0 0; padding-left: 18px; }
+.caution li{ margin: 4px 0; }
+</style>
+
+<div class="viz-root">
+  <h1>숙박여부(가치등급) 그룹별 방문지 수 · 방문지 다양성 비교</h1>
+  <p class="subtitle">tn_customer_all (n=2,880명, 2023년 수도권 여행로그) — VALUE_SEGMENT_SUB 뒤 숫자 0=비숙박, 1=숙박 그룹으로 분류</p>
+
+  <div class="basis">
+    <b>산식 · 기준 (계산 전 명시)</b>
+    <ul>
+      <li><b>총 방문지수</b> = tn_visit_area_info의 방문 이벤트(행) 수를 TRAVELER_ID 기준으로 합산 (TRAVEL_ID로 tn_travel과 조인 후 집계). tn_customer_all.VISIT_AREA_CNT와 2,880명 전원 일치 확인(전처리 검증 완료).</li>
+      <li><b>방문지 유형 다양성</b> = 방문 기록의 VISIT_AREA_TYPE_CD(방문지유형코드, tc_codeb 'VIS' 그룹, 16종) 고유값 개수 — 몇 "종류"의 장소를 다녔는지.</li>
+      <li><b>다양성비율</b> = 유형다양성 ÷ 총방문지수 — 총 방문 대비 새로운 유형 비중(방문 횟수 자체의 영향을 통제하기 위한 보조지표).</li>
+      <li><b>여행당 방문지수</b> = 총방문지수 ÷ 여행횟수(TRAVEL_NUM) — 여행을 더 자주 가서 방문지가 많은 건지, 한 번 갈 때 더 많이 도는 건지 구분하기 위한 보조지표.</li>
+      <li>기간·표본: 2023년 수도권 여행객 2,880명(중복 없음), 시군구 다양성은 SGG_CD 고유값 개수.</li>
+    </ul>
+  </div>
+
+  <h2>표 — 그룹별 요약 통계</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>그룹</th><th>n</th>
+          <th>총방문지수(평균)</th><th>총방문지수(중앙값)</th>
+          <th>여행당방문지수</th>
+          <th>유형다양성(평균)</th><th>유형다양성(중앙값)</th>
+          <th>다양성비율</th>
+          <th>시군구다양성(평균)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="dot s1"></span>A0 (고가치·비숙박)</td><td>543</td><td>8.03</td><td>7.0</td><td>4.44</td><td>4.51</td><td>4.0</td><td>0.60</td><td>2.25</td></tr>
+        <tr><td><span class="dot s1"></span>B0 (중가치·비숙박)</td><td>652</td><td>7.71</td><td>7.0</td><td>4.27</td><td>4.56</td><td>4.0</td><td>0.63</td><td>2.28</td></tr>
+        <tr class="group-end"><td><span class="dot s1"></span>C0 (저가치·비숙박)</td><td>977</td><td>6.71</td><td>6.0</td><td>3.84</td><td>4.15</td><td>4.0</td><td>0.66</td><td>2.21</td></tr>
+        <tr><td><span class="dot s2"></span>A1 (고가치·숙박)</td><td>177</td><td>14.15</td><td>13.0</td><td>7.79</td><td>6.80</td><td>7.0</td><td>0.52</td><td>2.46</td></tr>
+        <tr><td><span class="dot s2"></span>B1 (중가치·숙박)</td><td>213</td><td>11.60</td><td>10.0</td><td>6.41</td><td>6.11</td><td>6.0</td><td>0.58</td><td>2.42</td></tr>
+        <tr><td><span class="dot s2"></span>C1 (저가치·숙박)</td><td>318</td><td>10.16</td><td>9.0</td><td>6.06</td><td>5.81</td><td>6.0</td><td>0.62</td><td>2.42</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>차트</h2>
+  <div class="legend">
+    <span class="item"><span class="swatch s1"></span>비숙박 그룹 (A0/B0/C0)</span>
+    <span class="item"><span class="swatch s2"></span>숙박 그룹 (A1/B1/C1)</span>
+  </div>
+
+  <div class="chart-card">
+    <p class="chart-title">가치등급별 평균 총 방문지수</p>
+    <p class="chart-sub">Y축 0부터 시작 · 단위: 건(방문 이벤트 수)</p>
+    <div class="chart-wrap">
+      <svg id="chart1" viewBox="0 0 640 300" role="img" aria-label="가치등급별 평균 총 방문지수 그룹 비교 막대그래프"><line x1="34" x2="628" y1="266" y2="266" class="gridline"></line><text x="26" y="270" class="axis-text" text-anchor="end">0</text><line x1="34" x2="628" y1="202" y2="202" class="gridline"></line><text x="26" y="206" class="axis-text" text-anchor="end">4</text><line x1="34" x2="628" y1="138" y2="138" class="gridline"></line><text x="26" y="142" class="axis-text" text-anchor="end">8</text><line x1="34" x2="628" y1="74" y2="74" class="gridline"></line><text x="26" y="78" class="axis-text" text-anchor="end">12</text><line x1="34" x2="628" y1="10" y2="10" class="gridline"></line><text x="26" y="14" class="axis-text" text-anchor="end">16</text><text x="133" y="284" class="cat-text" text-anchor="middle">A등급</text><path d="M105.5,266 L105.5,141.52 Q105.5,137.52 109.5,137.52 L127.5,137.52 Q131.5,137.52 131.5,141.52 L131.5,266 Z" fill="#3987e5" class="bar"></path><rect x="103.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="118.5" y="131.52" class="val-text" text-anchor="middle">8.03</text><path d="M134.5,266 L134.5,43.599999999999994 Q134.5,39.599999999999994 138.5,39.599999999999994 L156.5,39.599999999999994 Q160.5,39.599999999999994 160.5,43.599999999999994 L160.5,266 Z" fill="#d95926" class="bar"></path><rect x="132.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="147.5" y="33.599999999999994" class="val-text" text-anchor="middle">14.15</text><text x="331" y="284" class="cat-text" text-anchor="middle">B등급</text><path d="M303.5,266 L303.5,146.64 Q303.5,142.64 307.5,142.64 L325.5,142.64 Q329.5,142.64 329.5,146.64 L329.5,266 Z" fill="#3987e5" class="bar"></path><rect x="301.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="316.5" y="136.64" class="val-text" text-anchor="middle">7.71</text><path d="M332.5,266 L332.5,84.4 Q332.5,80.4 336.5,80.4 L354.5,80.4 Q358.5,80.4 358.5,84.4 L358.5,266 Z" fill="#d95926" class="bar"></path><rect x="330.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="345.5" y="74.4" class="val-text" text-anchor="middle">11.60</text><text x="529" y="284" class="cat-text" text-anchor="middle">C등급</text><path d="M501.5,266 L501.5,162.64 Q501.5,158.64 505.5,158.64 L523.5,158.64 Q527.5,158.64 527.5,162.64 L527.5,266 Z" fill="#3987e5" class="bar"></path><rect x="499.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="514.5" y="152.64" class="val-text" text-anchor="middle">6.71</text><path d="M530.5,266 L530.5,107.44 Q530.5,103.44 534.5,103.44 L552.5,103.44 Q556.5,103.44 556.5,107.44 L556.5,266 Z" fill="#d95926" class="bar"></path><rect x="528.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="543.5" y="97.44" class="val-text" text-anchor="middle">10.16</text></svg>
+      <div class="tooltip" id="tip1" style="left: 755.793px; top: 1044.1px;"><div class="row"><span class="key" style="background: rgb(57, 135, 229);"></span><span>B등급 · 비숙박: 7.71건 (n=652)</span></div></div>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-top:16px;">
+    <p class="chart-title">가치등급별 평균 방문지 유형 다양성</p>
+    <p class="chart-sub">Y축 0부터 시작 · 단위: 종(VISIT_AREA_TYPE_CD 고유값 개수, 최대 16종)</p>
+    <div class="chart-wrap">
+      <svg id="chart2" viewBox="0 0 640 300" role="img" aria-label="가치등급별 평균 방문지 유형 다양성 그룹 비교 막대그래프"><line x1="34" x2="628" y1="266" y2="266" class="gridline"></line><text x="26" y="270" class="axis-text" text-anchor="end">0</text><line x1="34" x2="628" y1="202" y2="202" class="gridline"></line><text x="26" y="206" class="axis-text" text-anchor="end">2</text><line x1="34" x2="628" y1="138" y2="138" class="gridline"></line><text x="26" y="142" class="axis-text" text-anchor="end">4</text><line x1="34" x2="628" y1="74" y2="74" class="gridline"></line><text x="26" y="78" class="axis-text" text-anchor="end">6</text><line x1="34" x2="628" y1="10" y2="10" class="gridline"></line><text x="26" y="14" class="axis-text" text-anchor="end">8</text><text x="133" y="284" class="cat-text" text-anchor="middle">A등급</text><path d="M105.5,266 L105.5,125.68 Q105.5,121.68 109.5,121.68 L127.5,121.68 Q131.5,121.68 131.5,125.68 L131.5,266 Z" fill="#3987e5" class="bar"></path><rect x="103.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="118.5" y="115.68" class="val-text" text-anchor="middle">4.51</text><path d="M134.5,266 L134.5,52.400000000000006 Q134.5,48.400000000000006 138.5,48.400000000000006 L156.5,48.400000000000006 Q160.5,48.400000000000006 160.5,52.400000000000006 L160.5,266 Z" fill="#d95926" class="bar"></path><rect x="132.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="147.5" y="42.400000000000006" class="val-text" text-anchor="middle">6.80</text><text x="331" y="284" class="cat-text" text-anchor="middle">B등급</text><path d="M303.5,266 L303.5,124.08000000000001 Q303.5,120.08000000000001 307.5,120.08000000000001 L325.5,120.08000000000001 Q329.5,120.08000000000001 329.5,124.08000000000001 L329.5,266 Z" fill="#3987e5" class="bar"></path><rect x="301.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="316.5" y="114.08000000000001" class="val-text" text-anchor="middle">4.56</text><path d="M332.5,266 L332.5,74.47999999999999 Q332.5,70.47999999999999 336.5,70.47999999999999 L354.5,70.47999999999999 Q358.5,70.47999999999999 358.5,74.47999999999999 L358.5,266 Z" fill="#d95926" class="bar"></path><rect x="330.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="345.5" y="64.47999999999999" class="val-text" text-anchor="middle">6.11</text><text x="529" y="284" class="cat-text" text-anchor="middle">C등급</text><path d="M501.5,266 L501.5,137.2 Q501.5,133.2 505.5,133.2 L523.5,133.2 Q527.5,133.2 527.5,137.2 L527.5,266 Z" fill="#3987e5" class="bar"></path><rect x="499.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="514.5" y="127.19999999999999" class="val-text" text-anchor="middle">4.15</text><path d="M530.5,266 L530.5,84.08000000000001 Q530.5,80.08000000000001 534.5,80.08000000000001 L552.5,80.08000000000001 Q556.5,80.08000000000001 556.5,84.08000000000001 L556.5,266 Z" fill="#d95926" class="bar"></path><rect x="528.5" y="10" width="30" height="256" class="hit" tabindex="0"></rect><text x="543.5" y="74.08000000000001" class="val-text" text-anchor="middle">5.81</text></svg>
+      <div class="tooltip" id="tip2" style="left: 755.793px; top: 1505.18px;"><div class="row"><span class="key" style="background: rgb(57, 135, 229);"></span><span>B등급 · 비숙박: 4.56종 (n=652)</span></div></div>
+    </div>
+  </div>
+
+  <h2>핵심 발견 3개</h2>
+  <ol class="findings">
+    <li><b>숙박 여부가 가치등급보다 방문지수·다양성에 더 크게 작용한다.</b> 숙박 그룹은 세 등급 모두 비숙박 그룹보다 압도적으로 높다 — 총방문지수는 A1 14.15 vs A0 8.03(+76%), 유형다양성은 A1 6.80 vs A0 4.51(+51%). 같은 A등급이라도 숙박 여부에 따라 방문 패턴이 크게 갈린다.</li>
+    <li><b>각 그룹 내부에서는 가치등급이 높을수록 방문지수·다양성이 함께 높아지는 일관된 서열이 있다.</b> 비숙박: A0(8.03) &gt; B0(7.71) &gt; C0(6.71), 숙박: A1(14.15) &gt; B1(11.60) &gt; C1(10.16). 유형다양성도 동일한 순서(A&gt;B&gt;C)를 보여, 가치등급 산출 로직이 방문 활동량과 연동돼 있을 가능성을 시사한다.</li>
+    <li><b>다양성비율(유형다양성÷총방문지수)은 오히려 숙박 그룹이 더 낮다.</b> A1 0.52 vs A0 0.60, C1 0.62 vs C0 0.66. 숙박 고객은 절대 방문지수·유형 수는 많지만, 방문 1건당 새 유형을 만나는 비율은 비숙박 고객보다 낮다 — 숙박 여행객이 특정 유형(식당/카페, 숙소 인근 관광지 등)을 반복 방문하는 경향이거나, 16종이라는 유형 상한에 먼저 도달하는 포화(ceiling) 효과일 수 있다.</li>
+  </ol>
+
+  <h2>한계</h2>
+  <ul class="limits">
+    <li>2023년 수도권 여행로그 표본(TRAVELER_ID 2,880명)에 한정된 결과이며, 다른 지역·연도로 일반화할 수 없다. 방문지수·다양성 차이가 "숙박 여행은 활동적이다"라는 인과관계를 뜻하지는 않는다 — 숙박 여행 자체가 체류 일수가 길어 기계적으로 방문 기회가 늘어난 결과일 수 있다(반대해석).</li>
+    <li>VALUE_SEGMENT(A/B/C)와 VALUE_SEGMENT_SUB(0/1)의 산출 산식은 이번 세션에서 원본 로직을 확인하지 못해 기존 라벨을 그대로 신뢰했다 — 가치등급 정의 자체가 방문지수·소비액과 연동돼 계산됐다면 위 2번째 발견은 순환논리일 수 있어 팀 확인이 필요하다.</li>
+  </ul>
+
+  <h2>이 인사이트를 CRM에 적용한다면</h2>
+  <div class="crm-grid">
+    <div class="crm-card">
+      <span class="tag s1">발견 1 기반</span>
+      <h3>비숙박 → 숙박 전환 캠페인</h3>
+      <p>같은 A등급이라도 숙박 여부에 따라 방문지수가 +76% 차이 난다 — 등급 승급보다 숙박 전환이 더 큰 레버. "숙박하면 더 많은 곳을 볼 수 있다"는 메시지 + 근처 숙박 쿠폰을 트리거.</p>
+      <p class="target">타깃: A0(고가치·비숙박, 543명) 최우선</p>
+    </div>
+    <div class="crm-card">
+      <span class="tag s2">발견 2 기반</span>
+      <h3>가치등급별 차등 CRM(3단 티어링)</h3>
+      <p>그룹 내 A&gt;B&gt;C 서열이 일관됨 — 등급을 로열티 트리거로 활용. A등급은 VIP 얼리액세스로 이탈 방지, C등급은 첫 방문지 다양화 미션/스탬프로 참여 유도 → B등급 승급 유도.</p>
+      <p class="target">타깃: 전 등급, 메시지·혜택은 등급별 분기</p>
+    </div>
+    <div class="crm-card">
+      <span class="tag s3">발견 3 기반</span>
+      <h3>"틈" 실시간 다양성 추천</h3>
+      <p>숙박객은 방문지수는 많지만 다양성비율은 더 낮음 — 이미 아는 유형(식당/카페 등)만 반복 방문. 체크인 이후 미방문 VISIT_AREA_TYPE_CD 유형을 체류 2일차부터 실시간 인앱 푸시로 추천.</p>
+      <p class="target">타깃: A1/B1/C1(숙박 고객) 전체</p>
+    </div>
+  </div>
+
+  <div class="caution">
+    <b>실행 전 주의</b>
+    <ul>
+      <li>위 제안은 상관관계 기반 추정이다. 숙박 전환이 실제로 방문지수를 늘리는지(인과), 아니면 원래 활동적인 사람이 숙박도 더 하는 것인지는 이 데이터만으로 구분할 수 없다.</li>
+      <li>발견 2(가치등급별 CRM)는 VALUE_SEGMENT/SUB 정의에 직접 의존한다. 산출 로직을 팀이 검증하지 않은 상태이므로, 실행 전 산식 확인이 선행되어야 한다.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+(function(){
+  function buildChart(svgId, tipId, data, maxVal, yTicks, unit){
+    var svg = document.getElementById(svgId);
+    var tip = document.getElementById(tipId);
+    var W = 640, H = 300;
+    var padL = 34, padR = 12, padT = 10, padB = 34;
+    var plotW = W - padL - padR, plotH = H - padT - padB;
+    var ns = "http://www.w3.org/2000/svg";
+
+    function el(tag, attrs){
+      var e = document.createElementNS(ns, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    // gridlines + y ticks
+    yTicks.forEach(function(t){
+      var y = padT + plotH - (t / maxVal) * plotH;
+      svg.appendChild(el("line", {x1: padL, x2: W - padR, y1: y, y2: y, class: "gridline"}));
+      var txt = el("text", {x: padL - 8, y: y + 4, class: "axis-text", "text-anchor": "end"});
+      txt.textContent = t;
+      svg.appendChild(txt);
+    });
+    // baseline solid-ish (reuse gridline at 0 already drawn)
+
+    var groupW = plotW / data.length;
+    var barW = 26, gap = 3;
+
+    data.forEach(function(g, gi){
+      var cx = padL + groupW * gi + groupW / 2;
+      var catTxt = el("text", {x: cx, y: H - padB + 18, class: "cat-text", "text-anchor": "middle"});
+      catTxt.textContent = g.label;
+      svg.appendChild(catTxt);
+
+      g.series.forEach(function(s, si){
+        var bh = (s.value / maxVal) * plotH;
+        var bx = cx - barW - gap/2 + si * (barW + gap);
+        var by = padT + plotH - bh;
+
+        var rectId = "r_" + svgId + "_" + gi + "_" + si;
+        var bar = el("path", {
+          d: roundedTopRectPath(bx, by, barW, bh, 4),
+          fill: s.color,
+          class: "bar"
+        });
+        svg.appendChild(bar);
+
+        var hit = el("rect", {x: bx - 2, y: padT, width: barW + 4, height: plotH, class: "hit"});
+        svg.appendChild(hit);
+
+        var valTxt = el("text", {
+          x: bx + barW/2, y: by - 6, class: "val-text", "text-anchor": "middle"
+        });
+        valTxt.textContent = s.value.toFixed(2);
+        svg.appendChild(valTxt);
+
+        function showTip(evt){
+          bar.classList.add("hover");
+          tip.innerHTML = "";
+          var row = document.createElement("div");
+          row.className = "row";
+          var key = document.createElement("span");
+          key.className = "key";
+          key.style.background = s.color;
+          var text = document.createElement("span");
+          text.textContent = g.label + " · " + s.name + ": " + s.value.toFixed(2) + unit + " (n=" + s.n + ")";
+          row.appendChild(key);
+          row.appendChild(text);
+          tip.appendChild(row);
+          tip.classList.add("show");
+          var rect = svg.getBoundingClientRect();
+          var scale = rect.width / W;
+          var left = rect.left + (bx + barW/2) * scale + window.scrollX;
+          var top = rect.top + by * scale + window.scrollY;
+          tip.style.left = left + "px";
+          tip.style.top = top + "px";
+        }
+        function hideTip(){
+          bar.classList.remove("hover");
+          tip.classList.remove("show");
+        }
+        hit.addEventListener("pointermove", showTip);
+        hit.addEventListener("pointerenter", showTip);
+        hit.addEventListener("pointerleave", hideTip);
+        hit.addEventListener("focus", showTip);
+        hit.addEventListener("blur", hideTip);
+        hit.setAttribute("tabindex", "0");
+      });
+    });
+
+    function roundedTopRectPath(x, y, w, h, r){
+      if (h < r) r = h;
+      return "M" + x + "," + (y + h) +
+             " L" + x + "," + (y + r) +
+             " Q" + x + "," + y + " " + (x + r) + "," + y +
+             " L" + (x + w - r) + "," + y +
+             " Q" + (x + w) + "," + y + " " + (x + w) + "," + (y + r) +
+             " L" + (x + w) + "," + (y + h) +
+             " Z";
+    }
+  }
+
+  var s1 = getComputedStyle(document.querySelector(".viz-root")).getPropertyValue("--series-1").trim();
+  var s2 = getComputedStyle(document.querySelector(".viz-root")).getPropertyValue("--series-2").trim();
+
+  var visitData = [
+    { label: "A등급", series: [
+      { name: "비숙박", value: 8.03, n: 543, color: s1 },
+      { name: "숙박",   value: 14.15, n: 177, color: s2 }
+    ]},
+    { label: "B등급", series: [
+      { name: "비숙박", value: 7.71, n: 652, color: s1 },
+      { name: "숙박",   value: 11.60, n: 213, color: s2 }
+    ]},
+    { label: "C등급", series: [
+      { name: "비숙박", value: 6.71, n: 977, color: s1 },
+      { name: "숙박",   value: 10.16, n: 318, color: s2 }
+    ]}
+  ];
+
+  var typeData = [
+    { label: "A등급", series: [
+      { name: "비숙박", value: 4.51, n: 543, color: s1 },
+      { name: "숙박",   value: 6.80, n: 177, color: s2 }
+    ]},
+    { label: "B등급", series: [
+      { name: "비숙박", value: 4.56, n: 652, color: s1 },
+      { name: "숙박",   value: 6.11, n: 213, color: s2 }
+    ]},
+    { label: "C등급", series: [
+      { name: "비숙박", value: 4.15, n: 977, color: s1 },
+      { name: "숙박",   value: 5.81, n: 318, color: s2 }
+    ]}
+  ];
+
+  buildChart("chart1", "tip1", visitData, 16, [0,4,8,12,16], "건");
+  buildChart("chart2", "tip2", typeData, 8, [0,2,4,6,8], "종");
+})();
+</script>
+
+</body></html>

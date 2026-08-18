@@ -24,6 +24,17 @@ fi
 LOG_FILE="$HOME/.claude/notion-log-hook.log"
 mkdir -p "$(dirname "$LOG_FILE")"
 
+# 원격/클라우드 실행 환경(claude.ai 웹·데스크탑 앱이 띄우는 컨테이너)은 전부 root로 돌고,
+# Claude Code는 root에서 --dangerously-skip-permissions / --permission-mode bypassPermissions를
+# 보안상 거부한다(둘 다 실측 확인됨). 이 하위 claude -p는 사람이 없는 무인 실행이라 그 승인을
+# 대신 받아줄 방법이 없고, notion-create-pages 등 쓰기 도구 호출이 "MCP tool call requires
+# approval"로 영원히 막힌다 — 즉 이 환경에서는 구조적으로 성공할 수 없다. 매 턴마다 헛되이
+# 하위 세션을 띄워 리소스만 쓰지 않도록, 원격 환경이면 여기서 조용히 종료한다.
+# 로컬 PC(claude.ai 데스크탑/터미널)는 root로 돌지 않고 이 env var 자체가 없으므로 영향 없음.
+if [ -n "${CLAUDE_CODE_REMOTE_SESSION_ID:-}" ]; then
+  exit 0
+fi
+
 PROMPT="다음은 방금 끝난(또는 계속 이어지고 있는) Claude Code 세션의 transcript(JSONL) 파일 경로다: ${transcript_path}
 세션 ID: ${session_id}
 
@@ -38,8 +49,10 @@ PROMPT="다음은 방금 끝난(또는 계속 이어지고 있는) Claude Code �
    - 본문: 질문/답변 핵심 요약 (질문-답변 쌍 형식), 맨 끝 줄에 정확히 '세션 ID: ${session_id}' 를 그대로 텍스트로 남겨라 (다음 실행에서 검색용으로 필요, 지우거나 바꾸지 마라).
 다른 설명이나 확인 질문 없이 위 작업만 수행하고 끝내라."
 
+# 여기 도달했다는 건 원격 환경이 아니라는 뜻이다(원격이면 위에서 이미 종료).
+# claude_ai_Notion 별칭은 로컬 PC에서 실측 확인된 이름, Notion은 혹시 모를 다른 별칭에 대한 대비.
 CLAUDE_NOTION_HOOK_ACTIVE=1 claude -p "$PROMPT" \
-  --allowedTools "Read mcp__claude_ai_Notion__notion-fetch mcp__claude_ai_Notion__notion-search mcp__claude_ai_Notion__notion-query-data-sources mcp__claude_ai_Notion__notion-create-pages mcp__claude_ai_Notion__notion-update-page" \
+  --allowedTools "Read mcp__claude_ai_Notion__notion-fetch mcp__claude_ai_Notion__notion-search mcp__claude_ai_Notion__notion-query-data-sources mcp__claude_ai_Notion__notion-create-pages mcp__claude_ai_Notion__notion-update-page mcp__Notion__notion-fetch mcp__Notion__notion-search mcp__Notion__notion-query-data-sources mcp__Notion__notion-create-pages mcp__Notion__notion-update-page" \
   --output-format text \
   >> "$LOG_FILE" 2>&1
 
